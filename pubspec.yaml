@@ -60,10 +60,13 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/logo.png
-    - assets/images/LogoUpdated.png
-    - assets/images/LogoUpdated.tif
-    - assets/images/greenbankcard.png
+    #--You have to specify the path for every new folder -f
+    - assets/
+    - assets/images/ 
+    # - assets/images/logo.png
+    # - assets/images/LogoUpdated.png
+    # - assets/images/LogoUpdated.tif
+    # - assets/images/greenbankcard.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
