@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'login.dart';
+
 void main() {
-  runApp(myApp());
+  runApp(SignUpPage());
 }
 
-class myApp extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   @override
   // State<myApp> createState() => _myAppState();
 
@@ -193,7 +195,8 @@ class myApp extends StatelessWidget {
             SizedBox(height: 20.0),
 // ========================= SIGN IN =========================
             TextButton(
-              onPressed: () {},
+              onPressed: () {Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => LoginPage()));},
               child: Text(
                 'Already have an account? Sign in.',
                 style: TextStyle(
