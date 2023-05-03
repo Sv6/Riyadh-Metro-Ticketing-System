@@ -6,9 +6,10 @@ void main() {
   runApp(MaterialApp(
     title: "test",
     theme: ThemeData.dark(),
+    home: LoginPage(), // you forgot the home page -f
     routes: {
       "/login/": (context) => LoginPage(),
-      "/signUP/": (context) => SignUpPage()
+      "/SignUp/": (context) => SignUpPage()
     },
   ));
 }
