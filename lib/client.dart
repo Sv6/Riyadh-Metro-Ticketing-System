@@ -3,10 +3,10 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
   runApp(ClientPage(
-    // clientName: "Sultan",
-    // balance: 0,
-    // availableTickets: ["d"],
-  ));
+      // clientName: "Sultan",
+      // balance: 0,
+      // availableTickets: ["d"],
+      ));
 }
 
 class ClientPage extends StatelessWidget {
@@ -15,9 +15,9 @@ class ClientPage extends StatelessWidget {
   // final List<String> availableTickets;
 
   // ClientPage({
-    // required this.clientName,
-    // required this.balance,
-    // required this.availableTickets,
+  // required this.clientName,
+  // required this.balance,
+  // required this.availableTickets,
   // });
 
   @override
@@ -63,16 +63,21 @@ class ClientPage extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: GNav(
-            backgroundColor: Colors.green,
-            rippleColor: Colors.green, // tab button ripple color when pressed
+            backgroundColor: Color.fromARGB(255, 6, 179, 107),
+            rippleColor: Color.fromARGB(
+                255, 6, 179, 107), // tab button ripple color when pressed
             haptic: true, // haptic feedback
             tabBorderRadius: 15,
-            tabActiveBorder:
-                Border.all(color: Colors.green, width: 1), // tab button border
-            tabBorder:
-                Border.all(color: Colors.green, width: 1), // tab button border
+            tabActiveBorder: Border.all(
+                color: Color.fromARGB(255, 6, 179, 107),
+                width: 1), // tab button border
+            tabBorder: Border.all(
+                color: Color.fromARGB(255, 6, 179, 107),
+                width: 1), // tab button border
             tabShadow: [
-              BoxShadow(color: Colors.green.withOpacity(0.5), blurRadius: 8)
+              BoxShadow(
+                  color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
+                  blurRadius: 8)
             ], // tab button shadow
             curve: Curves.easeOutExpo, // tab animation curves
             duration: Duration(milliseconds: 900), // tab animation duration
