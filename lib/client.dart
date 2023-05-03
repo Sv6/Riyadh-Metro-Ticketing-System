@@ -3,8 +3,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
   runApp(myApp(
-    clientName: "Sultan",
-    balance: 0,
+    clientName: "Abdulrahman Zyad",
+    balance: 400000.00,
     availableTickets: ["d"],
   ));
 }
@@ -26,6 +26,7 @@ class myApp extends StatelessWidget {
       title: 'Home Page',
       home: Scaffold(
           appBar: AppBar(
+            toolbarHeight: 50,
             title: Text("Welcome, $clientName!"),
             backgroundColor: Color.fromARGB(255, 6, 179, 107),
           ),
@@ -33,18 +34,92 @@ class myApp extends StatelessWidget {
             child: Column(
               children: [
                 Center(
-                  child: Container(
+                  child: SafeArea(
+                    child: Container(
                       margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
                       height: 200,
                       width: 340,
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image:
-                                AssetImage("assets/images/greenbankcard.png")),
+                        color: Color.fromARGB(255, 6, 179, 107),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      child: Center(
-                        child: Text("your balance is"),
-                      )),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SafeArea(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Text(
+                                    "$clientName",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SafeArea(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "#1233",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      // fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "SAR$balance",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Pass Counter: 0",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SafeArea(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: FloatingActionButton.small(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.green,
+                                  onPressed: () {},
+                                  child: Icon(Icons.add)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(height: 20.0),
                 Center(
@@ -99,10 +174,11 @@ class myApp extends StatelessWidget {
               ),
               GButton(
                 icon: Icons.settings,
-                text: 'settings',
+                text: 'Settings',
               )
             ],
-          )),
+          ),
+      ),
     );
   }
 }
