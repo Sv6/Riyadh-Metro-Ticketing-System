@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
-  runApp(myApp(
-    clientName: "Sultan",
-    balance: 0,
-    availableTickets: ["d"],
+  runApp(ClientPage(
+    // clientName: "Sultan",
+    // balance: 0,
+    // availableTickets: ["d"],
   ));
 }
 
-class myApp extends StatelessWidget {
-  final String clientName;
-  final double balance;
-  final List<String> availableTickets;
+class ClientPage extends StatelessWidget {
+  // final String clientName;
+  // final double balance;
+  // final List<String> availableTickets;
 
-  myApp({
-    required this.clientName,
-    required this.balance,
-    required this.availableTickets,
-  });
+  // ClientPage({
+    // required this.clientName,
+    // required this.balance,
+    // required this.availableTickets,
+  // });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class myApp extends StatelessWidget {
       title: 'Home Page',
       home: Scaffold(
           appBar: AppBar(
-            title: Text("Welcome, $clientName!"),
+            title: Text("Welcome, clientName!"),
             backgroundColor: Color.fromARGB(255, 6, 179, 107),
           ),
           body: SingleChildScrollView(

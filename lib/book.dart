@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 void main() {
-  runApp(myApp(clientName: "clientName", balance: 0, destinations: ["destination", "jioadsfjo"], selectedDestination: "destination", availableTickets: ["d"], selectedTicket: "d"));
+  runApp(Bookpage(clientName: "clientName", balance: 0, destinations: ["destination", "jioadsfjo"], selectedDestination: "destination", availableTickets: ["d"], selectedTicket: "d"));
 }
 
-class myApp extends StatelessWidget {
+class Bookpage extends StatelessWidget {
   final String clientName;
   final double balance;
   final List<String> destinations;
@@ -11,7 +11,7 @@ class myApp extends StatelessWidget {
   final List<String> availableTickets;
   final String selectedTicket;
 
-  myApp({
+  Bookpage({
     required this.clientName,
     required this.balance,
     required this.destinations,

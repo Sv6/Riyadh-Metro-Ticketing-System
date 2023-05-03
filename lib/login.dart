@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/SignUp.dart';
+import 'package:riyadh_metro/client.dart';
 
 void main() {
   runApp(LoginPage());
@@ -134,12 +135,13 @@ class _myAppState extends State<LoginPage> {
                 height: 50.0,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 6, 179, 107),
+                    backgroundColor: Color.fromARGB(255, 6, 179, 107),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ClientPage()));},
                   child: Text(
                     'Login',
                     style: TextStyle(fontSize: 18.0),
