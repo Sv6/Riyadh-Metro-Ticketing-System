@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/SignUp.dart';
+import 'package:riyadh_metro/client.dart';
 
 void main() {
   runApp(LoginPage());
@@ -22,11 +23,13 @@ class _myAppState extends State<LoginPage> {
         inputDecorationTheme: InputDecorationTheme(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-                color: Colors.green), // set the border color to white
+                color: Color.fromARGB(
+                    255, 6, 179, 107)), // set the border color to white
           ),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-                color: Colors.green), // set the border color to white
+                color: Color.fromARGB(
+                    255, 6, 179, 107)), // set the border color to white
           ),
           prefixStyle: TextStyle(
             color: Colors.white, // set the prefix icon color to white
@@ -58,7 +61,7 @@ class _myAppState extends State<LoginPage> {
                     child: Container(
                       margin: const EdgeInsets.only(left: 10.0, right: 15.0),
                       child: Divider(
-                        color: Colors.green,
+                        color: Color.fromARGB(255, 6, 179, 107),
                         height: 10,
                       ),
                     ),
@@ -75,7 +78,7 @@ class _myAppState extends State<LoginPage> {
                     child: Container(
                       margin: const EdgeInsets.only(left: 10.0, right: 15.0),
                       child: Divider(
-                        color: Colors.green,
+                        color: Color.fromARGB(255, 6, 179, 107),
                         height: 10,
                       ),
                     ),
@@ -120,7 +123,7 @@ class _myAppState extends State<LoginPage> {
                 child: Text(
                   'Forgot Password?',
                   style: TextStyle(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 6, 179, 107),
                     fontSize: 16.0,
                   ),
                 ),
@@ -129,17 +132,20 @@ class _myAppState extends State<LoginPage> {
 
               // ========================= LOGIN BUTTON =========================
               Container(
-                // color: Colors.green,
+                // color: Color.fromARGB(255, 6, 179, 107),
                 width: 300.0,
                 height: 50.0,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 6, 179, 107),
+                    backgroundColor: Color.fromARGB(255, 6, 179, 107),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => ClientPage()));
+                  },
                   child: Text(
                     'Login',
                     style: TextStyle(fontSize: 18.0),
@@ -156,7 +162,7 @@ class _myAppState extends State<LoginPage> {
                 child: Text(
                   'Don\'t have an account? Register.',
                   style: TextStyle(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 6, 179, 107),
                     fontSize: 16.0,
                   ),
                 ),
