@@ -11,7 +11,7 @@ void main() {
     routes: {
       "/login/": (context) => LoginPage(),
       "/signUP/": (context) => SignUpPage(),
-      "/Client/": (context) => ClientPage(),
+      "/Client/": (context) => ClientPage(clientName: ' ', balance: 100, availableTickets: ["d"]),
 
     },
   ));

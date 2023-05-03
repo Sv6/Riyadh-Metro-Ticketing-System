@@ -144,7 +144,7 @@ class _myAppState extends State<LoginPage> {
                   ),
                   onPressed: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => ClientPage()));
+                        MaterialPageRoute(builder: (context) => ClientPage(clientName: "clientName", balance: 220, availableTickets: ["availableTickets"])));
                   },
                   child: Text(
                     'Login',
