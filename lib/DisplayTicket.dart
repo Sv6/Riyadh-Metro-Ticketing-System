@@ -13,6 +13,7 @@ class DisplayTicket extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text("Ticket"),
+          leading: BackButton(color: Colors.white, onPressed: () {},),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
         ),
         body: Center(
@@ -24,8 +25,9 @@ class DisplayTicket extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(width: 1),
+                    border: Border.all(width: 1, color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
+
                   ),
 
                   child: Column(
@@ -50,9 +52,16 @@ class DisplayTicket extends StatelessWidget {
                           ],
                         ),
                       ),
-
                       DottedLine(
-
+                        direction: Axis.horizontal,
+                        lineLength: double.infinity,
+                        lineThickness: 1.0,
+                        dashLength: 10,
+                        dashColor: Colors.grey,
+                        dashRadius: 0.0,
+                        dashGapLength: 4.0,
+                        dashGapColor: Colors.transparent,
+                        dashGapRadius: 0.0,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(15),
