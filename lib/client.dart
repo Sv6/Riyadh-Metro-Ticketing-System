@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:riyadh_metro/Wallet.dart';
+import 'package:riyadh_metro/book.dart';
+import 'package:riyadh_metro/settings.dart';
 
 void main() {
   runApp(ClientPage(
@@ -167,10 +169,17 @@ class ClientPage extends StatelessWidget {
             GButton(
               icon: Icons.home,
               text: 'Home',
+
             ),
             GButton(
               icon: Icons.train,
               text: 'Book',
+    //           onPressed: () {
+    //             Navigator.of(context).push(
+    //             MaterialPageRoute(builder: (context) => BookPage()
+    // )
+    // );
+    //         }
             ),
             GButton(
               icon: Icons.map,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'Wallet.dart';
+import 'package:riyadh_metro/Wallet.dart';
 
 void main() {
-  runApp(myApp(
+  runApp(BookPage(
       clientName: "clientName",
       balance: 0,
       destinations: ["destination", "jioadsfjo"],
@@ -12,7 +12,7 @@ void main() {
       selectedTicket: "d"));
 }
 
-class myApp extends StatelessWidget {
+class BookPage extends StatelessWidget {
   final String clientName;
   final double balance;
   final List<String> destinations;
@@ -20,7 +20,7 @@ class myApp extends StatelessWidget {
   final List<String> availableTickets;
   final String selectedTicket;
 
-  myApp({
+  BookPage({
     required this.clientName,
     required this.balance,
     required this.destinations,

@@ -13,7 +13,8 @@ void main() {
       "/signUP/": (context) => SignUpPage(),
       "/Client/": (context) => ClientPage(clientName: ' ', balance: 100, availableTickets: ["d"]),
       "/Walllet/": (context) => walletPage(balance: 100, clientName: "clientName", walletID: "2"),
-      "/Walllet/": (context) => walletPage(balance: 100, clientName: "clientName", walletID: "2"),
+      // "/Walllet/": (context) => walletPage(balance: 100, clientName: "clientName", walletID: "2"),
+      // "/Book/": (context) => Bookpage(clientName: "clientName", balance: 1, destinations: ["destinations"], selectedDestination: "selectedDestination", availableTickets: ["d"], selectedTicket:" 67" ),
 //testing git -z
     },
   ));
