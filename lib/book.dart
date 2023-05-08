@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Wallet.dart';
+
 void main() {
   runApp(myApp(
       clientName: "clientName",
@@ -33,6 +35,11 @@ class myApp extends StatelessWidget {
       title: 'Home Page',
       home: Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+
+            },
+          ),
           title: Text("Welcome, $clientName!"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
         ),
@@ -118,7 +125,9 @@ class myApp extends StatelessWidget {
                           child: FloatingActionButton.small(
                               backgroundColor: Colors.white,
                               foregroundColor: Colors.green,
-                              onPressed: () {},
+                              onPressed: () {Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => (walletPage(balance: balance, clientName: clientName, walletID: "33"))));
+                              },
                               child: Icon(Icons.add)),
                         ),
                       ),

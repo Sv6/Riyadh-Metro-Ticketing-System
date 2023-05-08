@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:riyadh_metro/Wallet.dart';
 
 void main() {
   runApp(ClientPage(
@@ -112,7 +113,10 @@ class ClientPage extends StatelessWidget {
                             child: FloatingActionButton.small(
                                 backgroundColor: Colors.white,
                                 foregroundColor: Colors.green,
-                                onPressed: () {},
+                                onPressed: () {Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => (walletPage(balance: balance, clientName: clientName, walletID: "walletID"))));
+                                    }
+                                    ,
                                 child: Icon(Icons.add)),
                           ),
                         ),
@@ -167,7 +171,6 @@ class ClientPage extends StatelessWidget {
             GButton(
               icon: Icons.train,
               text: 'Book',
-              //onPressed: ,
             ),
             GButton(
               icon: Icons.map,
