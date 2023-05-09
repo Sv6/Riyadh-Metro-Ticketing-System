@@ -172,13 +172,6 @@ class ClientPage extends StatelessWidget {
             GButton(
               icon: Icons.home,
               text: 'Home',
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => (ClientPage(
-                        clientName: ' ',
-                        balance: 100,
-                        availableTickets: ["d"]))));
-              },
             ),
             GButton(
                 icon: Icons.train,
