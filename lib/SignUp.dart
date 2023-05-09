@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:riyadh_metro/client.dart';
 import 'login.dart';
 
 void main(){
@@ -20,6 +22,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final _password2 = TextEditingController();
   final _email = TextEditingController();
   final _phone = TextEditingController();
+
+  final db = FirebaseFirestore.instance;
   
   bool hidePass = true;
 
@@ -205,7 +209,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onPressed: () {},
+                  // .on error after on pressed
+                  onPressed: () {
+                    FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email.text, password: _password.text).then((value) => addingUser()).then((value) => {
+                        Navigator.push(context, 
+                        MaterialPageRoute(builder: (context) => ClientPage(clientName: _name.text, balance: 0.0, availableTickets: ["d"])))
+                    });
+                  },
                   child: Text(
                     'Sign Up',
                     style: TextStyle(fontSize: 18.0),
@@ -236,7 +246,16 @@ class _SignUpPageState extends State<SignUpPage> {
     
   }
 
-  void test() {
-    
+  void addingUser() {
+    var user = <String, dynamic> {
+      "name": _name.text,
+      "birthdate": _birthDate.text,
+      "username": _username.text,
+      "password": _password.text,
+      "email": _email,
+      "phone": _phone
+    };
+    db.collection("user").add(user).then((DocumentReference doc) =>
+    print('DocumentSnapshot added with ID: ${doc.id}'));
   }
 }
