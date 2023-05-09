@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/SignUp.dart';
 import 'package:riyadh_metro/client.dart';
+import 'package:flutterfire_ui/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(LoginPage());
@@ -143,8 +145,11 @@ class _myAppState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => ClientPage(clientName: "clientName", balance: 220, availableTickets: ["availableTickets"])));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ClientPage(
+                            clientName: "clientName",
+                            balance: 220,
+                            availableTickets: ["availableTickets"])));
                   },
                   child: Text(
                     'Login',

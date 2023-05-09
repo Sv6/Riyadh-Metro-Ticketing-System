@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/client.dart';
 import 'package:riyadh_metro/settings.dart';
@@ -13,6 +11,8 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   
+//test-z
+void main() {
   runApp(MaterialApp(
     title: "test",
     theme: ThemeData.dark(),
@@ -29,8 +29,8 @@ void main() async{
       "/book/": (context) => BookPage(
           clientName: "client",
           balance: 1,
-          destinations: ["destinations"],
-          selectedDestination: "selected",
+          destinations: ["destination", "jioadsfjo"],
+          selectedDestination: "destination",
           availableTickets: ["d"],
           selectedTicket: "67")
 

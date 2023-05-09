@@ -115,10 +115,13 @@ class ClientPage extends StatelessWidget {
                             child: FloatingActionButton.small(
                                 backgroundColor: Colors.white,
                                 foregroundColor: Colors.green,
-                                onPressed: () {Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => (walletPage(balance: balance, clientName: clientName, walletID: "walletID"))));
-                                    }
-                                    ,
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => (walletPage(
+                                          balance: balance,
+                                          clientName: clientName,
+                                          walletID: "walletID"))));
+                                },
                                 child: Icon(Icons.add)),
                           ),
                         ),
@@ -149,9 +152,9 @@ class ClientPage extends StatelessWidget {
           haptic: true, // haptic feedback
           tabBorderRadius: 15,
           tabActiveBorder:
-          Border.all(color: Colors.green, width: 1), // tab button border
+              Border.all(color: Colors.green, width: 1), // tab button border
           tabBorder:
-          Border.all(color: Colors.green, width: 1), // tab button border
+              Border.all(color: Colors.green, width: 1), // tab button border
           tabShadow: [
             BoxShadow(color: Colors.green.withOpacity(0.5), blurRadius: 8)
           ], // tab button shadow
@@ -162,25 +165,27 @@ class ClientPage extends StatelessWidget {
           activeColor: Colors.white, // selected icon and text color
           iconSize: 24, // tab button icon size
           tabBackgroundColor:
-          Colors.white.withOpacity(0.1), // selected tab background color
+              Colors.white.withOpacity(0.1), // selected tab background color
           padding: EdgeInsets.symmetric(
               horizontal: 20, vertical: 20), // navigation bar padding
-          tabs: const [
+          tabs: [
             GButton(
               icon: Icons.home,
               text: 'Home',
-
             ),
             GButton(
-              icon: Icons.train,
-              text: 'Book',
-    //           onPressed: () {
-    //             Navigator.of(context).push(
-    //             MaterialPageRoute(builder: (context) => BookPage()
-    // )
-    // );
-    //         }
-            ),
+                icon: Icons.train,
+                text: 'Book',
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BookPage(
+                          clientName: " ",
+                          balance: 100,
+                          destinations: ["destination", "jioadsfjo"],
+                          selectedDestination: "destination",
+                          availableTickets: ["d"],
+                          selectedTicket: "67")));
+                }),
             GButton(
               icon: Icons.map,
               text: 'Map',
@@ -188,6 +193,10 @@ class ClientPage extends StatelessWidget {
             GButton(
               icon: Icons.settings,
               text: 'Settings',
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => (SettingsPage())));
+              },
             )
           ],
         ),
