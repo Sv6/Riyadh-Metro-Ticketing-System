@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'client.dart';
+import 'book.dart';
+import 'settings.dart';
 
 void main() {
   runApp(walletPage(
@@ -10,7 +13,7 @@ void main() {
   ));
 }
 
-class walletPage extends StatelessWidget {
+class walletPage extends StatefulWidget {
   final String clientName;
   final String walletID;
   double balance;
@@ -21,6 +24,11 @@ class walletPage extends StatelessWidget {
       required this.walletID});
 
   @override
+  State<walletPage> createState() => _walletPageState();
+}
+
+class _walletPageState extends State<walletPage> {
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -28,6 +36,12 @@ class walletPage extends StatelessWidget {
           toolbarHeight: 50,
           title: Text("Wallet"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -49,7 +63,7 @@ class walletPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Text(
-                              "$clientName",
+                              "${widget.clientName}",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -81,7 +95,7 @@ class walletPage extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "SAR$balance",
+                          "SAR${widget.balance}",
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -181,47 +195,6 @@ class walletPage extends StatelessWidget {
               )
             ],
           ),
-        ),
-        bottomNavigationBar: GNav(
-          backgroundColor: Colors.green,
-          rippleColor: Colors.green, // tab button ripple color when pressed
-          haptic: true, // haptic feedback
-          tabBorderRadius: 15,
-          tabActiveBorder:
-              Border.all(color: Colors.green, width: 1), // tab button border
-          tabBorder:
-              Border.all(color: Colors.green, width: 1), // tab button border
-          tabShadow: [
-            BoxShadow(color: Colors.green.withOpacity(0.5), blurRadius: 8)
-          ], // tab button shadow
-          curve: Curves.easeOutExpo, // tab animation curves
-          duration: Duration(milliseconds: 900), // tab animation duration
-          gap: 8, // the tab button gap between icon and text
-          color: Colors.grey[800], // unselected icon color
-          activeColor: Colors.white, // selected icon and text color
-          iconSize: 24, // tab button icon size
-          tabBackgroundColor:
-              Colors.white.withOpacity(0.1), // selected tab background color
-          padding: EdgeInsets.symmetric(
-              horizontal: 20, vertical: 20), // navigation bar padding
-          tabs: const [
-            GButton(
-              icon: Icons.home,
-              text: 'Home',
-            ),
-            GButton(
-              icon: Icons.train,
-              text: 'Book',
-            ),
-            GButton(
-              icon: Icons.map,
-              text: 'Map',
-            ),
-            GButton(
-              icon: Icons.settings,
-              text: 'Settings',
-            )
-          ],
         ),
       ),
     );

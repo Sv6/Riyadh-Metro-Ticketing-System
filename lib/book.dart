@@ -35,8 +35,11 @@ class BookPage extends StatelessWidget {
       title: 'Home Page',
       home: Scaffold(
         appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {},
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
           title: Text("Welcome, $clientName!"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
