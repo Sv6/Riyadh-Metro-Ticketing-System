@@ -36,9 +36,7 @@ class BookPage extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           leading: BackButton(
-            onPressed: () {
-
-            },
+            onPressed: () {},
           ),
           title: Text("Welcome, $clientName!"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
@@ -125,8 +123,12 @@ class BookPage extends StatelessWidget {
                           child: FloatingActionButton.small(
                               backgroundColor: Colors.white,
                               foregroundColor: Colors.green,
-                              onPressed: () {Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => (walletPage(balance: balance, clientName: clientName, walletID: "33"))));
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => (walletPage(
+                                        balance: balance,
+                                        clientName: clientName,
+                                        walletID: "33"))));
                               },
                               child: Icon(Icons.add)),
                         ),
@@ -170,10 +172,10 @@ class BookPage extends StatelessWidget {
                                   onChanged: (String? value) {},
                                   items: destinations
                                       .map((destination) =>
-                                      DropdownMenuItem<String>(
-                                        value: destination,
-                                        child: Text(destination),
-                                      ))
+                                          DropdownMenuItem<String>(
+                                            value: destination,
+                                            child: Text(destination),
+                                          ))
                                       .toList(),
                                 ),
                               ],
@@ -192,10 +194,10 @@ class BookPage extends StatelessWidget {
                                   onChanged: (String? value) {},
                                   items: destinations
                                       .map((destination) =>
-                                      DropdownMenuItem<String>(
-                                        value: destination,
-                                        child: Text(destination),
-                                      ))
+                                          DropdownMenuItem<String>(
+                                            value: destination,
+                                            child: Text(destination),
+                                          ))
                                       .toList(),
                                 ),
                               ],
@@ -210,36 +212,36 @@ class BookPage extends StatelessWidget {
                       ),
                       availableTickets.isEmpty
                           ? Text(
-                        "You have no tickets.",
-                        style: TextStyle(fontSize: 16.0),
-                      )
+                              "You have no tickets.",
+                              style: TextStyle(fontSize: 16.0),
+                            )
                           : Column(
-                        children: availableTickets
-                            .map((ticket) => InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 8.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(
-                                8.0,
-                              ),
+                              children: availableTickets
+                                  .map((ticket) => InkWell(
+                                        onTap: () {},
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16.0, vertical: 8.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              8.0,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(ticket),
+                                              Icon(Icons.arrow_forward),
+                                            ],
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
                             ),
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(ticket),
-                                Icon(Icons.arrow_forward),
-                              ],
-                            ),
-                          ),
-                        ))
-                            .toList(),
-                      ),
                       SizedBox(height: 16.0),
                       InkWell(
                         onTap: () {},

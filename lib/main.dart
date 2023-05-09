@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/client.dart';
 import 'package:riyadh_metro/settings.dart';
@@ -25,8 +23,8 @@ void main() {
       "/book/": (context) => BookPage(
           clientName: "client",
           balance: 1,
-          destinations: ["destinations"],
-          selectedDestination: "selected",
+          destinations: ["destination", "jioadsfjo"],
+          selectedDestination: "destination",
           availableTickets: ["d"],
           selectedTicket: "67")
 
