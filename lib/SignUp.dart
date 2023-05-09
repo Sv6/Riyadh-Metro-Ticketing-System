@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'login.dart';
 
-void main() {
+void main(){
   runApp(SignUpPage());
 }
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   @override
-  // State<myApp> createState() => _myAppState();
+  State<SignUpPage> createState() => _SignUpPageState();
+}
 
-// class _myAppState extends State<myApp> {
+class _SignUpPageState extends State<SignUpPage> {
+  final _name = TextEditingController();
+  final _birthDate = TextEditingController();
+  final _username = TextEditingController();
+  final _password = TextEditingController();
+  final _password2 = TextEditingController();
+  final _email = TextEditingController();
+  final _phone = TextEditingController();
+  
   bool hidePass = true;
-//   bool hideVerifyPass = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +92,8 @@ class SignUpPage extends StatelessWidget {
               // ========================= FULL NAME =========================
               Container(
                 width: 300.0,
-                child: TextField(
+                child: TextFormField(
+                  controller: _name,
                   decoration: InputDecoration(
                     hintText: 'Full Name',
                     prefixIcon: Icon(Icons.person),
@@ -93,7 +104,8 @@ class SignUpPage extends StatelessWidget {
               // ========================= BIRTH DATE =========================
               Container(
                 width: 300.0,
-                child: TextField(
+                child: TextFormField(
+                  controller: _birthDate,
                   decoration: InputDecoration(
                     hintText: 'Birth Date',
                     prefixIcon: Icon(Icons.calendar_today),
@@ -104,7 +116,8 @@ class SignUpPage extends StatelessWidget {
               // ========================= USERNAME =========================
               Container(
                 width: 300.0,
-                child: TextField(
+                child: TextFormField(
+                  controller: _username,
                   decoration: InputDecoration(
                     hintText: 'Username',
                     prefixIcon: Icon(Icons.person),
@@ -115,7 +128,8 @@ class SignUpPage extends StatelessWidget {
               // ========================= PASSWORD =========================
               Container(
                 width: 300.0,
-                child: TextField(
+                child: TextFormField(
+                  controller: _password,
                   decoration: InputDecoration(
                     hintText: 'Password',
                     prefixIcon: Icon(Icons.lock),
@@ -136,7 +150,8 @@ class SignUpPage extends StatelessWidget {
               SizedBox(height: 20.0),
               Container(
                 width: 300.0,
-                child: TextField(
+                child: TextFormField(
+                  controller: _password2,
                   decoration: InputDecoration(
                     hintText: 'Confirm Password',
                     prefixIcon: Icon(Icons.lock),
@@ -157,7 +172,9 @@ class SignUpPage extends StatelessWidget {
               SizedBox(height: 20.0),
               Container(
                 width: 300.0,
-                child: TextField(
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _email,
                   decoration: InputDecoration(
                     hintText: 'Email',
                     prefixIcon: Icon(Icons.email),
@@ -168,7 +185,8 @@ class SignUpPage extends StatelessWidget {
               SizedBox(height: 20.0),
               Container(
                 width: 300.0,
-                child: TextField(
+                child: TextFormField(
+                  controller: _phone,
                   decoration: InputDecoration(
                     hintText: 'Phone Number',
                     prefixIcon: Icon(Icons.phone),
@@ -214,5 +232,11 @@ class SignUpPage extends StatelessWidget {
         ),
       ),
     );
+
+    
+  }
+
+  void test() {
+    
   }
 }
