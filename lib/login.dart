@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/SignUp.dart';
 import 'package:riyadh_metro/client.dart';
-import 'package:flutterfire_ui/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
