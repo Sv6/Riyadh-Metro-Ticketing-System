@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:riyadh_metro/FeedbackPage.dart';
 import 'package:riyadh_metro/client.dart';
 import 'package:riyadh_metro/settings.dart';
+import 'package:riyadh_metro/updateProfile.dart';
+import 'DisplayTicket.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'SignUp.dart';
@@ -35,7 +38,9 @@ void main() async {
           destinations: ["destination", "jioadsfjo"],
           selectedDestination: "destination",
           availableTickets: ["d"],
-          selectedTicket: "67")
+          selectedTicket: "67"),
+      "/DisplayTicket/": ((context) => (UpdateProfile())),
+      "/FeedbackPage": ((context) => (FeedbackPage()))
     },
   ));
 }
