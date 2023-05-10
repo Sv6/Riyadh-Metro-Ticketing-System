@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:riyadh_metro/FeedbackPage.dart';
+import 'package:riyadh_metro/login.dart';
+import 'package:riyadh_metro/updateProfile.dart';
+
+import 'DisplayTicket.dart';
+import "updateProfile.dart";
 
 void main() {
   runApp(SettingsPage());
@@ -42,6 +48,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => (UpdateProfile())));
                 // Handle update profile option
               },
             ),
@@ -56,6 +64,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => (FeedbackPage())));
                 // Handle send feedback option
               },
             ),
@@ -71,6 +81,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               onTap: () {
                 // Handle sign out option
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => (LoginPage())));
               },
             ),
           ],
