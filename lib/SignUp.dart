@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riyadh_metro/client.dart';
 import 'login.dart';
 
-void main(){
+void main() {
   runApp(SignUpPage());
 }
 
@@ -15,18 +17,40 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _name = TextEditingController();
-  final _birthDate = TextEditingController();
-  final _username = TextEditingController();
-  final _password = TextEditingController();
-  final _password2 = TextEditingController();
-  final _email = TextEditingController();
-  final _phone = TextEditingController();
-
-  final db = FirebaseFirestore.instance;
-  
   bool hidePass = true;
+  late final TextEditingController _name;
+  late final TextEditingController _birthDate;
+  late final TextEditingController _username;
+  late final TextEditingController _password;
+  late final TextEditingController _passwordConfirm;
+  late final TextEditingController _email;
+  late final TextEditingController _phone;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    _name = TextEditingController();
+    _birthDate = TextEditingController();
+    _username = TextEditingController();
+    _password = TextEditingController();
+    _passwordConfirm = TextEditingController();
+    _email = TextEditingController();
+    _phone = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _birthDate.dispose();
+    _username.dispose();
+    _password.dispose();
+    _passwordConfirm.dispose();
+    _email.dispose();
+    _phone.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Container(
                 width: 300.0,
                 child: TextFormField(
-                  controller: _password2,
+                  controller: _passwordConfirm,
                   decoration: InputDecoration(
                     hintText: 'Confirm Password',
                     prefixIcon: Icon(Icons.lock),
@@ -210,11 +234,31 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   // .on error after on pressed
-                  onPressed: () {
-                    FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email.text, password: _password.text).then((value) => addingUser()).then((value) => {
-                        Navigator.push(context, 
-                        MaterialPageRoute(builder: (context) => ClientPage(clientName: _name.text, balance: 0.0, availableTickets: ["d"])))
-                    });
+                  onPressed: () async {
+                    await Firebase.initializeApp(
+                      options: DefaultFirebaseOptions.currentPlatform,
+                    );
+
+                    final email = _email.text;
+                    final password = _password.text;
+
+                    final userCredential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                            email: email, password: password);
+                    print(userCredential);
+                    // FirebaseAuth.instance
+                    //     .createUserWithEmailAndPassword(
+                    //         email: _email.text, password: _password.text)
+                    //     .then((value) => addingUser())
+                    //     .then((value) => {
+                    //           Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                   builder: (context) => ClientPage(
+                    //                       clientName: _name.text,
+                    //                       balance: 0.0,
+                    //                       availableTickets: ["d"])))
+                    //         });
                   },
                   child: Text(
                     'Sign Up',
@@ -242,20 +286,19 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
-
-    
   }
 
-  void addingUser() {
-    var user = <String, dynamic> {
-      "name": _name.text,
-      "birthdate": _birthDate.text,
-      "username": _username.text,
-      "password": _password.text,
-      "email": _email,
-      "phone": _phone
-    };
-    db.collection("user").add(user).then((DocumentReference doc) =>
-    print('DocumentSnapshot added with ID: ${doc.id}'));
-  }
+//code caused alot of errors when trying to initialize firebase
+  // void addingUser() {
+  //   var user = <String, dynamic>{
+  //     "name": _name.text,
+  //     "birthdate": _birthDate.text,
+  //     "username": _username.text,
+  //     "password": _password.text,
+  //     "email": _email,
+  //     "phone": _phone
+  //   };
+  //   db.collection("user").add(user).then((DocumentReference doc) =>
+  //       print('DocumentSnapshot added with ID: ${doc.id}'));
+  // }
 }

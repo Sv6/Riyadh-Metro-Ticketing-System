@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:riyadh_metro/SignUp.dart';
 import 'package:riyadh_metro/client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(LoginPage());
@@ -15,6 +14,24 @@ class LoginPage extends StatefulWidget {
 
 class _myAppState extends State<LoginPage> {
   bool hidePass = true;
+
+//controller for login
+  late final TextEditingController _email;
+  late final TextEditingController _password;
+
+  @override
+  void initState() {
+    _email = TextEditingController();
+    _password = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
