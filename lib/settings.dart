@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/FeedbackPage.dart';
+import 'package:riyadh_metro/login.dart';
 import 'package:riyadh_metro/updateProfile.dart';
 
 import 'DisplayTicket.dart';
@@ -80,6 +81,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               onTap: () {
                 // Handle sign out option
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => (LoginPage())));
               },
             ),
           ],

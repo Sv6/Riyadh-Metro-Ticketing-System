@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'settings.dart';
+
 void main() {
   runApp(UpdateProfile());
 }
@@ -49,7 +51,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => (SettingsPage())));
             },
           ),
         ),

@@ -10,6 +10,7 @@ import 'SignUp.dart';
 import 'login.dart';
 import 'Wallet.dart';
 import 'book.dart';
+import 'updateProfile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +41,8 @@ void main() async {
           availableTickets: ["d"],
           selectedTicket: "67"),
       "/DisplayTicket/": ((context) => (UpdateProfile())),
-      "/FeedbackPage": ((context) => (FeedbackPage()))
+      "/FeedbackPage/": ((context) => (FeedbackPage())),
+      "/updateProfile/": ((context) => (UpdateProfile())),
     },
   ));
 }
