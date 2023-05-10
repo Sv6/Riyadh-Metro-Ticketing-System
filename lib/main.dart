@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/client.dart';
 import 'package:riyadh_metro/settings.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'SignUp.dart';
 import 'login.dart';
 import 'Wallet.dart';
 import 'book.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
 //test-z
-void main() {
+
   runApp(MaterialApp(
     title: "test",
     theme: ThemeData.dark(),
@@ -28,8 +36,6 @@ void main() {
           selectedDestination: "destination",
           availableTickets: ["d"],
           selectedTicket: "67")
-
-//testing git -z
     },
   ));
 }
