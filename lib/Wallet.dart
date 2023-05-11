@@ -120,12 +120,12 @@ class _walletPageState extends State<walletPage> {
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  Text("Enter the amount you want to add"),
-                  Padding(
+              Column(children: [
+                Text("Enter the amount you want to add"),
+                Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           width: 200.0,
@@ -142,12 +142,21 @@ class _walletPageState extends State<walletPage> {
                             ),
                           ),
                         ),
-                        ElevatedButton(onPressed: () {}, child: Text("Add"))
+                        SizedBox(
+                            width: 70,
+                            height: 50,
+                            child: ElevatedButton(
+                                onPressed: () {},
+                                child: Text("Add"),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 6, 179, 107),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    )))),
                       ],
-                    ),
-                  )
-                ],
-              ),
+                    )),
+              ]),
               Text("Choose Your Pass Plan"),
               SizedBox(
                 height: 10,
@@ -158,37 +167,49 @@ class _walletPageState extends State<walletPage> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: Colors.pink,
+                      color: Color.fromARGB(255, 6, 179, 107),
                     ),
                     height: 250,
                     width: 100,
                     child: TextButton(
                       onPressed: () {},
-                      child: Text("10"),
+                      child: Text("10",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                     ),
                   ),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: Colors.purple,
+                      color: Color.fromARGB(255, 6, 179, 107),
                     ),
                     height: 250,
                     width: 100,
                     child: TextButton(
                       onPressed: () {},
-                      child: Text("20"),
+                      child: Text("20",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                     ),
                   ),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
-                      color: Colors.yellow,
+                      color: Color.fromARGB(255, 6, 179, 107),
                     ),
                     height: 250,
                     width: 100,
                     child: TextButton(
                       onPressed: () {},
-                      child: Text("20"),
+                      child: Text("50",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                     ),
                   ),
                 ],
