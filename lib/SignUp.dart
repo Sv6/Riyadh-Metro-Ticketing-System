@@ -249,6 +249,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               if (!validate.validatePhone(phone: value)) {
                                 return "phone number not valid (05xxxxxxxx)";
                               }
+                              return null;
                             },
                             controller: _phone,
                             decoration: InputDecoration(
@@ -269,31 +270,37 @@ class _SignUpPageState extends State<SignUpPage> {
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            // .on error after on pressevd
                             onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                final email = _email.text;
-                                final password = _password.text;
+                              try {
+                                if (_formKey.currentState!.validate()) {
+                                  final email = _email.text;
+                                  final password = _password.text;
 
-                                final userCredential = await FirebaseAuth
-                                    .instance
-                                    .createUserWithEmailAndPassword(
-                                        email: email, password: password);
-                                print(userCredential);
+                                  final userCredential = await FirebaseAuth
+                                      .instance
+                                      .createUserWithEmailAndPassword(
+                                          email: email, password: password);
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ClientPage(
+                                            clientName: _name.text,
+                                            balance: 0,
+                                            availableTickets: ['d'],
+                                          )));
+                                }
+                              } on FirebaseAuthException catch (auth) {
+                                const snackBar = SnackBar(
+                                  content: Text('Email is already in use'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } catch (e) {
+                                const snackBar = SnackBar(
+                                  content: Text('Something went wrong'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                               }
-                              // FirebaseAuth.instance
-                              //     .createUserWithEmailAndPassword(
-                              //         email: _email.text, password: _password.text)
-                              //     .then((value) => addingUser())
-                              //     .then((value) => {
-                              //           Navigator.push(
-                              //               context,
-                              //               MaterialPageRoute(
-                              //                   builder: (context) => ClientPage(
-                              //                       clientName: _name.text,
-                              //                       balance: 0.0,
-                              //                       availableTickets: ["d"])))
-                              //         });
                             },
                             child: Text(
                               'Sign Up',
