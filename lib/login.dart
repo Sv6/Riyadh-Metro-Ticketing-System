@@ -181,6 +181,7 @@ class _myAppState extends State<LoginPage> {
                         bool validate = true;
                         final email = _email.text;
                         final password = _password.text;
+
                         try {
                           final userCredential = await FirebaseAuth.instance
                               .signInWithEmailAndPassword(

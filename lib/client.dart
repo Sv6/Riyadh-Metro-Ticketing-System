@@ -48,67 +48,68 @@ class ClientPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SafeArea(
-                              child: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: Text(
-                                  "$clientName",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SafeArea(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "#1233",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    // fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                      SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "SAR$balance",
+                              "${clientName}",
                               style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
+                      ),
+                      SafeArea(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0,0,8,0),
                             child: Text(
-                              "Pass Counter: 0",
+                              "#1683817305464129",
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white70,
                               ),
                             ),
                           ),
                         ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "SAR${balance}",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Pass Counter: 0",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+
                         SafeArea(
                           child: Align(
                             alignment: Alignment.centerRight,
@@ -129,6 +130,7 @@ class ClientPage extends StatelessWidget {
                     ),
                   ),
                 ),
+
               ),
               SizedBox(height: 20.0),
               Center(
