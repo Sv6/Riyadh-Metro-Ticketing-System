@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riyadh_metro/client.dart';
 import 'login.dart';
 import 'validator.dart';
+import 'crud.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
@@ -21,6 +22,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   bool hidePass = true;
   final Validator validate = Validator();
+  final Crud CRUD = Crud();
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _name;
   late final TextEditingController _birthDate;
@@ -280,7 +282,18 @@ class _SignUpPageState extends State<SignUpPage> {
                                       .instance
                                       .createUserWithEmailAndPassword(
                                           email: email, password: password);
-
+                                  final _walledID = CRUD.idGenerator();
+                                  if (!CRUD.insertClient(
+                                      _name.text,
+                                      0.0,
+                                      "testDate",
+                                      email,
+                                      _phone.text,
+                                      _walledID,
+                                      _password.text,
+                                      true)) {
+                                    throw Exception("inserting does not work");
+                                  }
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ClientPage(
                                             clientName: _name.text,
