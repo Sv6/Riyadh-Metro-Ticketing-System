@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/FeedbackPage.dart';
 import 'package:riyadh_metro/client.dart';
+import 'package:riyadh_metro/mapPage.dart';
 import 'package:riyadh_metro/settings.dart';
 import 'package:riyadh_metro/updateProfile.dart';
 import 'DisplayTicket.dart';
@@ -43,6 +44,7 @@ void main() async {
       "/DisplayTicket/": ((context) => (UpdateProfile())),
       "/FeedbackPage/": ((context) => (FeedbackPage())),
       "/updateProfile/": ((context) => (UpdateProfile())),
+      "/mapPage/": (context) => (mapPage()),
     },
   ));
 }
