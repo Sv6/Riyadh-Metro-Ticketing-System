@@ -5,6 +5,12 @@
             "type": "dart",
             "request": "launch",
             "program": "lib\\SignUp.dart"
+        },
+        {
+            "name": "Flutter (lib\\mapPage.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib\\mapPage.dart"
         }
     ]
 }
