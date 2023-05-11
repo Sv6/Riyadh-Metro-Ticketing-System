@@ -50,11 +50,14 @@ class Validator {
     return true;
   }
 
-  static bool validateDate({required DateTime date}) {
+  bool validateDate({required DateTime date}) {
     int ceilYear = DateTime.now().year;
     int floorYear = ceilYear - 100;
 
     if (date.year < ceilYear && date.year > floorYear) return true;
     return false;
   }
+
+  
+
 }
