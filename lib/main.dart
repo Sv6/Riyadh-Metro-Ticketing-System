@@ -28,10 +28,15 @@ void main() async {
     routes: {
       "/login/": (context) => LoginPage(),
       "/signUP/": (context) => SignUpPage(),
-      "/Client/": (context) =>
-          ClientPage(clientName: ' ', balance: 100, availableTickets: ["d"]),
+      "/Client/": (context) => ClientPage(
+            clientName: '',
+            balance: 100,
+            availableTickets: ["d"],
+            walletID: "",
+            pass: 0,
+          ),
       "/Walllet/": (context) =>
-          walletPage(balance: 100, clientName: "clientName", walletID: "2"),
+          walletPage(balance: 100, clientName: "clientName", walletID: "2", pass: 0,),
       "/settings/": (context) => SettingsPage(),
       // "/Walllet/": (context) => walletPage(balance: 100, clientName: "clientName", walletID: "2"),
       "/book/": (context) => BookPage(

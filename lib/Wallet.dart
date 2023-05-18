@@ -4,12 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'client.dart';
 import 'book.dart';
 import 'settings.dart';
+import 'crud.dart';
 
 void main() {
   runApp(walletPage(
-    clientName: "Sultan",
+    clientName: "",
     balance: 0,
-    walletID: "123",
+    walletID: "",
+    pass: 0,
   ));
 }
 
@@ -17,17 +19,29 @@ class walletPage extends StatefulWidget {
   final String clientName;
   final String walletID;
   double balance;
+  double pass;
 
   walletPage(
       {required this.balance,
       required this.clientName,
-      required this.walletID});
+      required this.walletID,
+      required this.pass});
 
   @override
   State<walletPage> createState() => _walletPageState();
 }
 
 class _walletPageState extends State<walletPage> {
+  late final TextEditingController _amt;
+  final Crud CRUD = Crud();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _amt = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,8 +52,24 @@ class _walletPageState extends State<walletPage> {
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
+            onPressed: () async {
+              String uid = await CRUD.getId();
+              Map<String, dynamic> data = await CRUD.getUserData(uid);
+              Navigator.of(context)
+                  .push(
+                    MaterialPageRoute(
+                      builder: (context) => ClientPage(
+                        clientName: data["FULLNAME"],
+                        balance: data["BALANCE"] * 1.0,
+                        availableTickets: ['d'],
+                        walletID: data["WALLETID"],
+                        pass: data["PASS"],
+                      ),
+                    ),
+                  )
+                  .then(
+                    (_) => Navigator.pop(context),
+                  );
             },
           ),
         ),
@@ -76,11 +106,10 @@ class _walletPageState extends State<walletPage> {
                       SafeArea(
                         child: Align(
                           alignment: Alignment.centerRight,
-
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "#1683817305464129",
+                              "${widget.walletID}",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -90,7 +119,6 @@ class _walletPageState extends State<walletPage> {
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Align(
@@ -110,7 +138,7 @@ class _walletPageState extends State<walletPage> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Pass Counter: 0",
+                            "Pass Counter: ${widget.pass}",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white,
@@ -133,6 +161,7 @@ class _walletPageState extends State<walletPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: TextField(
+                                controller: _amt,
                                 decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -147,7 +176,13 @@ class _walletPageState extends State<walletPage> {
                               width: 70,
                               height: 50,
                               child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.balance = widget.balance +
+                                          double.parse(_amt.text);
+                                    });
+                                    CRUD.updateBalance(double.parse(_amt.text));
+                                  },
                                   child: Text("Add"),
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
@@ -173,7 +208,14 @@ class _walletPageState extends State<walletPage> {
                       height: 250,
                       width: 100,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            widget.balance = widget.balance - 100;
+                            widget.pass = widget.pass + 10;
+                          });
+                          CRUD.updateBalance(-100);
+                          CRUD.updatePass(10);
+                        },
                         child: Text("10",
                             style: TextStyle(
                                 fontSize: 20,
@@ -189,7 +231,14 @@ class _walletPageState extends State<walletPage> {
                       height: 250,
                       width: 100,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            widget.balance = widget.balance - 200;
+                            widget.pass = widget.pass + 20;
+                          });
+                          CRUD.updateBalance(-200);
+                          CRUD.updatePass(20);
+                        },
                         child: Text("20",
                             style: TextStyle(
                                 fontSize: 20,
@@ -205,7 +254,14 @@ class _walletPageState extends State<walletPage> {
                       height: 250,
                       width: 100,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            widget.balance = widget.balance - 500;
+                            widget.pass = widget.pass + 50;
+                          });
+                          CRUD.updateBalance(-500);
+                          CRUD.updatePass(50);
+                        },
                         child: Text("50",
                             style: TextStyle(
                                 fontSize: 20,

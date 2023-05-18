@@ -131,7 +131,8 @@ class BookPage extends StatelessWidget {
                                     builder: (context) => (walletPage(
                                         balance: balance,
                                         clientName: clientName,
-                                        walletID: "33"))));
+                                        walletID: "",
+                                        pass: 0,))));
                               },
                               child: Icon(Icons.add)),
                         ),

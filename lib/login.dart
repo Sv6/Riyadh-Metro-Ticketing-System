@@ -194,18 +194,20 @@ class _myAppState extends State<LoginPage> {
                         }
 
                         if (validate == true) {
-                          if (CRUD.getId() != null) {
-                            String uid = await CRUD.getId();
-                            Future<Map<String, dynamic>> userData =
-                                CRUD.getUserData(uid);
-                            print(uid);
-                            print(await userData);
-                          }
-                          Navigator.of(context).push(MaterialPageRoute(
+                          String uid = await CRUD.getId();
+                          Map<String, dynamic> data =
+                              await CRUD.getUserData(uid);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
                               builder: (context) => ClientPage(
-                                  clientName: "clientName",
-                                  balance: 220,
-                                  availableTickets: ["availableTickets"])));
+                                clientName: data["FULLNAME"],
+                                balance: data["BALANCE"] * 1.0,
+                                availableTickets: ['d'],
+                                walletID: data["WALLETID"],
+                                pass: data["PASS"],
+                              ),
+                            ),
+                          );
                         }
                       },
                       child: Text(

@@ -3,26 +3,37 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:riyadh_metro/Wallet.dart';
 import 'package:riyadh_metro/book.dart';
 import 'package:riyadh_metro/settings.dart';
+import 'crud.dart';
 
-void main() {
+void main() async {
   runApp(ClientPage(
     clientName: "Abdulrahman Zyad",
     balance: 400000.00,
     availableTickets: ["d"],
+    walletID: "",
+    pass: 0,
   ));
 }
 
-class ClientPage extends StatelessWidget {
+class ClientPage extends StatefulWidget {
   final String clientName;
-  final double balance;
+  double balance;
   final List<String> availableTickets;
+  final String walletID;
+  double pass;
 
-  ClientPage({
-    required this.clientName,
-    required this.balance,
-    required this.availableTickets,
-  });
+  ClientPage(
+      {required this.clientName,
+      required this.balance,
+      required this.availableTickets,
+      required this.walletID,
+      required this.pass});
 
+  @override
+  State<ClientPage> createState() => _ClientPageState();
+}
+
+class _ClientPageState extends State<ClientPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,124 +41,125 @@ class ClientPage extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           toolbarHeight: 50,
-          title: Text("Welcome, $clientName!"),
+          title: Text("Welcome, ${widget.clientName}!"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Center(
-                child: SafeArea(
+        body: FutureBuilder(builder: (context, snapshot) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Center(
+                  child: SafeArea(
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                      height: 200,
+                      width: 340,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 6, 179, 107),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Column(
+                        children: [
+                          SafeArea(
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "${widget.clientName}",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SafeArea(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                child: Text(
+                                  "${widget.walletID}",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white70,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "SAR${widget.balance}",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Pass Counter: ${widget.pass}",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SafeArea(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: FloatingActionButton.small(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.green,
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => (walletPage(
+                                                  balance: widget.balance,
+                                                  clientName: widget.clientName,
+                                                  walletID: widget.walletID,
+                                                  pass: widget.pass,
+                                                ))));
+                                  },
+                                  child: Icon(Icons.add)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                Center(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                    height: 200,
-                    width: 340,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 6, 179, 107),
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
+                    height: 400,
+                    width: 680,
+                    // temporary borders
+                    color: Colors.blue,
                     child: Column(
-                      children: [
-                      SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "${clientName}",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SafeArea(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0,0,8,0),
-                            child: Text(
-                              "#1683817305464129",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white70,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "SAR${balance}",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Pass Counter: 0",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                        SafeArea(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: FloatingActionButton.small(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.green,
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => (walletPage(
-                                          balance: balance,
-                                          clientName: clientName,
-                                          walletID: "walletID"))));
-                                },
-                                child: Icon(Icons.add)),
-                          ),
-                        ),
-                      ],
+                      children: const [Text("Available Tickets:")],
                     ),
                   ),
                 ),
-
-              ),
-              SizedBox(height: 20.0),
-              Center(
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                  height: 400,
-                  width: 680,
-                  // temporary borders
-                  color: Colors.blue,
-                  child: Column(
-                    children: const [Text("Available Tickets:")],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+              ],
+            ),
+          );
+        }),
         bottomNavigationBar: GNav(
           backgroundColor: Colors.green,
           rippleColor: Colors.green, // tab button ripple color when pressed

@@ -16,7 +16,9 @@ class Crud {
       String? phone,
       String? walletID,
       String? password,
-      bool? status) {
+      bool? status,
+      List? tickets,
+      int? pass) {
     if (uid == null ||
         name == null ||
         balance == null ||
@@ -25,7 +27,9 @@ class Crud {
         phone == null ||
         walletID == null ||
         password == null ||
-        status == null) {
+        status == null ||
+        tickets == null ||
+        pass == null) {
       return false;
     } else {
       final data = <String, dynamic>{
@@ -36,7 +40,9 @@ class Crud {
         "PHONE": phone,
         "WALLETID": walletID,
         "PASSWORD": password,
-        "STATUS": status
+        "STATUS": status,
+        "TICKETS": tickets,
+        "PASS": pass
       };
       db.collection("User").doc(uid).set(data);
     }
@@ -82,6 +88,20 @@ class Crud {
     final now = DateTime.now();
     return now.microsecondsSinceEpoch.toString();
   }
+
+  void updateBalance(double amt) async {
+    String id = await getId();
+    Map<String, dynamic> data = await getUserData(id);
+    double newBalance = data["BALANCE"] + amt;
+    db.collection("User").doc(id).update({"BALANCE": newBalance});
+  }
+
+  void updatePass(double amt) async {
+    String id = await getId();
+    Map<String, dynamic> data = await getUserData(id);
+    double newPass = data["PASS"] + amt;
+    db.collection("User").doc(id).update({"PASS": newPass});
+  }
 }
 
 class userObject {
@@ -93,6 +113,8 @@ class userObject {
   String walletID;
   String password;
   bool status;
+  List tickets;
+  double pass;
 
   userObject(
       {required this.uid,
@@ -102,7 +124,9 @@ class userObject {
       required this.phone,
       required this.walletID,
       required this.password,
-      required this.status});
+      required this.status,
+      required this.tickets,
+      required this.pass});
 
   factory userObject.fromJson(Map<String, dynamic> json) {
     return userObject(
@@ -114,6 +138,8 @@ class userObject {
       walletID: json["WALLETID"] as String,
       status: json["STATUS"] as bool,
       password: json["PASSWORD"] as String,
+      tickets: json["TICKET"] as List,
+      pass: json["PASS"] as double,
     );
   }
 }

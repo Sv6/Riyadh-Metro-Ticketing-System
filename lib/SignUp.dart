@@ -294,14 +294,18 @@ class _SignUpPageState extends State<SignUpPage> {
                                       _phone.text,
                                       _walledID,
                                       _password.text,
-                                      true)) {
+                                      true,
+                                      [],
+                                      0)) {
                                     throw Exception("error occured");
                                   }
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ClientPage(
                                             clientName: _name.text,
-                                            balance: 0,
+                                            balance: 0.0,
                                             availableTickets: ['d'],
+                                            walletID: _walledID,
+                                            pass: 0,
                                           )));
                                 }
                               } on FirebaseAuthException catch (auth) {
