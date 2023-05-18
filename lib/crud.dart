@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -41,15 +43,77 @@ class Crud {
     return true;
   }
 
-  // Future retrieveLoginInfo() async {
-  //   String id = await FirebaseAuth.instance.currentUser!.uid;
-  //   CollectionReference users = FirebaseFirestore.instance.collection("User");
-  //   var infoList = await users.doc(id).get();
-  //   return infoList.data();
-  // }
+  Future<String> getId() async {
+    User? user = await FirebaseAuth.instance.currentUser;
+    String uid = user!.uid;
+    return uid;
+  }
+
+  Future<Map<String, dynamic>> getUserData(String uid) async {
+    uid = await getId();
+
+    // Create a reference to the data you want to retrieve.
+    CollectionReference users = FirebaseFirestore.instance.collection('User');
+    DocumentReference userDocument = users.doc(uid);
+
+    // Use the `get()` method to retrieve the data.
+    DocumentSnapshot snapshot = await userDocument.get();
+    // QuerySnapshot<Map<String, dynamic>> snapshot = await users.doc(uid).get();
+
+    // Check the `exists` property to make sure the data exists.
+    if (snapshot.exists) {
+      String mapString = jsonEncode(snapshot.data());
+      var mapObject = jsonDecode(mapString);
+
+      // The data exists.
+      // You can access it using the `data` property.
+      // Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+      Map<String, dynamic> data = mapObject;
+
+      return data;
+    } else {
+      // The data does not exist.
+      return {};
+    }
+  }
 
   String idGenerator() {
     final now = DateTime.now();
     return now.microsecondsSinceEpoch.toString();
+  }
+}
+
+class userObject {
+  String uid;
+  String name;
+  double balance;
+  String email;
+  String phone;
+  String walletID;
+  String password;
+  bool status;
+
+  userObject(
+      {required this.uid,
+      required this.name,
+      required this.balance,
+      required this.email,
+      required this.phone,
+      required this.walletID,
+      required this.password,
+      required this.status});
+
+  factory userObject.fromJson(Map<String, dynamic> json) {
+    return userObject(
+      uid: json["USER"] as String,
+      name: json["FULLNAME"] as String,
+      balance: json["BALANCE"] as double,
+      email: json["EMAIL"] as String,
+      phone: json["PHONE"] as String,
+      walletID: json["WALLETID"] as String,
+      status: json["STATUS"] as bool,
+      password: json["PASSWORD"] as String,
+    );
   }
 }
