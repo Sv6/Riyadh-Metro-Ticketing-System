@@ -6,6 +6,8 @@ import 'package:riyadh_metro/client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'crud.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
   runApp(LoginPage());
@@ -18,6 +20,7 @@ class LoginPage extends StatefulWidget {
 
 class _myAppState extends State<LoginPage> {
   bool hidePass = true;
+  Crud CRUD = Crud();
 
 //controller for login
   late final TextEditingController _email;
@@ -191,6 +194,7 @@ class _myAppState extends State<LoginPage> {
                         }
 
                         if (validate == true) {
+                          // print(CRUD.retrieveLoginInfo());
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ClientPage(
                                   clientName: "clientName",

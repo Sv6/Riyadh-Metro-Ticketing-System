@@ -283,7 +283,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                       .createUserWithEmailAndPassword(
                                           email: email, password: password);
                                   final _walledID = CRUD.idGenerator();
+                                  FirebaseAuth auth = FirebaseAuth.instance;
+                                  final uid = auth.currentUser!.uid;
                                   if (!CRUD.insertClient(
+                                      uid,
                                       _name.text,
                                       0.0,
                                       "testDate",
@@ -292,7 +295,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       _walledID,
                                       _password.text,
                                       true)) {
-                                    throw Exception("inserting does not work");
+                                    throw Exception("error occured");
                                   }
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ClientPage(
@@ -349,17 +352,4 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-//code caused alot of errors when trying to initialize firebase
-  // void addingUser() {
-  //   var user = <String, dynamic>{
-  //     "name": _name.text,
-  //     "birthdate": _birthDate.text,
-  //     "username": _username.text,
-  //     "password": _password.text,
-  //     "email": _email,
-  //     "phone": _phone
-  //   };
-  //   db.collection("user").add(user).then((DocumentReference doc) =>
-  //       print('DocumentSnapshot added with ID: ${doc.id}'));
-  // }
 }
