@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:riyadh_metro/login.dart';
 import 'package:riyadh_metro/settings.dart';
-
+import 'crud.dart';
+import 'client.dart';
 import 'book.dart';
 
 void main() {
@@ -15,6 +16,10 @@ class mapPage extends StatefulWidget {
 }
 
 class _myAppState extends State<mapPage> {
+  final Crud CRUD = Crud();
+  int _selectedIndex = 2;
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Map",
@@ -25,21 +30,38 @@ class _myAppState extends State<mapPage> {
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
+            onPressed: () async {
+              String uid = await CRUD.getId();
+              Map<String, dynamic> data = await CRUD.getUserData(uid);
+              Navigator.of(context)
+                  .push(
+                    MaterialPageRoute(
+                      builder: (context) => ClientPage(
+                        clientName: data["FULLNAME"],
+                        balance: data["BALANCE"] * 1.0,
+                        availableTickets: ['d'],
+                        walletID: data["WALLETID"],
+                        pass: data["PASS"],
+                      ),
+                    ),
+                  )
+                  .then(
+                    (_) => Navigator.pop(context),
+                  );
             },
           ),
         ),
+        backgroundColor: Colors.black,
         body: InteractiveViewer(
           panEnabled: false,
           boundaryMargin: EdgeInsets.all(50),
-          minScale: 0.1,
-          maxScale: 2,
+          maxScale: 4,
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/map.jpg'),
-                // fit: BoxFit.cover,
+                fit: BoxFit.fill,
+                alignment: Alignment.center,
               ),
             ),
           ),
@@ -71,6 +93,7 @@ class _myAppState extends State<mapPage> {
               Colors.white.withOpacity(0.1), // selected tab background color
           padding: EdgeInsets.symmetric(
               horizontal: 20, vertical: 20), // navigation bar padding
+
           tabs: [
             GButton(
               icon: Icons.home,
@@ -102,6 +125,13 @@ class _myAppState extends State<mapPage> {
               },
             )
           ],
+          // maybe needed later for indexing -f
+          selectedIndex: _selectedIndex,
+          onTabChange: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
         ),
       ),
     );

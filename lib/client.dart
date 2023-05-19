@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:riyadh_metro/Wallet.dart';
 import 'package:riyadh_metro/book.dart';
+import 'package:riyadh_metro/mapPage.dart';
 import 'package:riyadh_metro/settings.dart';
 import 'crud.dart';
 
@@ -34,6 +35,7 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -161,16 +163,21 @@ class _ClientPageState extends State<ClientPage> {
           );
         }),
         bottomNavigationBar: GNav(
-          backgroundColor: Colors.green,
-          rippleColor: Colors.green, // tab button ripple color when pressed
+          backgroundColor: Color.fromARGB(255, 6, 179, 107),
+          rippleColor: Color.fromARGB(
+              255, 6, 179, 107), // tab button ripple color when pressed
           haptic: true, // haptic feedback
           tabBorderRadius: 15,
-          tabActiveBorder:
-              Border.all(color: Colors.green, width: 1), // tab button border
-          tabBorder:
-              Border.all(color: Colors.green, width: 1), // tab button border
+          tabActiveBorder: Border.all(
+              color: Color.fromARGB(255, 6, 179, 107),
+              width: 1), // tab button border
+          tabBorder: Border.all(
+              color: Color.fromARGB(255, 6, 179, 107),
+              width: 1), // tab button border
           tabShadow: [
-            BoxShadow(color: Colors.green.withOpacity(0.5), blurRadius: 8)
+            BoxShadow(
+                color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
+                blurRadius: 8)
           ], // tab button shadow
           curve: Curves.easeOutExpo, // tab animation curves
           duration: Duration(milliseconds: 900), // tab animation duration
@@ -182,6 +189,7 @@ class _ClientPageState extends State<ClientPage> {
               Colors.white.withOpacity(0.1), // selected tab background color
           padding: EdgeInsets.symmetric(
               horizontal: 20, vertical: 20), // navigation bar padding
+
           tabs: [
             GButton(
               icon: Icons.home,
@@ -201,9 +209,12 @@ class _ClientPageState extends State<ClientPage> {
                           selectedTicket: "67")));
                 }),
             GButton(
-              icon: Icons.map,
-              text: 'Map',
-            ),
+                icon: Icons.map,
+                text: 'map',
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => (mapPage())));
+                }),
             GButton(
               icon: Icons.settings,
               text: 'Settings',
@@ -213,6 +224,12 @@ class _ClientPageState extends State<ClientPage> {
               },
             )
           ],
+          selectedIndex: _selectedIndex,
+          onTabChange: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
         ),
       ),
     );
