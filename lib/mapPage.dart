@@ -98,6 +98,25 @@ class _myAppState extends State<mapPage> {
             GButton(
               icon: Icons.home,
               text: 'Home',
+              onPressed: () async {
+                String uid = await CRUD.getId();
+                Map<String, dynamic> data = await CRUD.getUserData(uid);
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (context) => ClientPage(
+                          clientName: data["FULLNAME"],
+                          balance: data["BALANCE"] * 1.0,
+                          availableTickets: ['d'],
+                          walletID: data["WALLETID"],
+                          pass: data["PASS"],
+                        ),
+                      ),
+                    )
+                    .then(
+                      (_) => Navigator.pop(context),
+                    );
+              },
             ),
             GButton(
                 icon: Icons.train,

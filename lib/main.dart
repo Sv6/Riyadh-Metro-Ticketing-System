@@ -12,6 +12,7 @@ import 'login.dart';
 import 'Wallet.dart';
 import 'book.dart';
 import 'updateProfile.dart';
+import 'mapPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +36,12 @@ void main() async {
             walletID: "",
             pass: 0,
           ),
-      "/Walllet/": (context) =>
-          walletPage(balance: 100, clientName: "clientName", walletID: "2", pass: 0,),
+      "/Walllet/": (context) => walletPage(
+            balance: 100,
+            clientName: "clientName",
+            walletID: "2",
+            pass: 0,
+          ),
       "/settings/": (context) => SettingsPage(),
       // "/Walllet/": (context) => walletPage(balance: 100, clientName: "clientName", walletID: "2"),
       "/book/": (context) => BookPage(

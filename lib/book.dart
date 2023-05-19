@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:riyadh_metro/Wallet.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
+import 'crud.dart';
+import 'mapPage.dart';
+import 'settings.dart';
+import 'client.dart';
 
 void main() {
   runApp(BookPage(
@@ -12,7 +18,7 @@ void main() {
       selectedTicket: "d"));
 }
 
-class BookPage extends StatelessWidget {
+class BookPage extends StatefulWidget {
   final String clientName;
   final double balance;
   final List<String> destinations;
@@ -30,6 +36,13 @@ class BookPage extends StatelessWidget {
   });
 
   @override
+  State<BookPage> createState() => _BookPageState();
+}
+
+class _BookPageState extends State<BookPage> {
+  final Crud CRUD = Crud();
+  int _selectedIndex = 1;
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Home Page',
@@ -38,10 +51,29 @@ class BookPage extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pop();
+              onPressed:
+              () async {
+                String uid = await CRUD.getId();
+                Map<String, dynamic> data = await CRUD.getUserData(uid);
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (context) => ClientPage(
+                          clientName: data["FULLNAME"],
+                          balance: data["BALANCE"] * 1.0,
+                          availableTickets: ['d'],
+                          walletID: data["WALLETID"],
+                          pass: data["PASS"],
+                        ),
+                      ),
+                    )
+                    .then(
+                      (_) => Navigator.pop(context),
+                    );
+              };
             },
           ),
-          title: Text("Welcome, $clientName!"),
+          title: Text("Welcome, ${widget.clientName}!"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
         ),
         body: SingleChildScrollView(
@@ -66,7 +98,7 @@ class BookPage extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Text(
-                                "$clientName",
+                                "${widget.clientName}",
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -98,7 +130,7 @@ class BookPage extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "SAR$balance",
+                            "SAR${widget.balance}",
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -125,14 +157,15 @@ class BookPage extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: FloatingActionButton.small(
                               backgroundColor: Colors.white,
-                              foregroundColor: Colors.green,
+                              foregroundColor: Color.fromARGB(255, 6, 179, 107),
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => (walletPage(
-                                        balance: balance,
-                                        clientName: clientName,
-                                        walletID: "",
-                                        pass: 0,))));
+                                          balance: widget.balance,
+                                          clientName: widget.clientName,
+                                          walletID: "",
+                                          pass: 0,
+                                        ))));
                               },
                               child: Icon(Icons.add)),
                         ),
@@ -153,7 +186,7 @@ class BookPage extends StatelessWidget {
                       ),
                       Center(
                         child: Text(
-                          "\$${balance.toStringAsFixed(2)}",
+                          "\$${widget.balance.toStringAsFixed(2)}",
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
@@ -172,9 +205,9 @@ class BookPage extends StatelessWidget {
                                   style: TextStyle(fontSize: 18.0),
                                 ),
                                 DropdownButton<String>(
-                                  value: selectedDestination,
+                                  value: widget.selectedDestination,
                                   onChanged: (String? value) {},
-                                  items: destinations
+                                  items: widget.destinations
                                       .map((destination) =>
                                           DropdownMenuItem<String>(
                                             value: destination,
@@ -194,9 +227,9 @@ class BookPage extends StatelessWidget {
                                   style: TextStyle(fontSize: 18.0),
                                 ),
                                 DropdownButton<String>(
-                                  value: selectedDestination,
+                                  value: widget.selectedDestination,
                                   onChanged: (String? value) {},
-                                  items: destinations
+                                  items: widget.destinations
                                       .map((destination) =>
                                           DropdownMenuItem<String>(
                                             value: destination,
@@ -214,13 +247,13 @@ class BookPage extends StatelessWidget {
                         "Available tickets:",
                         style: TextStyle(fontSize: 18.0),
                       ),
-                      availableTickets.isEmpty
+                      widget.availableTickets.isEmpty
                           ? Text(
                               "You have no tickets.",
                               style: TextStyle(fontSize: 16.0),
                             )
                           : Column(
-                              children: availableTickets
+                              children: widget.availableTickets
                                   .map((ticket) => InkWell(
                                         onTap: () {},
                                         child: Container(
@@ -264,25 +297,85 @@ class BookPage extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "Home",
+        bottomNavigationBar: GNav(
+          backgroundColor: Color.fromARGB(255, 6, 179, 107),
+          rippleColor: Color.fromARGB(
+              255, 6, 179, 107), // tab button ripple color when pressed
+          haptic: true, // haptic feedback
+          tabBorderRadius: 15,
+          tabActiveBorder: Border.all(
+              color: Color.fromARGB(255, 6, 179, 107),
+              width: 1), // tab button border
+          tabBorder: Border.all(
+              color: Color.fromARGB(255, 6, 179, 107),
+              width: 1), // tab button border
+          tabShadow: [
+            BoxShadow(
+                color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
+                blurRadius: 8)
+          ], // tab button shadow
+          curve: Curves.easeOutExpo, // tab animation curves
+          duration: Duration(milliseconds: 900), // tab animation duration
+          gap: 8, // the tab button gap between icon and text
+          color: Colors.grey[800], // unselected icon color
+          activeColor: Colors.white, // selected icon and text color
+          iconSize: 24, // tab button icon size
+          tabBackgroundColor:
+              Colors.white.withOpacity(0.1), // selected tab background color
+          padding: EdgeInsets.symmetric(
+              horizontal: 20, vertical: 20), // navigation bar padding
+
+          tabs: [
+            GButton(
+              icon: Icons.home,
+              text: 'Home',
+              onPressed: () async {
+                String uid = await CRUD.getId();
+                Map<String, dynamic> data = await CRUD.getUserData(uid);
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (context) => ClientPage(
+                          clientName: data["FULLNAME"],
+                          balance: data["BALANCE"] * 1.0,
+                          availableTickets: ['d'],
+                          walletID: data["WALLETID"],
+                          pass: data["PASS"],
+                        ),
+                      ),
+                    )
+                    .then(
+                      (_) => Navigator.pop(context),
+                    );
+              },
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: "Booking",
+            GButton(
+              icon: Icons.train,
+              text: 'Book',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: "Map",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: "Settings",
-            ),
+            GButton(
+                icon: Icons.map,
+                text: 'Map',
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => (mapPage())));
+                }),
+            GButton(
+              icon: Icons.settings,
+              text: 'Settings',
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => (SettingsPage())));
+              },
+            )
           ],
+          // maybe needed later for indexing -f
+          selectedIndex: _selectedIndex,
+          onTabChange: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
         ),
       ),
     );

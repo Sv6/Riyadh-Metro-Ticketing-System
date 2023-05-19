@@ -8,6 +8,7 @@ import 'package:riyadh_metro/client.dart';
 import 'login.dart';
 import 'validator.dart';
 import 'crud.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
@@ -158,10 +159,32 @@ class _SignUpPageState extends State<SignUpPage> {
                           width: 300.0,
                           child: TextFormField(
                             controller: _birthDate,
+                            readOnly: true,
                             decoration: InputDecoration(
                               hintText: 'Birth Date',
                               prefixIcon: Icon(Icons.calendar_today),
                             ),
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1950),
+                                  //DateTime.now() - not to allow to choose before today.
+                                  lastDate: DateTime(2100));
+
+                              if (pickedDate != null) {
+                                print(
+                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd').format(pickedDate);
+                                print(
+                                    formattedDate); //formatted date output using intl package =>  2021-03-16
+                                setState(() {
+                                  _birthDate.text =
+                                      formattedDate; //set output date to TextField value.
+                                });
+                              } else {}
+                            },
                           ),
                         ),
                         SizedBox(height: 20.0),

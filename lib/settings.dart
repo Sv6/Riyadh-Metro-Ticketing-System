@@ -4,6 +4,9 @@ import 'package:riyadh_metro/login.dart';
 import 'package:riyadh_metro/updateProfile.dart';
 
 import 'DisplayTicket.dart';
+import 'client.dart';
+import 'crud.dart';
+import 'mapPage.dart';
 import "updateProfile.dart";
 
 void main() {
@@ -18,6 +21,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final Crud CRUD = Crud();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,8 +34,24 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
+            onPressed: () async {
+              String uid = await CRUD.getId();
+              Map<String, dynamic> data = await CRUD.getUserData(uid);
+              Navigator.of(context)
+                  .push(
+                    MaterialPageRoute(
+                      builder: (context) => ClientPage(
+                        clientName: data["FULLNAME"],
+                        balance: data["BALANCE"] * 1.0,
+                        availableTickets: ['d'],
+                        walletID: data["WALLETID"],
+                        pass: data["PASS"],
+                      ),
+                    ),
+                  )
+                  .then(
+                    (_) => Navigator.pop(context),
+                  );
             },
           ),
         ),
