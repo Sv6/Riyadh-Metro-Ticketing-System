@@ -51,7 +51,6 @@ class _BookPageState extends State<BookPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              onPressed:
               () async {
                 String uid = await CRUD.getId();
                 Map<String, dynamic> data = await CRUD.getUserData(uid);

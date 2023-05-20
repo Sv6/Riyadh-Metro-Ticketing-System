@@ -18,7 +18,7 @@ class Crud {
       String? password,
       bool? status,
       List? tickets,
-      int? pass) {
+      double? pass) {
     if (uid == null ||
         name == null ||
         balance == null ||

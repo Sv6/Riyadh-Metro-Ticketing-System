@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:riyadh_metro/FeedbackPage.dart';
 import 'package:riyadh_metro/login.dart';
 import 'package:riyadh_metro/updateProfile.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'DisplayTicket.dart';
 import 'client.dart';
 import 'crud.dart';
@@ -99,8 +102,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 'Sign Out',
                 style: TextStyle(fontSize: 20),
               ),
-              onTap: () {
+              onTap: () async {
                 // Handle sign out option
+                final SignOut = await FirebaseAuth.instance.signOut();
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => (LoginPage())));
               },

@@ -170,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(1950),
                                   //DateTime.now() - not to allow to choose before today.
-                                  lastDate: DateTime(2100));
+                                  lastDate: DateTime(2005));
 
                               if (pickedDate != null) {
                                 print(
@@ -312,7 +312,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       uid,
                                       _name.text,
                                       0.0,
-                                      "testDate",
+                                      _birthDate.text,
                                       email,
                                       _phone.text,
                                       _walledID,
