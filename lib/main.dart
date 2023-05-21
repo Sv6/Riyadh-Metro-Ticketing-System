@@ -47,10 +47,8 @@ void main() async {
       "/book/": (context) => BookPage(
           clientName: "client",
           balance: 1,
-          destinations: ["destination", "jioadsfjo"],
-          selectedDestination: "destination",
-          availableTickets: ["d"],
-          selectedTicket: "67"),
+          walletID: "",
+          pass: 0,),
       "/DisplayTicket/": ((context) => (UpdateProfile())),
       "/FeedbackPage/": ((context) => (FeedbackPage())),
       "/updateProfile/": ((context) => (UpdateProfile())),

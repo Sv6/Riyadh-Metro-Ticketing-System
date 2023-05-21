@@ -102,6 +102,12 @@ class Crud {
     double newPass = data["PASS"] + amt;
     db.collection("User").doc(id).update({"PASS": newPass});
   }
+
+  Future<List> retrieveStations() async {
+    QuerySnapshot qS = await db.collection("stations").get();
+    final data = qS.docs.map((e) => e.data()).toList();
+    return data;
+  }
 }
 
 class userObject {

@@ -9,30 +9,72 @@ import 'settings.dart';
 import 'client.dart';
 
 void main() {
-  runApp(BookPage(
-      clientName: "clientName",
+  runApp(
+    BookPage(
+      clientName: "",
       balance: 0,
-      destinations: ["destination", "jioadsfjo"],
-      selectedDestination: "destination",
-      availableTickets: ["d"],
-      selectedTicket: "d"));
+      walletID: "",
+      pass: 0,
+    ),
+  );
+}
+
+Future<List<String>> initializeStationList(Crud CRUD) async {
+  List stations = await CRUD.retrieveStations();
+  List<String> a = stations.map((e) => e["name"].toString()).toList();
+  return a;
+}
+
+List<String> initializeTimeList() {
+  List<String> a = [];
+
+  DateTime timenow = DateTime.now();
+  int hournow = timenow.hour;
+  bool firstHour = true;
+
+  for (int i = hournow; i < 24 + hournow; i++) {
+    String s = "";
+    int k = i % 24;
+
+    if (i < 24) {
+      s = "today ";
+    } else {
+      s = "tomorrow ";
+    }
+
+    if (i < 10) {
+      s = "$s 0$k:";
+    } else {
+      s = "$s $k:";
+    }
+    if (firstHour) {
+      firstHour = false;
+      if (timenow.minute < 30) a.add("${s}30");
+    } else {
+      a.add("${s}00");
+      a.add("${s}30");
+    }
+  }
+  return a;
+}
+
+String fetchTimeFromString(String Time) {
+  //to take the time from dropdown menu and send it to db
+  Time.split(" ");
+  return Time[1];
 }
 
 class BookPage extends StatefulWidget {
   final String clientName;
-  final double balance;
-  final List<String> destinations;
-  final String selectedDestination;
-  final List<String> availableTickets;
-  final String selectedTicket;
+  double balance;
+  final String walletID;
+  final double pass;
 
   BookPage({
     required this.clientName,
     required this.balance,
-    required this.destinations,
-    required this.selectedDestination,
-    required this.availableTickets,
-    required this.selectedTicket,
+    required this.walletID,
+    required this.pass,
   });
 
   @override
@@ -42,6 +84,18 @@ class BookPage extends StatefulWidget {
 class _BookPageState extends State<BookPage> {
   final Crud CRUD = Crud();
   int _selectedIndex = 1;
+  List<String> times = initializeTimeList();
+  List<String> stations = [];
+  late String selectedFrom = "Granada mall";
+  late String selectedTime = times[0];
+
+  @override
+  initState() {
+    String selectedFrom;
+    String selectedTime;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,227 +129,230 @@ class _BookPageState extends State<BookPage> {
           title: Text("Welcome, ${widget.clientName}!"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
         ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                  height: 200,
-                  width: 340,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 6, 179, 107),
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SafeArea(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Text(
-                                "${widget.clientName}",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SafeArea(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "#1233",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  // fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "SAR${widget.balance}",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Pass Counter: 0",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SafeArea(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: FloatingActionButton.small(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Color.fromARGB(255, 6, 179, 107),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => (walletPage(
-                                          balance: widget.balance,
-                                          clientName: widget.clientName,
-                                          walletID: "",
-                                          pass: 0,
-                                        ))));
-                              },
-                              child: Icon(Icons.add)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+        body: FutureBuilder(
+            future: Future.wait([initializeStationList(CRUD)]),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                stations = snapshot.data[0];
+              } else {
+                print("error");
+              }
+              return SingleChildScrollView(
+                child: Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: Text(
-                          "Balance:",
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          "\$${widget.balance.toStringAsFixed(2)}",
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 16.0),
-                      Row(
+                      Column(
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "From:",
-                                  style: TextStyle(fontSize: 18.0),
+                          Center(
+                            child: SafeArea(
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                                height: 200,
+                                width: 340,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 6, 179, 107),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
                                 ),
-                                DropdownButton<String>(
-                                  value: widget.selectedDestination,
-                                  onChanged: (String? value) {},
-                                  items: widget.destinations
-                                      .map((destination) =>
-                                          DropdownMenuItem<String>(
-                                            value: destination,
-                                            child: Text(destination),
-                                          ))
-                                      .toList(),
+                                child: Column(
+                                  children: [
+                                    SafeArea(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "${widget.clientName}",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SafeArea(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 0, 8, 0),
+                                          child: Text(
+                                            "${widget.walletID}",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "SAR${widget.balance}",
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "Pass Counter: ${widget.pass}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SafeArea(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: FloatingActionButton.small(
+                                            backgroundColor: Colors.white,
+                                            foregroundColor: Colors.green,
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          (walletPage(
+                                                            balance:
+                                                                widget.balance,
+                                                            clientName: widget
+                                                                .clientName,
+                                                            walletID:
+                                                                widget.walletID,
+                                                            pass: widget.pass,
+                                                          ))));
+                                            },
+                                            child: Icon(Icons.add)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "To:",
-                                  style: TextStyle(fontSize: 18.0),
-                                ),
-                                DropdownButton<String>(
-                                  value: widget.selectedDestination,
-                                  onChanged: (String? value) {},
-                                  items: widget.destinations
-                                      .map((destination) =>
-                                          DropdownMenuItem<String>(
-                                            value: destination,
-                                            child: Text(destination),
-                                          ))
-                                      .toList(),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 16.0),
-                      Text(
-                        "Available tickets:",
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                      widget.availableTickets.isEmpty
-                          ? Text(
-                              "You have no tickets.",
-                              style: TextStyle(fontSize: 16.0),
-                            )
-                          : Column(
-                              children: widget.availableTickets
-                                  .map((ticket) => InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 16.0, vertical: 8.0),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              8.0,
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(ticket),
-                                              Icon(Icons.arrow_forward),
-                                            ],
-                                          ),
-                                        ),
-                                      ))
-                                  .toList(),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    // crossAxisAlignment:
+                                    //     CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "From:",
+                                        style: TextStyle(fontSize: 18.0),
+                                      ),
+                                      DropdownButton<String>(
+                                        hint: Text("choose station"),
+                                        menuMaxHeight: 250,
+                                        value: selectedFrom,
+                                        onChanged: (String? value) {
+                                          setState(() {
+                                            selectedFrom = value.toString();
+                                            print(selectedFrom);
+                                          });
+                                        },
+                                        items: stations
+                                            .map((value) =>
+                                                DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    // crossAxisAlignment:
+                                    //     CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Time:",
+                                        style: TextStyle(fontSize: 18.0),
+                                      ),
+                                      DropdownButton<String>(
+                                        hint: Text("choose time"),
+                                        menuMaxHeight: 250,
+                                        value: selectedTime,
+                                        onChanged: (String? value) {
+                                          setState(() {
+                                            selectedTime = value.toString();
+                                            print(selectedTime);
+                                          });
+                                        },
+                                        items: times
+                                            .map((time) =>
+                                                DropdownMenuItem<String>(
+                                                  value: time,
+                                                  child: Text(time),
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                      SizedBox(height: 16.0),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "Book now",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.blue,
-                          ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
+                                  color: Color.fromARGB(255, 6, 179, 107),
+                                ),
+                                height: 50,
+                                width: 200,
+                                child: TextButton(
+                                  child: Text(
+                                    "Purchase Ticket",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.balance = widget.balance - 500;
+                                      
+                                    });
+                                    CRUD.updateBalance(-500);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              );
+            }),
         bottomNavigationBar: GNav(
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
           rippleColor: Color.fromARGB(

@@ -71,10 +71,10 @@ class _myAppState extends State<LoginPage> {
           builder: (context, snapshot) {
             return SingleChildScrollView(
               child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 50.0),
                   // ========================= LOGO =========================
                   Center(
                     child: Image.asset(
@@ -83,8 +83,7 @@ class _myAppState extends State<LoginPage> {
                       height: 300.0,
                     ),
                   ),
-                  // SizedBox(height: 50.0),
-                  //========================= SIGN UP TEXT =========================
+                  //========================= SIGN IN TEXT =========================
                   Row(
                     children: [
                       Expanded(
