@@ -4,6 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+// Copy pasta method, makes first letter of every word Captialized,
+//i put in crud as its imported in every class,as an extension, we have to import it every time -f
+extension StringCasingExtension on String {
+  //use this if you want only the FIRST letter captilized, example:hello=>Hello
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  //use this if you want EVERY first letter on every word captilized, example:feras alaskar=>Feras Alaskar
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
+}
+
 class Crud {
   final db = FirebaseFirestore.instance;
 

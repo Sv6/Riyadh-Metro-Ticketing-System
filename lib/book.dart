@@ -19,6 +19,7 @@ void main() {
   );
 }
 
+// ignore: non_constant_identifier_names
 Future<List<String>> initializeStationList(Crud CRUD) async {
   List stations = await CRUD.retrieveStations();
   List<String> a = stations.map((e) => e["name"].toString()).toList();
@@ -126,7 +127,7 @@ class _BookPageState extends State<BookPage> {
               };
             },
           ),
-          title: Text("Welcome, ${widget.clientName}!"),
+          title: Text("Welcome, ${widget.clientName.toTitleCase()}!"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
         ),
         body: FutureBuilder(
@@ -163,7 +164,7 @@ class _BookPageState extends State<BookPage> {
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            "${widget.clientName}",
+                                            "${widget.clientName.toTitleCase()}",
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
@@ -209,7 +210,7 @@ class _BookPageState extends State<BookPage> {
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Pass Counter: ${widget.pass}",
+                                          "Pass Counter: ${widget.pass.toInt()}",
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.white,
@@ -338,7 +339,6 @@ class _BookPageState extends State<BookPage> {
                                   onPressed: () {
                                     setState(() {
                                       widget.balance = widget.balance - 500;
-                                      
                                     });
                                     CRUD.updateBalance(-500);
                                   },

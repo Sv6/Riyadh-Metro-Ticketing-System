@@ -93,7 +93,7 @@ class _walletPageState extends State<walletPage> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "${widget.clientName}",
+                              "${widget.clientName.toTitleCase()}",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class _walletPageState extends State<walletPage> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Pass Counter: ${widget.pass}",
+                            "Pass Counter: ${widget.pass.toInt()}",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white,

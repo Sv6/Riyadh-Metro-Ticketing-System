@@ -4,6 +4,7 @@ import 'package:riyadh_metro/Wallet.dart';
 import 'package:riyadh_metro/book.dart';
 import 'package:riyadh_metro/settings.dart';
 import 'crud.dart';
+import 'mapPage.dart';
 
 void main() async {
   runApp(ClientPage(
@@ -41,7 +42,7 @@ class _ClientPageState extends State<ClientPage> {
       home: Scaffold(
         appBar: AppBar(
           toolbarHeight: 50,
-          title: Text("Welcome, ${widget.clientName}!"),
+          title: Text("Welcome, ${widget.clientName.toTitleCase()}!"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
         ),
         body: FutureBuilder(builder: (context, snapshot) {
@@ -50,6 +51,7 @@ class _ClientPageState extends State<ClientPage> {
               children: [
                 Center(
                   child: SafeArea(
+                    //Card
                     child: Container(
                       margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
                       height: 200,
@@ -57,6 +59,14 @@ class _ClientPageState extends State<ClientPage> {
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 6, 179, 107),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 3,
+                            blurRadius: 10,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
                       ),
                       child: Column(
                         children: [
@@ -66,7 +76,7 @@ class _ClientPageState extends State<ClientPage> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "${widget.clientName}",
+                                  "${widget.clientName.toTitleCase()}",
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -97,7 +107,7 @@ class _ClientPageState extends State<ClientPage> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "SAR${widget.balance}",
+                                "SAR ${widget.balance}",
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -111,7 +121,7 @@ class _ClientPageState extends State<ClientPage> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "Pass Counter: ${widget.pass}",
+                                "Pass Counter: ${widget.pass.toInt()}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.white,
@@ -124,7 +134,8 @@ class _ClientPageState extends State<ClientPage> {
                               alignment: Alignment.centerRight,
                               child: FloatingActionButton.small(
                                   backgroundColor: Colors.white,
-                                  foregroundColor: Colors.green,
+                                  foregroundColor:
+                                      Color.fromARGB(255, 6, 179, 107),
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
@@ -143,16 +154,62 @@ class _ClientPageState extends State<ClientPage> {
                     ),
                   ),
                 ),
+
+                // --------------------Available tickets-----------------------
                 SizedBox(height: 20.0),
                 Center(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                    height: 400,
+                    height: 450,
                     width: 680,
-                    // temporary borders
-                    color: Colors.blue,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 6, 179, 107),
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 3,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     child: Column(
-                      children: const [Text("Available Tickets:")],
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Center(
+                            child: Text(
+                              "Available Tickets",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.separated(
+                            itemCount:
+                                5, // Replace 'tickets.length' with the actual number of tickets
+
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text("Ticket 1 "),
+                                subtitle: Text("ticket description"),
+                                trailing: Text("price"),
+                                textColor: Colors.white,
+                              );
+                            },
+                            separatorBuilder: (context, index) => Divider(
+                              color: Colors.white,
+                              height: 1,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -161,16 +218,21 @@ class _ClientPageState extends State<ClientPage> {
           );
         }),
         bottomNavigationBar: GNav(
-          backgroundColor: Colors.green,
-          rippleColor: Colors.green, // tab button ripple color when pressed
+          backgroundColor: Color.fromARGB(255, 6, 179, 107),
+          rippleColor: Color.fromARGB(
+              255, 6, 179, 107), // tab button ripple color when pressed
           haptic: true, // haptic feedback
           tabBorderRadius: 15,
-          tabActiveBorder:
-              Border.all(color: Colors.green, width: 1), // tab button border
-          tabBorder:
-              Border.all(color: Colors.green, width: 1), // tab button border
+          tabActiveBorder: Border.all(
+              color: Color.fromARGB(255, 6, 179, 107),
+              width: 1), // tab button border
+          tabBorder: Border.all(
+              color: Color.fromARGB(255, 6, 179, 107),
+              width: 1), // tab button border
           tabShadow: [
-            BoxShadow(color: Colors.green.withOpacity(0.5), blurRadius: 8)
+            BoxShadow(
+                color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
+                blurRadius: 8)
           ], // tab button shadow
           curve: Curves.easeOutExpo, // tab animation curves
           duration: Duration(milliseconds: 900), // tab animation duration
@@ -191,17 +253,24 @@ class _ClientPageState extends State<ClientPage> {
                 icon: Icons.train,
                 text: 'Book',
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
                       builder: (context) => BookPage(
-                          clientName: widget.clientName,
-                          balance: widget.balance,
-                          walletID: widget.walletID,
-                          pass: widget.pass,),),);
+                        clientName: widget.clientName,
+                        balance: widget.balance,
+                        walletID: widget.walletID,
+                        pass: widget.pass,
+                      ),
+                    ),
+                  );
                 }),
             GButton(
-              icon: Icons.map,
-              text: 'Map',
-            ),
+                icon: Icons.map,
+                text: 'Map',
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => (mapPage())));
+                }),
             GButton(
               icon: Icons.settings,
               text: 'Settings',

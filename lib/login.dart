@@ -42,6 +42,8 @@ class _myAppState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    //THIS preloads the map for MapPage so it loads faster -f
+    precacheImage(AssetImage('assets/images/map.jpg'), context);
     return MaterialApp(
       title: 'Login Page',
       theme: ThemeData(
@@ -186,7 +188,9 @@ class _myAppState extends State<LoginPage> {
                               .signInWithEmailAndPassword(
                                   email: email, password: password);
                         } on FirebaseAuthException catch (auth) {
-                          print(auth);
+                          const snackBar = SnackBar(
+                              content: Text("Email or password is invalid"));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           validate = false;
                         } catch (e) {
                           validate = false;
