@@ -260,6 +260,8 @@ class _ClientPageState extends State<ClientPage> {
                         balance: widget.balance,
                         walletID: widget.walletID,
                         pass: widget.pass,
+                        timeCongestion: [],
+                        countCongestion: [],
                       ),
                     ),
                   );

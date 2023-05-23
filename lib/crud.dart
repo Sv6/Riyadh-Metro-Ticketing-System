@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -123,14 +124,31 @@ class Crud {
   }
 
   void setCounter(String name, String time) async {
-    var data = {time: 1};
-    getValue(name);
-    db.collection("STATIONS").doc(name).update({"time_count": data});
+    Map<String, dynamic> data = await getStationInfo(name);
+    double count;
+    try {
+      count = data["time_count"][time];
+      count = count + 1;
+    } catch (e) {
+      print(e);
+      count = 1;
+    }
+    data['time_count'][time] = count;
+    db.collection("STATIONS").doc(name).set(data);
   }
 
-  void getValue(String key) async {
-    DocumentSnapshot station = await db.collection("STATIONS").doc(key).get();
-    print(station.data());
+  Future<Map<String, dynamic>> getStationInfo(String key) async {
+    DocumentSnapshot stationSnapshot =
+        await db.collection("STATIONS").doc(key).get();
+    if (stationSnapshot.exists) {
+      String mapString = jsonEncode(stationSnapshot.data());
+      var mapObject = jsonDecode(mapString);
+
+      Map<String, dynamic> data = mapObject;
+      return data;
+    } else {
+      return {};
+    }
   }
 }
 

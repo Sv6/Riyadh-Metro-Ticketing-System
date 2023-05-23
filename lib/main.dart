@@ -49,6 +49,8 @@ void main() async {
             balance: 1,
             walletID: "",
             pass: 0,
+            countCongestion: [],
+            timeCongestion: [],
           ),
       "/DisplayTicket/": ((context) => (UpdateProfile())),
       "/FeedbackPage/": ((context) => (FeedbackPage())),
