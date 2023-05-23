@@ -117,9 +117,20 @@ class Crud {
   }
 
   Future<List> retrieveStations() async {
-    QuerySnapshot qS = await db.collection("stations").get();
-    final data = qS.docs.map((e) => e.data()).toList();
+    QuerySnapshot qS = await db.collection("STATIONS").get();
+    final data = qS.docs.map((e) => e.id).toList();
     return data;
+  }
+
+  void setCounter(String name, String time) async {
+    var data = {time: 1};
+    getValue(name);
+    db.collection("STATIONS").doc(name).update({"time_count": data});
+  }
+
+  void getValue(String key) async {
+    DocumentSnapshot station = await db.collection("STATIONS").doc(key).get();
+    print(station.data());
   }
 }
 

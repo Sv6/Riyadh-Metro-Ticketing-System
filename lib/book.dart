@@ -22,7 +22,7 @@ void main() {
 // ignore: non_constant_identifier_names
 Future<List<String>> initializeStationList(Crud CRUD) async {
   List stations = await CRUD.retrieveStations();
-  List<String> a = stations.map((e) => e["name"].toString()).toList();
+  List<String> a = stations.map((e) => e.toString()).toList();
   return a;
 }
 
@@ -61,8 +61,7 @@ List<String> initializeTimeList() {
 
 String fetchTimeFromString(String Time) {
   //to take the time from dropdown menu and send it to db
-  Time.split(" ");
-  return Time[1];
+  return Time.split(" ")[1];
 }
 
 class BookPage extends StatefulWidget {
@@ -339,6 +338,8 @@ class _BookPageState extends State<BookPage> {
                                   onPressed: () {
                                     setState(() {
                                       widget.balance = widget.balance - 500;
+                                      CRUD.setCounter(selectedFrom,
+                                          fetchTimeFromString(selectedTime));
                                     });
                                     CRUD.updateBalance(-500);
                                   },
