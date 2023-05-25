@@ -105,6 +105,7 @@ class _BookPageState extends State<BookPage> {
 
   @override
   Widget build(BuildContext context) {
+    String _selectedFrom = selectedFrom;
     return MaterialApp(
       title: 'Home Page',
       home: Scaffold(
@@ -281,11 +282,16 @@ class _BookPageState extends State<BookPage> {
                                         menuMaxHeight: 250,
                                         value: selectedFrom,
                                         onChanged: (String? value) async {
+                                          // this is important to choose the right Station.
+                                          setState(() {
+                                            selectedFrom = value.toString();
+                                            _selectedFrom = value.toString();
+                                          });
+
                                           Map<String, dynamic> data = await CRUD
                                               .getStationInfo(selectedFrom);
 
                                           setState(() {
-                                            selectedFrom = value.toString();
                                             timeCongestion = data['time_count']
                                                 .keys
                                                 .toList();
@@ -367,11 +373,29 @@ class _BookPageState extends State<BookPage> {
                                             selectedTime, true, uid);
                                         setState(() {
                                           widget.balance = widget.balance - 10;
-                                          CRUD.setCounter(
-                                              selectedFrom, selectedTime);
                                         });
+                                        CRUD.setCounter(
+                                            selectedFrom, selectedTime);
                                         CRUD.InsertTicket(tickID);
                                         CRUD.updateBalance(-10);
+
+                                        //look, i dont know HOW  DID IT WORK
+                                        //BUT DONT YOU DARE TOUCH IT -f
+
+                                        Map<String, dynamic> test = await CRUD
+                                            .getStationInfo(selectedFrom);
+                                        print(test);
+                                        Map<String, dynamic> data = await CRUD
+                                            .getStationInfo(selectedFrom);
+                                        print(data);
+
+                                        setState(() {
+                                          timeCongestion =
+                                              data['time_count'].keys.toList();
+                                          countCongestion = data['time_count']
+                                              .values
+                                              .toList();
+                                        });
                                       },
                                     ),
                                   ),
@@ -527,7 +551,6 @@ class _BookPageState extends State<BookPage> {
                           stations: [],
                           date: [],
                           status: [],
-
                         ),
                       ),
                     )
