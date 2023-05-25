@@ -66,7 +66,7 @@ class BookPage extends StatefulWidget {
   final String clientName;
   double balance;
   final String walletID;
-  final double pass;
+  double pass;
   List timeCongestion;
   List countCongestion;
 
@@ -288,7 +288,6 @@ class _BookPageState extends State<BookPage> {
                                             countCongestion = data['time_count']
                                                 .values
                                                 .toList();
-                                            print(countCongestion);
                                           });
                                         },
                                         items: stations
@@ -338,29 +337,58 @@ class _BookPageState extends State<BookPage> {
                               height: 20,
                             ),
                             Center(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                  color: Color.fromARGB(255, 6, 179, 107),
-                                ),
-                                height: 50,
-                                width: 200,
-                                child: TextButton(
-                                  child: Text(
-                                    "Purchase Ticket",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      color: Color.fromARGB(255, 6, 179, 107),
+                                    ),
+                                    height: 50,
+                                    width: 150,
+                                    child: TextButton(
+                                      child: Text(
+                                        "Purchase Ticket",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          widget.balance = widget.balance - 10;
+                                          CRUD.setCounter(
+                                              selectedFrom, selectedTime);
+                                        });
+                                        CRUD.updateBalance(-10);
+                                      },
+                                    ),
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      widget.balance = widget.balance - 500;
-                                      CRUD.setCounter(
-                                          selectedFrom, selectedTime);
-                                    });
-                                    CRUD.updateBalance(-500);
-                                  },
-                                ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
+                                      color: Color.fromARGB(255, 6, 179, 107),
+                                    ),
+                                    height: 50,
+                                    width: 150,
+                                    child: TextButton(
+                                      child: Text(
+                                        "Use Pass",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          widget.pass = widget.pass - 1;
+                                          CRUD.setCounter(
+                                              selectedFrom, selectedTime);
+                                        });
+                                        CRUD.updatePass(-1);
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(
@@ -401,13 +429,13 @@ class _BookPageState extends State<BookPage> {
                                     ),
                                     Expanded(
                                       child: ListView.separated(
-                                        itemCount: countCongestion
+                                        itemCount: timeCongestion
                                             .length, // Replace 'tickets.length' with the actual number of tickets
 
                                         itemBuilder: (context, index) {
                                           return ListTile(
                                             title: Text(
-                                                "${timeCongestion[index].toString()}"),
+                                                timeCongestion[index].toString()),
                                             subtitle: Text("congestion:"),
                                             trailing: Text(
                                                 "${countCongestion[index]}"

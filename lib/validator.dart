@@ -1,7 +1,7 @@
 class Validator {
   bool validateName({required String? name}) {
     if (name == null) return false;
-    RegExp nameExp = RegExp(r"^[a-zA-Z]{4,}\s[a-zA-Z]+$");
+    RegExp nameExp = RegExp(r"^[a-zA-Z ]{4,}[a-zA-Z]+$");
     if (!nameExp.hasMatch(name)) {
       return false;
     } //"Enter a correct name"
