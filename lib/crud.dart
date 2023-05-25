@@ -138,7 +138,6 @@ class Crud {
       count = data["time_count"][time];
       count = count + 1;
     } catch (e) {
-      print(e);
       count = 1;
     }
     data['time_count'][time] = count;
@@ -191,10 +190,10 @@ class Crud {
     return "${stationName}_${dateID}_${subID}";
   }
 
-  Future<Map<String, dynamic>> getTicketInfo(String tickID) async{
-    DocumentSnapshot ticketSnapshot = await
-        db.collection("Tickets").doc(tickID).get();
-    
+  Future<Map<String, dynamic>> getTicketInfo(String tickID) async {
+    DocumentSnapshot ticketSnapshot =
+        await db.collection("Tickets").doc(tickID).get();
+
     if (ticketSnapshot.exists) {
       String mapString = jsonEncode(ticketSnapshot.data());
       var mapObject = jsonDecode(mapString);
@@ -204,7 +203,6 @@ class Crud {
     } else {
       return {};
     }
-
   }
 }
 
