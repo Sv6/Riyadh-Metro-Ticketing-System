@@ -112,6 +112,7 @@ class _BookPageState extends State<BookPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
+              ///////////// fix
               () async {
                 String uid = await CRUD.getId();
                 Map<String, dynamic> data = await CRUD.getUserData(uid);
@@ -125,6 +126,9 @@ class _BookPageState extends State<BookPage> {
                           availableTickets: ['d'],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
+                          stations: [],
+                          date: [],
+                          status: [],
                         ),
                       ),
                     )
@@ -272,7 +276,7 @@ class _BookPageState extends State<BookPage> {
                                         "From:",
                                         style: TextStyle(fontSize: 18.0),
                                       ),
-                                      DropdownButton<String>(
+                                      DropdownButtonFormField<String>(
                                         hint: Text("choose station"),
                                         menuMaxHeight: 250,
                                         value: selectedFrom,
@@ -310,7 +314,7 @@ class _BookPageState extends State<BookPage> {
                                         "Time:",
                                         style: TextStyle(fontSize: 18.0),
                                       ),
-                                      DropdownButton<String>(
+                                      DropdownButtonFormField<String>(
                                         hint: Text("choose time"),
                                         menuMaxHeight: 250,
                                         value: selectedTime,
@@ -338,7 +342,8 @@ class _BookPageState extends State<BookPage> {
                             ),
                             Center(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
@@ -354,12 +359,18 @@ class _BookPageState extends State<BookPage> {
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 16),
                                       ),
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        String uid = await CRUD.getId();
+                                        String tickID =
+                                            CRUD.createTicketID(selectedFrom);
+                                        CRUD.insertTicket(tickID, selectedFrom,
+                                            selectedTime, true, uid);
                                         setState(() {
                                           widget.balance = widget.balance - 10;
                                           CRUD.setCounter(
                                               selectedFrom, selectedTime);
                                         });
+                                        CRUD.InsertTicket(tickID);
                                         CRUD.updateBalance(-10);
                                       },
                                     ),
@@ -367,7 +378,7 @@ class _BookPageState extends State<BookPage> {
                                   Container(
                                     decoration: BoxDecoration(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                                          BorderRadius.all(Radius.circular(20)),
                                       color: Color.fromARGB(255, 6, 179, 107),
                                     ),
                                     height: 50,
@@ -378,12 +389,18 @@ class _BookPageState extends State<BookPage> {
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 16),
                                       ),
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        String uid = await CRUD.getId();
+                                        String tickID =
+                                            CRUD.createTicketID(selectedFrom);
+                                        CRUD.insertTicket(tickID, selectedFrom,
+                                            selectedTime, true, uid);
                                         setState(() {
                                           widget.pass = widget.pass - 1;
                                           CRUD.setCounter(
                                               selectedFrom, selectedTime);
                                         });
+                                        CRUD.InsertTicket(tickID);
                                         CRUD.updatePass(-1);
                                       },
                                     ),
@@ -434,8 +451,8 @@ class _BookPageState extends State<BookPage> {
 
                                         itemBuilder: (context, index) {
                                           return ListTile(
-                                            title: Text(
-                                                timeCongestion[index].toString()),
+                                            title: Text(timeCongestion[index]
+                                                .toString()),
                                             subtitle: Text("congestion:"),
                                             trailing: Text(
                                                 "${countCongestion[index]}"
@@ -504,9 +521,13 @@ class _BookPageState extends State<BookPage> {
                         builder: (context) => ClientPage(
                           clientName: data["FULLNAME"],
                           balance: data["BALANCE"] * 1.0,
-                          availableTickets: ['d'],
+                          availableTickets: ['TICKETS'],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
+                          stations: [],
+                          date: [],
+                          status: [],
+
                         ),
                       ),
                     )

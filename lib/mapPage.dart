@@ -42,6 +42,9 @@ class _myAppState extends State<mapPage> {
                         availableTickets: ['d'],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
+                        stations: [],
+                          date: [],
+                          status: [],
                       ),
                     ),
                   )
@@ -110,6 +113,9 @@ class _myAppState extends State<mapPage> {
                           availableTickets: ['d'],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
+                          stations: [],
+                          date: [],
+                          status: [],
                         ),
                       ),
                     )

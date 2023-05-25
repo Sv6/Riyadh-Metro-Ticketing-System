@@ -35,6 +35,9 @@ void main() async {
             availableTickets: ["d"],
             walletID: "",
             pass: 0,
+            stations: [],
+                          date: [],
+                          status: [],
           ),
       "/Walllet/": (context) => walletPage(
             balance: 100,

@@ -205,9 +205,12 @@ class _myAppState extends State<LoginPage> {
                               builder: (context) => ClientPage(
                                 clientName: data["FULLNAME"],
                                 balance: data["BALANCE"] * 1.0,
-                                availableTickets: ['d'],
+                                availableTickets: data["TICKETS"],
                                 walletID: data["WALLETID"],
                                 pass: data["PASS"],
+                                stations: [],
+                          date: [],
+                          status: [],
                               ),
                             ),
                           );

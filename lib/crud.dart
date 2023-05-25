@@ -98,6 +98,14 @@ class Crud {
     }
   }
 
+  void InsertTicket(String tickID) async {
+    String uid = await getId();
+    Map<String, dynamic> data = await getUserData(uid);
+    List tickets = data["TICKETS"];
+    tickets.add(tickID);
+    db.collection("User").doc(uid).update({"TICKETS": tickets});
+  }
+
   String idGenerator() {
     final now = DateTime.now();
     return now.microsecondsSinceEpoch.toString();
@@ -149,6 +157,54 @@ class Crud {
     } else {
       return {};
     }
+  }
+
+  bool insertTicket(String? id, String? start_station, String? Date,
+      bool? Status, String? uid) {
+    if (id == null ||
+        start_station == null ||
+        Date == null ||
+        Status == null ||
+        uid == null) {
+      return false;
+    }
+    final data = <String, dynamic>{
+      "Date": Date,
+      "Start_station": start_station,
+      "Status": Status,
+      "UID": uid
+    };
+    db.collection("Tickets").doc(id).set(data);
+    return true;
+  }
+
+  String createTicketID(String stationName) {
+    if (stationName.substring(0, 2).toLowerCase() == "al") {
+      stationName = stationName.substring(2);
+    }
+    stationName = stationName.substring(0, 4);
+    DateTime now = DateTime.now();
+    String dateID = now.weekday.toString();
+    String subID = idGenerator();
+    subID = subID.substring(subID.length - 5, subID.length - 1);
+
+    return "${stationName}_${dateID}_${subID}";
+  }
+
+  Future<Map<String, dynamic>> getTicketInfo(String tickID) async{
+    DocumentSnapshot ticketSnapshot = await
+        db.collection("Tickets").doc(tickID).get();
+    
+    if (ticketSnapshot.exists) {
+      String mapString = jsonEncode(ticketSnapshot.data());
+      var mapObject = jsonDecode(mapString);
+
+      Map<String, dynamic> data = mapObject;
+      return data;
+    } else {
+      return {};
+    }
+
   }
 }
 

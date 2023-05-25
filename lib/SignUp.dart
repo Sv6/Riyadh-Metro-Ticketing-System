@@ -329,6 +329,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                             availableTickets: ['d'],
                                             walletID: _walledID,
                                             pass: 0,
+                                            stations: [],
+                          date: [],
+                          status: [],
                                           )));
                                 }
                               } on FirebaseAuthException catch (auth) {

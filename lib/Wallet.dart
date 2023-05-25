@@ -64,6 +64,9 @@ class _walletPageState extends State<walletPage> {
                         availableTickets: ['d'],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
+                        stations: [],
+                          date: [],
+                          status: [],
                       ),
                     ),
                   )

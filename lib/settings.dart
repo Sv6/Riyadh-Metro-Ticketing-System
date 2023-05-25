@@ -49,6 +49,10 @@ class _SettingsPageState extends State<SettingsPage> {
                         availableTickets: ['d'],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
+
+                        stations: [],
+                          date: [],
+                          status: [],
                       ),
                     ),
                   )

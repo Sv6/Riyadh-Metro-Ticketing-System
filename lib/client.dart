@@ -13,13 +13,23 @@ void main() async {
     availableTickets: ["d"],
     walletID: "",
     pass: 0,
+    date: [],
+    status: [],
+    stations: [],
   ));
+}
+
+Future<Map<String, dynamic>> getTicket(String id, Crud CRUD) async {
+  return await CRUD.getTicketInfo(id);
 }
 
 class ClientPage extends StatefulWidget {
   final String clientName;
   double balance;
-  final List<String> availableTickets;
+  List<dynamic> availableTickets;
+  List<dynamic> stations;
+  List<dynamic> date;
+  List<dynamic> status;
   final String walletID;
   double pass;
 
@@ -28,15 +38,28 @@ class ClientPage extends StatefulWidget {
       required this.balance,
       required this.availableTickets,
       required this.walletID,
-      required this.pass});
+      required this.pass,
+      required this.stations,
+      required this.date,
+      required this.status});
 
   @override
   State<ClientPage> createState() => _ClientPageState();
 }
 
 class _ClientPageState extends State<ClientPage> {
+  void initState() {
+    List tickIds;
+    List stations;
+    List date;
+    List status;
+    List<dynamic> availableTickets;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Crud CRUD = Crud();
     return MaterialApp(
       title: 'Home Page',
       home: Scaffold(
@@ -156,7 +179,44 @@ class _ClientPageState extends State<ClientPage> {
                 ),
 
                 // --------------------Available tickets-----------------------
-                SizedBox(height: 20.0),
+                // SizedBox(height: 20.0),
+                Container(
+                  height: 50,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Color.fromARGB(255, 6, 179, 107),
+                  ),
+                  child: TextButton(
+                      onPressed: () async {
+                        List tIds = [];
+                        List stationList = [];
+                        List statusList = [];
+                        List dateList = [];
+                        String id = await CRUD.getId();
+                        Map<String, dynamic> userData =
+                            await CRUD.getUserData(id);
+                        tIds = userData["TICKETS"];
+                        for (var item in widget.availableTickets) {
+                          Map<String, dynamic> info =
+                              await CRUD.getTicketInfo(item);
+                          // print(info["Start_station"]);
+                          stationList.add(info["Start_station"]);
+                          statusList.add(info["Status"]);
+                          dateList.add(info["Date"]);
+                          // print(widget.availableTickets);
+                        }
+                        setState(() {
+                          widget.availableTickets = tIds;
+                          widget.stations = stationList;
+                          widget.status = statusList;
+                          widget.date = dateList;
+                          // print(tickIds.length);
+                        });
+                      },
+                      child: Text("Get Info")),
+                ),
+
                 Center(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
@@ -192,14 +252,14 @@ class _ClientPageState extends State<ClientPage> {
                         ),
                         Expanded(
                           child: ListView.separated(
-                            itemCount:
-                                5, // Replace 'tickets.length' with the actual number of tickets
-
+                            itemCount: widget.stations
+                                .length, // Replace 'tickets.length' with the actual number of tickets
                             itemBuilder: (context, index) {
+                              print(widget.status);
                               return ListTile(
-                                title: Text("Ticket 1 "),
-                                subtitle: Text("ticket description"),
-                                trailing: Text("price"),
+                                title: Text("${widget.stations[index]}"),
+                                subtitle: Text(widget.date[index]),
+                                trailing: Text(widget.status[index].toString()),
                                 textColor: Colors.white,
                               );
                             },
