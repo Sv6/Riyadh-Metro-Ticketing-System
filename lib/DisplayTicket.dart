@@ -19,9 +19,9 @@ class DisplayTicket extends StatefulWidget {
   final String id;
   final String from;
   final String time;
-  final bool status;
+  bool status;
 
-  const DisplayTicket({
+  DisplayTicket({
     super.key,
     required this.name,
     required this.id,
@@ -40,6 +40,11 @@ String printStatus(bool s) {
 }
 
 class _DisplayTicketState extends State<DisplayTicket> {
+  void initState() {
+    bool status;
+    super.initState();
+  }
+
   Crud CRUD = Crud();
   @override
   Widget build(BuildContext context) {
@@ -120,7 +125,9 @@ class _DisplayTicketState extends State<DisplayTicket> {
                           ),
                         ),
                         Text("Status: ${printStatus(widget.status)}"),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         DottedLine(
                           direction: Axis.horizontal,
                           lineLength: double.infinity,
@@ -135,7 +142,6 @@ class _DisplayTicketState extends State<DisplayTicket> {
                         Padding(
                           padding: const EdgeInsets.all(15),
                           child: Container(
-                           
                             height: 200,
                             width: 200,
                             child: QrImageView(
@@ -183,7 +189,14 @@ class _DisplayTicketState extends State<DisplayTicket> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            CRUD.insertCanceledTicket(widget.id);
+                            CRUD.changeTicketStatus(widget.id);
+                            CRUD.setCancelCounter(widget.from, widget.time);
+                            setState(() {
+                              widget.status = false;
+                            });
+                          },
                           child: Text(
                             'Cancel',
                             style: TextStyle(fontSize: 18.0),

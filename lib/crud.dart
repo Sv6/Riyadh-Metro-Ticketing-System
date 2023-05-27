@@ -218,6 +218,19 @@ class Crud {
     db.collection("STATIONS").doc(name).set(data);
   }
 
+  void setCancelCounter(String name, String time) async {
+    Map<String, dynamic> data = await getStationInfo(name);
+    double count;
+    try {
+      count = data["time_count"][time];
+      count = count - 1;
+    } catch (e) {
+      count = 1;
+    }
+    data['time_count'][time] = count;
+    db.collection("STATIONS").doc(name).set(data);
+  }
+
   Future<Map<String, dynamic>> getStationInfo(String key) async {
     DocumentSnapshot stationSnapshot =
         await db.collection("STATIONS").doc(key).get();
@@ -292,6 +305,23 @@ class Crud {
     } else {
       return {};
     }
+  }
+
+  void insertCanceledTicket(String tickID) async {
+    String id = "c${tickID}";
+    String uid = await getId();
+
+    final data = <String, dynamic>{
+      "refunded": false,
+      "uid": uid,
+    };
+
+    db.collection("CANCELED").doc(id).set(data);
+  }
+
+  void changeTicketStatus(String tickID) async {
+    Map<String, dynamic> data = await getTicketInfo(tickID);
+    db.collection("Tickets").doc(tickID).update({"Status": false});
   }
 }
 
