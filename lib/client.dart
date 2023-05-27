@@ -269,9 +269,9 @@ class _ClientPageState extends State<ClientPage> {
                                 subtitle: Text(widget.date[index]),
                                 trailing: Text(widget.status[index].toString()),
                                 textColor: Colors.white,
-                                onTap: () {
+                                // onTap: () {
                                   
-                                },
+                                // },
                               );
                             },
                             separatorBuilder: (context, index) => Divider(
