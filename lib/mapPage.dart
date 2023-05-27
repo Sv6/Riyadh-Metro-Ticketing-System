@@ -39,12 +39,12 @@ class _myAppState extends State<mapPage> {
                       builder: (context) => ClientPage(
                         clientName: data["FULLNAME"],
                         balance: data["BALANCE"] * 1.0,
-                        availableTickets: ['d'],
+                        availableTickets: data["TICKETS"],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
                         stations: [],
-                          date: [],
-                          status: [],
+                        date: [],
+                        status: [],
                       ),
                     ),
                   )
@@ -110,7 +110,7 @@ class _myAppState extends State<mapPage> {
                         builder: (context) => ClientPage(
                           clientName: data["FULLNAME"],
                           balance: data["BALANCE"] * 1.0,
-                          availableTickets: ['d'],
+                          availableTickets: data["TICKETS"],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
                           stations: [],
@@ -136,7 +136,7 @@ class _myAppState extends State<mapPage> {
                         clientName: data["FULLNAME"],
                         balance: data["BALANCE"] * 1.0,
                         walletID: data["WALLETID"],
-                        pass: 0,
+                        pass: data["PASS"],
                         timeCongestion: [],
                         countCongestion: [],
                       ),

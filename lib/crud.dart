@@ -125,6 +125,40 @@ class Crud {
     db.collection("User").doc(id).update({"PASS": newPass});
   }
 
+  void updateName(String name) async {
+    String id = await getId();
+    Map<String, dynamic> data = await getUserData(id);
+    db.collection("User").doc(id).update({"FULLNAME": name});
+  }
+
+  void updatePassword(String password) async {
+    String id = await getId();
+    try {
+      FirebaseAuth.instance.currentUser!.updatePassword(password);
+    } on FirebaseAuthException catch (auth) {
+      return;
+    }
+    Map<String, dynamic> data = await getUserData(id);
+    db.collection("User").doc(id).update({"PASSWORD": password});
+  }
+
+  void updateEmail(String email) async {
+    String id = await getId();
+    try {
+      FirebaseAuth.instance.currentUser!.updateEmail(email);
+    } on FirebaseAuthException catch (auth) {
+      return;
+    }
+    Map<String, dynamic> data = await getUserData(id);
+    db.collection("User").doc(id).update({"EMAIL": email});
+  }
+
+  void updatePhone(String phone) async {
+    String id = await getId();
+    Map<String, dynamic> data = await getUserData(id);
+    db.collection("User").doc(id).update({"PHONE": phone});
+  }
+
   Future<List> retrieveStations() async {
     QuerySnapshot qS = await db.collection("STATIONS").get();
     final data = qS.docs.map((e) => e.id).toList();
@@ -174,6 +208,21 @@ class Crud {
       "UID": uid
     };
     db.collection("Tickets").doc(id).set(data);
+    return true;
+  }
+
+  bool insertFeedback(String? title, String? body, String? id) {
+    if (title == null || body == null || id == null) {
+      return false;
+    }
+    DateTime now = DateTime.now();
+    final data = <String, dynamic>{
+      "TITLE": title,
+      "BODY": body,
+      "ID": id,
+      "DATE": now
+    };
+    db.collection("FEEDBACKS").doc().set(data);
     return true;
   }
 

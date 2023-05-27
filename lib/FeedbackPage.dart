@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
+import "crud.dart";
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized;
+  runApp(FeedbackPage());
 }
 
-class MyApp extends StatelessWidget {
+class FeedbackPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Feedback Page',
-      theme: ThemeData(
-        primaryColor: Color.fromARGB(255, 6, 179, 107),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: FeedbackPage(),
-    );
+  State<FeedbackPage> createState() => _FeedbackPageState();
+}
+
+class _FeedbackPageState extends State<FeedbackPage> {
+  @override
+  final _formKey = GlobalKey<FormState>();
+
+  final Crud CRUD = Crud();
+  late final TextEditingController _titleController;
+  late final TextEditingController _bodyController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _titleController = TextEditingController();
+    _bodyController = TextEditingController();
+    super.initState();
   }
-}
 
-class FeedbackPage extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 6, 179, 107),
-        title: Text('Feedback Page'),
+        title: Text('Feedback'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -34,45 +41,58 @@ class FeedbackPage extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Feedback',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 16.0),
+              TextFormField(
+                controller: _titleController,
+                validator: (value) {
+                  if (_titleController.text.isEmpty) {
+                    return "Title cannot be empty";
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
+              SizedBox(height: 16.0),
+              TextFormField(
+                controller: _bodyController,
+                validator: (value) {
+                  if (_bodyController.text.isEmpty) {
+                    return "Body cannot be empty";
+                  }
+                  return null;
+                },
+                maxLines: 5,
+                decoration: InputDecoration(
+                  labelText: 'Let us what you think',
+                  alignLabelWithHint: true,
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () async {
+                  String id = await CRUD.getId();
+                  if (_formKey.currentState!.validate()) {
+                    CRUD.insertFeedback(
+                        _titleController.text, _bodyController.text, id);
+                    _titleController.clear();
+                    _bodyController.clear();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 6, 179, 107)),
+                child: Text('Submit'),
               ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              maxLines: 5,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 6, 179, 107)),
-              child: Text('Submit'),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

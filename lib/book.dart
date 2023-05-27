@@ -112,8 +112,27 @@ class _BookPageState extends State<BookPage> {
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              ///////////// fix
+            onPressed: () async{
+              String uid = await CRUD.getId();
+              Map<String, dynamic> data = await CRUD.getUserData(uid);
+              Navigator.of(context)
+                  .push(
+                    MaterialPageRoute(
+                      builder: (context) => ClientPage(
+                        clientName: data["FULLNAME"],
+                        balance: data["BALANCE"] * 1.0,
+                        availableTickets: data["TICKETS"],
+                        walletID: data["WALLETID"],
+                        pass: data["PASS"],
+                        stations: [],
+                        date: [],
+                        status: [],
+                      ),
+                    ),
+                  )
+                  .then(
+                    (_) => Navigator.pop(context),
+                  );
               () async {
                 String uid = await CRUD.getId();
                 Map<String, dynamic> data = await CRUD.getUserData(uid);
@@ -124,7 +143,7 @@ class _BookPageState extends State<BookPage> {
                         builder: (context) => ClientPage(
                           clientName: data["FULLNAME"],
                           balance: data["BALANCE"] * 1.0,
-                          availableTickets: ['d'],
+                          availableTickets: data["TICKETS"],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
                           stations: [],
@@ -545,7 +564,7 @@ class _BookPageState extends State<BookPage> {
                         builder: (context) => ClientPage(
                           clientName: data["FULLNAME"],
                           balance: data["BALANCE"] * 1.0,
-                          availableTickets: ['TICKETS'],
+                          availableTickets: data["TICKETS"],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
                           stations: [],

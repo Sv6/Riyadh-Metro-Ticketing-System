@@ -18,8 +18,8 @@ class Validator {
 
   bool validateEmail({required String? email}) {
     if (email == null) return false;
-    RegExp emailRegExp = RegExp(
-        r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    RegExp emailRegExp =
+        RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
 
     if (email.isEmpty) {
       return false; //'Email can\'t be empty'
@@ -58,6 +58,16 @@ class Validator {
     return false;
   }
 
-  
-
+  bool validateNonNegative({required String? num}) {
+    if (num != null) {
+      try {
+        double number = double.parse(num);
+        if (number > 0) return true;
+      } catch (e) {
+        return false;
+      }
+      return false;
+    }
+    return false;
+  }
 }

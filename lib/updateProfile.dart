@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'settings.dart';
+import 'validator.dart';
+import 'crud.dart';
 
 void main() {
   runApp(UpdateProfile());
@@ -23,6 +25,8 @@ class UpdateProfilePage extends StatefulWidget {
 
 class _UpdateProfilePageState extends State<UpdateProfilePage> {
   final _formKey = GlobalKey<FormState>();
+  final Validator validate = Validator();
+  final Crud CRUD = Crud();
   final _fullNameController = TextEditingController();
   final _birthdateController = TextEditingController();
   final _usernameController = TextEditingController();
@@ -70,7 +74,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your full name';
+                      return null;
+                    } else if (!validate.validateName(
+                        name: _fullNameController.text)) {
+                      return "enter a valid name";
                     }
                     return null;
                   },
@@ -83,9 +90,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your password';
+                      return null;
+                    } else if (!validate.validatePassword(
+                        password: _passwordController.text)) {
+                      return "6+ chars, 1 uppercase, 1 lowercase, 1 digit required";
                     }
-                    return null;
                   },
                 ),
                 SizedBox(height: 16.0),
@@ -96,7 +105,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your email address';
+                      return null;
+                    } else if (!validate.validateEmail(
+                        email: _emailController.text)) {
+                      return "enter a valid email";
                     }
                     return null;
                   },
@@ -111,27 +123,88 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your phone number';
+                      return null;
+                    } else if (!validate.validatePhone(
+                        phone: _phoneNumberController.text)) {
+                      return "phone number not valid (05xxxxxxxx)";
                     }
                     return null;
                   },
                 ),
                 SizedBox(height: 32.0),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Perform update profile logic here
-                      // Use the values from the text controllers to update the user's profile
-                      // Once the update is complete, you can navigate back to the previous screen
-                      Navigator.pop(context);
-                    }
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Color.fromARGB(255, 6, 179, 107),
+                SizedBox(
+                  height: 50,
+                  width: 100,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        if (_fullNameController.text.isNotEmpty ||
+                            _passwordController.text.isNotEmpty ||
+                            _emailController.text.isNotEmpty ||
+                            _phoneNumberController.text.isNotEmpty) {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text("Information Updated"),
+                              content: Text(
+                                  "The information has been successfully updated. Your changes have been saved."),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("OK")),
+                              ],
+                            ),
+                          );
+                        }else {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text("All fields are empty"),
+                              content: Text(
+                                  "Fill the fields you want to update"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("OK")),
+                              ],
+                            ),
+                          );
+                        }
+
+                        if (_fullNameController.text.isNotEmpty) {
+                          CRUD.updateName(_fullNameController.text);
+                          _fullNameController.clear();
+                        }
+                        if (_passwordController.text.isNotEmpty) {
+                          CRUD.updatePassword(_passwordController.text);
+                          _passwordController.clear();
+                        }
+                        if (_emailController.text.isNotEmpty) {
+                          CRUD.updateEmail(_emailController.text);
+                          _emailController.clear();
+                        }
+                        if (_phoneNumberController.text.isNotEmpty) {
+                          CRUD.updatePhone(_phoneNumberController.text);
+                          _phoneNumberController.clear();
+                        }
+                        // Navigator.pop(context);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 6, 179, 107),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: Text(
+                      'Update',
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
-                  child: Text('Update'),
                 ),
               ],
             ),

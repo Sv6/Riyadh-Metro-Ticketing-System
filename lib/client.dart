@@ -188,39 +188,47 @@ class _ClientPageState extends State<ClientPage> {
                     color: Color.fromARGB(255, 6, 179, 107),
                   ),
                   child: TextButton(
-                      onPressed: () async {
-                        List tIds = [];
-                        List stationList = [];
-                        List statusList = [];
-                        List dateList = [];
-                        String id = await CRUD.getId();
-                        Map<String, dynamic> userData =
-                            await CRUD.getUserData(id);
-                        tIds = userData["TICKETS"];
-                        for (var item in widget.availableTickets) {
-                          Map<String, dynamic> info =
-                              await CRUD.getTicketInfo(item);
-                          // print(info["Start_station"]);
-                          stationList.add(info["Start_station"]);
-                          statusList.add(info["Status"]);
-                          dateList.add(info["Date"]);
-                          // print(widget.availableTickets);
-                        }
-                        setState(() {
-                          widget.availableTickets = tIds;
-                          widget.stations = stationList;
-                          widget.status = statusList;
-                          widget.date = dateList;
-                          // print(tickIds.length);
-                        });
-                      },
-                      child: Text("Get Info")),
+                    onPressed: () async {
+                      List tIds = [];
+                      List stationList = [];
+                      List statusList = [];
+                      List dateList = [];
+                      String id = await CRUD.getId();
+                      Map<String, dynamic> userData =
+                          await CRUD.getUserData(id);
+                      tIds = userData["TICKETS"];
+                      for (var item in widget.availableTickets) {
+                        Map<String, dynamic> info =
+                            await CRUD.getTicketInfo(item);
+                        // print(info["Start_station"]);
+                        stationList.add(info["Start_station"]);
+                        statusList.add(info["Status"]);
+                        dateList.add(info["Date"]);
+                        // print(widget.availableTickets);
+                      }
+                      setState(() {
+                        widget.availableTickets = tIds;
+                        widget.stations = stationList;
+                        widget.status = statusList;
+                        widget.date = dateList;
+                        // print(tickIds.length);
+                      });
+                    },
+                    child: Text(
+                      "Get Info",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
 
                 Center(
                   child: Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                    height: 450,
+                    height: 380,
                     width: 680,
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 6, 179, 107),
@@ -261,6 +269,9 @@ class _ClientPageState extends State<ClientPage> {
                                 subtitle: Text(widget.date[index]),
                                 trailing: Text(widget.status[index].toString()),
                                 textColor: Colors.white,
+                                onTap: () {
+                                  
+                                },
                               );
                             },
                             separatorBuilder: (context, index) => Divider(

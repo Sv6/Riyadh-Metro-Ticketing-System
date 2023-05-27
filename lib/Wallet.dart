@@ -5,6 +5,7 @@ import 'client.dart';
 import 'book.dart';
 import 'settings.dart';
 import 'crud.dart';
+import 'validator.dart';
 
 void main() {
   runApp(walletPage(
@@ -33,7 +34,9 @@ class walletPage extends StatefulWidget {
 
 class _walletPageState extends State<walletPage> {
   late final TextEditingController _amt;
+  final _formKey = GlobalKey<FormState>();
   final Crud CRUD = Crud();
+  final Validator validate = Validator();
 
   @override
   void initState() {
@@ -61,12 +64,12 @@ class _walletPageState extends State<walletPage> {
                       builder: (context) => ClientPage(
                         clientName: data["FULLNAME"],
                         balance: data["BALANCE"] * 1.0,
-                        availableTickets: ['d'],
+                        availableTickets: data["TICKETS"],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
                         stations: [],
-                          date: [],
-                          status: [],
+                        date: [],
+                        status: [],
                       ),
                     ),
                   )
@@ -156,44 +159,61 @@ class _walletPageState extends State<walletPage> {
                   Text("Enter the amount you want to add"),
                   Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 200.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: TextField(
-                                controller: _amt,
-                                decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey,
-                                        ))),
+                      child: Form(
+                        key: _formKey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 200.0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: TextFormField(
+                                  controller: _amt,
+                                  validator: (value) {
+                                    if (!validate.validateNonNegative(
+                                        num: _amt.text)) {
+                                      return "please enter positive number";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Colors.grey,
+                                          ))),
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(
+                            SizedBox(
                               width: 70,
                               height: 50,
                               child: ElevatedButton(
-                                  onPressed: () {
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
                                     setState(() {
                                       widget.balance = widget.balance +
                                           double.parse(_amt.text);
                                     });
                                     CRUD.updateBalance(double.parse(_amt.text));
-                                  },
-                                  child: Text("Add"),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 6, 179, 107),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      )))),
-                        ],
+                                    _amt.clear();
+                                  }
+                                },
+                                child: Text("Add"),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 6, 179, 107),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       )),
                 ]),
                 Text("Choose Your Pass Plan"),
