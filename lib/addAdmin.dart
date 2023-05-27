@@ -4,9 +4,6 @@ import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:riyadh_metro/client.dart';
-import 'login.dart';
 import 'validator.dart';
 import 'crud.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +14,8 @@ void main() {
 }
 
 class addAdmin extends StatefulWidget {
+  const addAdmin({super.key});
+
   @override
   State<addAdmin> createState() => _addAdminState();
 }
@@ -153,7 +152,7 @@ class _addAdminState extends State<addAdmin> {
                     child: Column(
                       children: [
                         // ========================= FULL NAME =========================
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -171,7 +170,7 @@ class _addAdminState extends State<addAdmin> {
                         ),
                         SizedBox(height: 20.0),
                         // ========================= BIRTH DATE =========================
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             controller: _birthDate,
@@ -207,7 +206,7 @@ class _addAdminState extends State<addAdmin> {
                         ),
                         SizedBox(height: 20.0),
                         // ========================= PASSWORD =========================
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -236,7 +235,7 @@ class _addAdminState extends State<addAdmin> {
                         ),
                         // ========================= PASSWORD VERIFICATION =========================
                         SizedBox(height: 20.0),
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -266,7 +265,7 @@ class _addAdminState extends State<addAdmin> {
                         ),
                         // ========================= EMAIL =========================
                         SizedBox(height: 20.0),
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -285,7 +284,7 @@ class _addAdminState extends State<addAdmin> {
                         ),
                         // ========================= PHONE NUMBER =========================
                         SizedBox(height: 20.0),
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -303,12 +302,12 @@ class _addAdminState extends State<addAdmin> {
                         ),
                         // ========================= SIGN UP BUTTON =========================
                         SizedBox(height: 50.0),
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           height: 50.0,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 6, 179, 107),
+                              backgroundColor: Color.fromARGB(255, 6, 179, 107),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -323,7 +322,7 @@ class _addAdminState extends State<addAdmin> {
                                       .instance
                                       .createUserWithEmailAndPassword(
                                           email: email, password: password);
-                                  final _walledID = CRUD.idGenerator();
+                                  final walledID = CRUD.idGenerator();
                                   FirebaseAuth auth = FirebaseAuth.instance;
                                   final uid = auth.currentUser!.uid;
                                   if (!CRUD.insertAdmin(
@@ -356,7 +355,7 @@ class _addAdminState extends State<addAdmin> {
                                     ),
                                   );
                                 }
-                              } on FirebaseAuthException catch (auth) {
+                              } on FirebaseAuthException {
                                 const snackBar = SnackBar(
                                   content: Text('Email is already in use'),
                                 );

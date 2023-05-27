@@ -5,6 +5,7 @@ import 'package:riyadh_metro/book.dart';
 import 'package:riyadh_metro/settings.dart';
 import 'crud.dart';
 import 'mapPage.dart';
+import 'DisplayTicket.dart';
 
 void main() async {
   runApp(ClientPage(
@@ -17,6 +18,11 @@ void main() async {
     status: const [],
     stations: const [],
   ));
+}
+
+String printStatus(bool s) {
+  if (s) return "Open";
+  return "Closed";
 }
 
 Future<Map<String, dynamic>> getTicket(String id, Crud CRUD) async {
@@ -34,7 +40,8 @@ class ClientPage extends StatefulWidget {
   double pass;
 
   ClientPage(
-      {super.key, required this.clientName,
+      {super.key,
+      required this.clientName,
       required this.balance,
       required this.availableTickets,
       required this.walletID,
@@ -264,17 +271,25 @@ class _ClientPageState extends State<ClientPage> {
                             itemCount: widget.stations
                                 .length, // Replace 'tickets.length' with the actual number of tickets
                             itemBuilder: (context, index) {
-                              print(widget.status);
                               return ListTile(
                                 title: Text("${widget.stations[index]}"),
                                 subtitle: Text(widget.date[index]),
-                                trailing: Text(widget.status[index].toString()),
+                                trailing: Text(printStatus(widget.status[index])),
                                 textColor: Colors.white,
-                                // onTap: () {
-                                  
-                                // },
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => DisplayTicket(
+                                        name: widget.clientName,
+                                        id: widget.availableTickets[index],
+                                        from: widget.stations[index],
+                                        time: widget.date[index],
+                                        status: widget.status[index]),
+                                  ));
+                                },
                               );
                             },
+
+                            // DisplayTicket(name: widget.clientName, id: widget.availableTickets[index], from: widget.stations[index], time: widget.date[index], status: widget.status[index])
                             separatorBuilder: (context, index) => Divider(
                               color: Colors.white,
                               height: 1,
