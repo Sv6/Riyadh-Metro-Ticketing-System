@@ -16,8 +16,8 @@ void main() {
       balance: 0,
       walletID: "",
       pass: 0,
-      countCongestion: [],
-      timeCongestion: [],
+      countCongestion: const [],
+      timeCongestion: const [],
     ),
   );
 }
@@ -71,6 +71,7 @@ class BookPage extends StatefulWidget {
   List countCongestion;
 
   BookPage({
+    super.key,
     required this.clientName,
     required this.balance,
     required this.walletID,
@@ -105,14 +106,14 @@ class _BookPageState extends State<BookPage> {
 
   @override
   Widget build(BuildContext context) {
-    String _selectedFrom = selectedFrom;
+    // String selectedFrom = selectedFrom;
     return MaterialApp(
       title: 'Home Page',
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () async{
+            onPressed: () async {
               String uid = await CRUD.getId();
               Map<String, dynamic> data = await CRUD.getUserData(uid);
               Navigator.of(context)
@@ -124,9 +125,9 @@ class _BookPageState extends State<BookPage> {
                         availableTickets: data["TICKETS"],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
-                        stations: [],
-                        date: [],
-                        status: [],
+                        stations: const [],
+                        date: const [],
+                        status: const [],
                       ),
                     ),
                   )
@@ -146,9 +147,9 @@ class _BookPageState extends State<BookPage> {
                           availableTickets: data["TICKETS"],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
-                          stations: [],
-                          date: [],
-                          status: [],
+                          stations: const [],
+                          date: const [],
+                          status: const [],
                         ),
                       ),
                     )
@@ -158,7 +159,7 @@ class _BookPageState extends State<BookPage> {
               };
             },
           ),
-          title: Text("Welcome, ${widget.clientName.toTitleCase()}!"),
+          title: Text("Book Ticket"),
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
         ),
         body: FutureBuilder(
@@ -195,7 +196,7 @@ class _BookPageState extends State<BookPage> {
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            "${widget.clientName.toTitleCase()}",
+                                            widget.clientName.toTitleCase(),
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
@@ -212,7 +213,7 @@ class _BookPageState extends State<BookPage> {
                                           padding: const EdgeInsets.fromLTRB(
                                               0, 0, 8, 0),
                                           child: Text(
-                                            "${widget.walletID}",
+                                            widget.walletID,
                                             style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
@@ -304,7 +305,7 @@ class _BookPageState extends State<BookPage> {
                                           // this is important to choose the right Station.
                                           setState(() {
                                             selectedFrom = value.toString();
-                                            _selectedFrom = value.toString();
+                                            selectedFrom = value.toString();
                                           });
 
                                           Map<String, dynamic> data = await CRUD
@@ -386,17 +387,44 @@ class _BookPageState extends State<BookPage> {
                                       ),
                                       onPressed: () async {
                                         String uid = await CRUD.getId();
-                                        String tickID =
-                                            CRUD.createTicketID(selectedFrom);
-                                        CRUD.insertTicket(tickID, selectedFrom,
-                                            selectedTime, true, uid);
-                                        setState(() {
-                                          widget.balance = widget.balance - 10;
-                                        });
-                                        CRUD.setCounter(
-                                            selectedFrom, selectedTime);
-                                        CRUD.InsertTicket(tickID);
-                                        CRUD.updateBalance(-10);
+
+                                        if (widget.balance > 10) {
+                                          String tickID =
+                                              CRUD.createTicketID(selectedFrom);
+                                          CRUD.insertTicket(
+                                              tickID,
+                                              selectedFrom,
+                                              selectedTime,
+                                              true,
+                                              uid);
+                                          setState(() {
+                                            widget.balance =
+                                                widget.balance - 10;
+                                          });
+                                          CRUD.setCounter(
+                                              selectedFrom, selectedTime);
+                                          CRUD.InsertTicket(tickID);
+                                          CRUD.updateBalance(-10);
+                                        } else {
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title:
+                                                  Text("insufficient  balance"),
+                                              content: Text(
+                                                  "Charge your balance to buy this ticket"),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text("OK")),
+                                              ],
+                                            ),
+                                          );
+                                        }
 
                                         //look, i dont know HOW  DID IT WORK
                                         //BUT DONT YOU DARE TOUCH IT -f
@@ -434,17 +462,41 @@ class _BookPageState extends State<BookPage> {
                                       ),
                                       onPressed: () async {
                                         String uid = await CRUD.getId();
-                                        String tickID =
-                                            CRUD.createTicketID(selectedFrom);
-                                        CRUD.insertTicket(tickID, selectedFrom,
-                                            selectedTime, true, uid);
-                                        setState(() {
-                                          widget.pass = widget.pass - 1;
-                                          CRUD.setCounter(
-                                              selectedFrom, selectedTime);
-                                        });
-                                        CRUD.InsertTicket(tickID);
-                                        CRUD.updatePass(-1);
+                                        if (widget.pass >= 1) {
+                                          String tickID =
+                                              CRUD.createTicketID(selectedFrom);
+                                          CRUD.insertTicket(
+                                              tickID,
+                                              selectedFrom,
+                                              selectedTime,
+                                              true,
+                                              uid);
+                                          setState(() {
+                                            widget.pass = widget.pass - 1;
+                                            CRUD.setCounter(
+                                                selectedFrom, selectedTime);
+                                          });
+                                          CRUD.InsertTicket(tickID);
+                                          CRUD.updatePass(-1);
+                                        } else {
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title: Text("insufficient Pass"),
+                                              content: Text(
+                                                  "Charge your pass to buy this ticket"),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text("OK")),
+                                              ],
+                                            ),
+                                          );
+                                        }
                                       },
                                     ),
                                   ),
@@ -567,9 +619,9 @@ class _BookPageState extends State<BookPage> {
                           availableTickets: data["TICKETS"],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
-                          stations: [],
-                          date: [],
-                          status: [],
+                          stations: const [],
+                          date: const [],
+                          status: const [],
                         ),
                       ),
                     )

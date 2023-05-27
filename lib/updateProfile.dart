@@ -9,6 +9,8 @@ void main() {
 }
 
 class UpdateProfile extends StatelessWidget {
+  const UpdateProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,6 +21,8 @@ class UpdateProfile extends StatelessWidget {
 }
 
 class UpdateProfilePage extends StatefulWidget {
+  const UpdateProfilePage({super.key});
+
   @override
   _UpdateProfilePageState createState() => _UpdateProfilePageState();
 }
@@ -95,6 +99,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                         password: _passwordController.text)) {
                       return "6+ chars, 1 uppercase, 1 lowercase, 1 digit required";
                     }
+                    return null;
                   },
                 ),
                 SizedBox(height: 16.0),

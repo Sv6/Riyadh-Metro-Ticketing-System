@@ -6,6 +6,8 @@ void main() {
 }
 
 class DisplayTicket extends StatelessWidget {
+  const DisplayTicket({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,7 +49,7 @@ class DisplayTicket extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
-                            Text("Route: \nFrom: Olaya\nTo: King Khaled International Airport"),
+                            Text("Route: \nFrom: King Khaled International Airport"),
                             Text("Time: 13:00"),
                           ],
                         ),
@@ -82,7 +84,7 @@ class DisplayTicket extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
+                    SizedBox(
                       // color: Color.fromARGB(255, 6, 179, 107),
                       width: 150.0,
                       height: 50.0,
@@ -100,7 +102,7 @@ class DisplayTicket extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       // color: Color.fromARGB(255, 6, 179, 107),
                       width: 150.0,
                       height: 50.0,

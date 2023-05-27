@@ -4,15 +4,12 @@ import 'package:riyadh_metro/client.dart';
 import 'package:riyadh_metro/mapPage.dart';
 import 'package:riyadh_metro/settings.dart';
 import 'package:riyadh_metro/updateProfile.dart';
-import 'DisplayTicket.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'SignUp.dart';
 import 'login.dart';
 import 'Wallet.dart';
 import 'book.dart';
-import 'updateProfile.dart';
-import 'mapPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,12 +29,12 @@ void main() async {
       "/Client/": (context) => ClientPage(
             clientName: '',
             balance: 100,
-            availableTickets: ["d"],
+            availableTickets: const ["d"],
             walletID: "",
             pass: 0,
-            stations: [],
-                          date: [],
-                          status: [],
+            stations: const [],
+                          date: const [],
+                          status: const [],
           ),
       "/Walllet/": (context) => walletPage(
             balance: 100,
@@ -52,8 +49,8 @@ void main() async {
             balance: 1,
             walletID: "",
             pass: 0,
-            countCongestion: [],
-            timeCongestion: [],
+            countCongestion: const [],
+            timeCongestion: const [],
           ),
       "/DisplayTicket/": ((context) => (UpdateProfile())),
       "/FeedbackPage/": ((context) => (FeedbackPage())),

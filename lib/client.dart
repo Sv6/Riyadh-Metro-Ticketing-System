@@ -10,12 +10,12 @@ void main() async {
   runApp(ClientPage(
     clientName: "Abdulrahman Zyad",
     balance: 400000.00,
-    availableTickets: ["d"],
+    availableTickets: const ["d"],
     walletID: "",
     pass: 0,
-    date: [],
-    status: [],
-    stations: [],
+    date: const [],
+    status: const [],
+    stations: const [],
   ));
 }
 
@@ -34,7 +34,7 @@ class ClientPage extends StatefulWidget {
   double pass;
 
   ClientPage(
-      {required this.clientName,
+      {super.key, required this.clientName,
       required this.balance,
       required this.availableTickets,
       required this.walletID,
@@ -48,6 +48,7 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
+  @override
   void initState() {
     List tickIds;
     List stations;
@@ -99,7 +100,7 @@ class _ClientPageState extends State<ClientPage> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "${widget.clientName.toTitleCase()}",
+                                  widget.clientName.toTitleCase(),
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -115,7 +116,7 @@ class _ClientPageState extends State<ClientPage> {
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                                 child: Text(
-                                  "${widget.walletID}",
+                                  widget.walletID,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -331,8 +332,8 @@ class _ClientPageState extends State<ClientPage> {
                         balance: widget.balance,
                         walletID: widget.walletID,
                         pass: widget.pass,
-                        timeCongestion: [],
-                        countCongestion: [],
+                        timeCongestion: const [],
+                        countCongestion: const [],
                       ),
                     ),
                   );

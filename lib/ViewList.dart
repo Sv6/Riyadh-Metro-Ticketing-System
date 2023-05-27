@@ -4,7 +4,8 @@ class ViewList {
 
   ViewList(this.key, this.value);
 
+  @override
   String toString() {
-    return '{ ${this.key}, ${this.value} }';
+    return '{ $key, $value }';
   }
 }

@@ -3,7 +3,6 @@ import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riyadh_metro/client.dart';
 import 'login.dart';
 import 'validator.dart';
@@ -16,6 +15,8 @@ void main() {
 }
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
@@ -137,7 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Column(
                       children: [
                         // ========================= FULL NAME =========================
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -155,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         SizedBox(height: 20.0),
                         // ========================= BIRTH DATE =========================
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             controller: _birthDate,
@@ -189,7 +190,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         SizedBox(height: 20.0),
                         // ========================= PASSWORD =========================
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -218,7 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         // ========================= PASSWORD VERIFICATION =========================
                         SizedBox(height: 20.0),
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -248,7 +249,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         // ========================= EMAIL =========================
                         SizedBox(height: 20.0),
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -267,7 +268,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         // ========================= PHONE NUMBER =========================
                         SizedBox(height: 20.0),
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           child: TextFormField(
                             validator: (value) {
@@ -285,12 +286,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         // ========================= SIGN UP BUTTON =========================
                         SizedBox(height: 50.0),
-                        Container(
+                        SizedBox(
                           width: 300.0,
                           height: 50.0,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 6, 179, 107),
+                              backgroundColor: Color.fromARGB(255, 6, 179, 107),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -305,7 +306,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       .instance
                                       .createUserWithEmailAndPassword(
                                           email: email, password: password);
-                                  final _walledID = CRUD.idGenerator();
+                                  final walledID = CRUD.idGenerator();
                                   FirebaseAuth auth = FirebaseAuth.instance;
                                   final uid = auth.currentUser!.uid;
                                   if (!CRUD.insertClient(
@@ -315,7 +316,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       _birthDate.text,
                                       email,
                                       _phone.text,
-                                      _walledID,
+                                      walledID,
                                       _password.text,
                                       true,
                                       [],
@@ -326,15 +327,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                       builder: (context) => ClientPage(
                                             clientName: _name.text,
                                             balance: 0.0,
-                                            availableTickets: ['d'],
-                                            walletID: _walledID,
+                                            availableTickets: const ['d'],
+                                            walletID: walledID,
                                             pass: 0,
-                                            stations: [],
-                          date: [],
-                          status: [],
+                                            stations: const [],
+                          date: const [],
+                          status: const [],
                                           )));
                                 }
-                              } on FirebaseAuthException catch (auth) {
+                              } on FirebaseAuthException {
                                 const snackBar = SnackBar(
                                   content: Text('Email is already in use'),
                                 );

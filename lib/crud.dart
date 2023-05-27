@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 // Copy pasta method, makes first letter of every word Captialized,
 //i put in crud as its imported in every class,as an extension, we have to import it every time -f
@@ -64,7 +62,7 @@ class Crud {
   }
 
   Future<String> getId() async {
-    User? user = await FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
     String uid = user!.uid;
     return uid;
   }
@@ -135,7 +133,7 @@ class Crud {
     String id = await getId();
     try {
       FirebaseAuth.instance.currentUser!.updatePassword(password);
-    } on FirebaseAuthException catch (auth) {
+    } on FirebaseAuthException {
       return;
     }
     Map<String, dynamic> data = await getUserData(id);
@@ -146,7 +144,7 @@ class Crud {
     String id = await getId();
     try {
       FirebaseAuth.instance.currentUser!.updateEmail(email);
-    } on FirebaseAuthException catch (auth) {
+    } on FirebaseAuthException {
       return;
     }
     Map<String, dynamic> data = await getUserData(id);
@@ -192,10 +190,10 @@ class Crud {
     }
   }
 
-  bool insertTicket(String? id, String? start_station, String? Date,
+  bool insertTicket(String? id, String? startStation, String? Date,
       bool? Status, String? uid) {
     if (id == null ||
-        start_station == null ||
+        startStation == null ||
         Date == null ||
         Status == null ||
         uid == null) {
@@ -203,7 +201,7 @@ class Crud {
     }
     final data = <String, dynamic>{
       "Date": Date,
-      "Start_station": start_station,
+      "Start_station": startStation,
       "Status": Status,
       "UID": uid
     };
@@ -236,7 +234,7 @@ class Crud {
     String subID = idGenerator();
     subID = subID.substring(subID.length - 5, subID.length - 1);
 
-    return "${stationName}_${dateID}_${subID}";
+    return "${stationName}_${dateID}_$subID";
   }
 
   Future<Map<String, dynamic>> getTicketInfo(String tickID) async {

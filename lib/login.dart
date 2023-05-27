@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:riyadh_metro/SignUp.dart';
 import 'package:riyadh_metro/client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'crud.dart';
 
@@ -14,6 +13,8 @@ void main() {
 }
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _myAppState();
 }
@@ -120,7 +121,7 @@ class _myAppState extends State<LoginPage> {
                   ),
                   SizedBox(height: 50.0),
                   // ========================= email =========================
-                  Container(
+                  SizedBox(
                     width: 300.0,
                     child: TextField(
                       controller: _email,
@@ -132,7 +133,7 @@ class _myAppState extends State<LoginPage> {
                   ),
                   SizedBox(height: 20.0),
                   // ========================= PASSWORD =========================
-                  Container(
+                  SizedBox(
                     width: 300.0,
                     child: TextField(
                       controller: _password,
@@ -167,7 +168,7 @@ class _myAppState extends State<LoginPage> {
                   SizedBox(height: 50.0),
 
                   // ========================= LOGIN BUTTON =========================
-                  Container(
+                  SizedBox(
                     // color: Color.fromARGB(255, 6, 179, 107),
                     width: 300.0,
                     height: 50.0,
@@ -187,7 +188,7 @@ class _myAppState extends State<LoginPage> {
                           final userCredential = await FirebaseAuth.instance
                               .signInWithEmailAndPassword(
                                   email: email, password: password);
-                        } on FirebaseAuthException catch (auth) {
+                        } on FirebaseAuthException {
                           const snackBar = SnackBar(
                               content: Text("Email or password is invalid"));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -208,9 +209,9 @@ class _myAppState extends State<LoginPage> {
                                 availableTickets: data["TICKETS"],
                                 walletID: data["WALLETID"],
                                 pass: data["PASS"],
-                                stations: [],
-                          date: [],
-                          status: [],
+                                stations: const [],
+                          date: const [],
+                          status: const [],
                               ),
                             ),
                           );

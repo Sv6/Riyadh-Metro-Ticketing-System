@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:riyadh_metro/FeedbackPage.dart';
 import 'package:riyadh_metro/login.dart';
 import 'package:riyadh_metro/updateProfile.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'DisplayTicket.dart';
 import 'client.dart';
 import 'crud.dart';
-import 'mapPage.dart';
-import "updateProfile.dart";
 
 void main() {
   runApp(SettingsPage());
@@ -49,9 +43,9 @@ class _SettingsPageState extends State<SettingsPage> {
                         availableTickets: data["TICKETS"],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
-                        stations: [],
-                          date: [],
-                          status: [],
+                        stations: const [],
+                          date: const [],
+                          status: const [],
                       ),
                     ),
                   )

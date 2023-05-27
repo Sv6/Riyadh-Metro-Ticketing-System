@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:riyadh_metro/login.dart';
 import 'package:riyadh_metro/settings.dart';
 import 'crud.dart';
 import 'client.dart';
@@ -11,6 +10,8 @@ void main() {
 }
 
 class mapPage extends StatefulWidget {
+  const mapPage({super.key});
+
   @override
   State<mapPage> createState() => _myAppState();
 }
@@ -42,9 +43,9 @@ class _myAppState extends State<mapPage> {
                         availableTickets: data["TICKETS"],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
-                        stations: [],
-                        date: [],
-                        status: [],
+                        stations: const [],
+                        date: const [],
+                        status: const [],
                       ),
                     ),
                   )
@@ -113,9 +114,9 @@ class _myAppState extends State<mapPage> {
                           availableTickets: data["TICKETS"],
                           walletID: data["WALLETID"],
                           pass: data["PASS"],
-                          stations: [],
-                          date: [],
-                          status: [],
+                          stations: const [],
+                          date: const [],
+                          status: const [],
                         ),
                       ),
                     )
@@ -137,8 +138,8 @@ class _myAppState extends State<mapPage> {
                         balance: data["BALANCE"] * 1.0,
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
-                        timeCongestion: [],
-                        countCongestion: [],
+                        timeCongestion: const [],
+                        countCongestion: const [],
                       ),
                     ),
                   );

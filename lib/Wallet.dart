@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'client.dart';
-import 'book.dart';
-import 'settings.dart';
 import 'crud.dart';
 import 'validator.dart';
 
@@ -16,6 +12,8 @@ void main() {
   ));
 }
 
+
+
 class walletPage extends StatefulWidget {
   final String clientName;
   final String walletID;
@@ -23,7 +21,8 @@ class walletPage extends StatefulWidget {
   double pass;
 
   walletPage(
-      {required this.balance,
+      {super.key,
+      required this.balance,
       required this.clientName,
       required this.walletID,
       required this.pass});
@@ -67,9 +66,9 @@ class _walletPageState extends State<walletPage> {
                         availableTickets: data["TICKETS"],
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
-                        stations: [],
-                        date: [],
-                        status: [],
+                        stations: const [],
+                        date: const [],
+                        status: const [],
                       ),
                     ),
                   )
@@ -99,7 +98,7 @@ class _walletPageState extends State<walletPage> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "${widget.clientName.toTitleCase()}",
+                              widget.clientName.toTitleCase(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -115,7 +114,7 @@ class _walletPageState extends State<walletPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "${widget.walletID}",
+                              widget.walletID,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -164,7 +163,7 @@ class _walletPageState extends State<walletPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 200.0,
                               child: Padding(
                                 padding: const EdgeInsets.all(15),
@@ -202,7 +201,6 @@ class _walletPageState extends State<walletPage> {
                                     _amt.clear();
                                   }
                                 },
-                                child: Text("Add"),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
                                       Color.fromARGB(255, 6, 179, 107),
@@ -210,6 +208,7 @@ class _walletPageState extends State<walletPage> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
+                                child: Text("Add"),
                               ),
                             ),
                           ],
@@ -232,12 +231,30 @@ class _walletPageState extends State<walletPage> {
                       width: 100,
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
-                            widget.balance = widget.balance - 100;
-                            widget.pass = widget.pass + 10;
-                          });
-                          CRUD.updateBalance(-100);
-                          CRUD.updatePass(10);
+                          if (widget.balance >= 10) {
+                            setState(() {
+                              widget.balance = widget.balance - 10;
+                              widget.pass = widget.pass + 10;
+                            });
+                            CRUD.updateBalance(-10);
+                            CRUD.updatePass(10);
+                          }else{
+                              showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text("insufficient balance"),
+                              content: Text(
+                                  "Charge your balance to buy this pass"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("OK")),
+                              ],
+                            ),
+                          );
+                            }
                         },
                         child: Text("10",
                             style: TextStyle(
@@ -255,12 +272,30 @@ class _walletPageState extends State<walletPage> {
                       width: 100,
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
-                            widget.balance = widget.balance - 200;
-                            widget.pass = widget.pass + 20;
-                          });
-                          CRUD.updateBalance(-200);
-                          CRUD.updatePass(20);
+                          if (widget.balance >= 20) {
+                            setState(() {
+                              widget.balance = widget.balance - 20;
+                              widget.pass = widget.pass + 20;
+                            });
+                            CRUD.updateBalance(-20);
+                            CRUD.updatePass(20);
+                          } else {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: Text("insufficient balance"),
+                                content: Text(
+                                    "Charge your balance to buy this pass"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("OK")),
+                                ],
+                              ),
+                            );
+                          }
                         },
                         child: Text("20",
                             style: TextStyle(
@@ -278,12 +313,30 @@ class _walletPageState extends State<walletPage> {
                       width: 100,
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
-                            widget.balance = widget.balance - 500;
-                            widget.pass = widget.pass + 50;
-                          });
-                          CRUD.updateBalance(-500);
-                          CRUD.updatePass(50);
+                          if (widget.balance >= 50) {
+                            setState(() {
+                              widget.balance = widget.balance - 50;
+                              widget.pass = widget.pass + 50;
+                            });
+                            CRUD.updateBalance(-50);
+                            CRUD.updatePass(50);
+                          }else{
+                              showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text("insufficient balance"),
+                              content: Text(
+                                  "Charge your balance to buy this pass"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("OK")),
+                              ],
+                            ),
+                          );
+                            }
                         },
                         child: Text("50",
                             style: TextStyle(
