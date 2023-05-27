@@ -129,6 +129,15 @@ class Crud {
     }
   }
 
+//not finished
+  CollectionReference cR = FirebaseFirestore.instance.collection("Admin");
+  Future<void> retrieveAdminEmail() async {
+    QuerySnapshot qS = await cR.get();
+
+    final allData = qS.docs.map((doc) => doc.data()).toList();
+    print(allData);
+  }
+
   void InsertTicket(String tickID) async {
     String uid = await getId();
     Map<String, dynamic> data = await getUserData(uid);
