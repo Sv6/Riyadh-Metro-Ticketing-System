@@ -4,12 +4,17 @@ import 'package:riyadh_metro/client.dart';
 import 'package:riyadh_metro/mapPage.dart';
 import 'package:riyadh_metro/settings.dart';
 import 'package:riyadh_metro/updateProfile.dart';
+import 'DisplayTicket.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'SignUp.dart';
 import 'login.dart';
 import 'Wallet.dart';
 import 'book.dart';
+import 'updateProfile.dart';
+import 'mapPage.dart';
+import 'Admin.dart';
+import 'addAdmin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,12 +34,12 @@ void main() async {
       "/Client/": (context) => ClientPage(
             clientName: '',
             balance: 100,
-            availableTickets: const ["d"],
+            availableTickets: ["d"],
             walletID: "",
             pass: 0,
-            stations: const [],
-                          date: const [],
-                          status: const [],
+            stations: [],
+            date: [],
+            status: [],
           ),
       "/Walllet/": (context) => walletPage(
             balance: 100,
@@ -49,13 +54,15 @@ void main() async {
             balance: 1,
             walletID: "",
             pass: 0,
-            countCongestion: const [],
-            timeCongestion: const [],
+            countCongestion: [],
+            timeCongestion: [],
           ),
       "/DisplayTicket/": ((context) => (UpdateProfile())),
       "/FeedbackPage/": ((context) => (FeedbackPage())),
       "/updateProfile/": ((context) => (UpdateProfile())),
       "/mapPage/": (context) => (mapPage()),
+      "/Admin/": ((context) => (Admin())),
+      "/addAdmin/": (context) => (addAdmin()),
     },
   ));
 }

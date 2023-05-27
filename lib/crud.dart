@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 // Copy pasta method, makes first letter of every word Captialized,
 //i put in crud as its imported in every class,as an extension, we have to import it every time -f
@@ -18,6 +20,39 @@ extension StringCasingExtension on String {
 
 class Crud {
   final db = FirebaseFirestore.instance;
+
+  bool insertAdmin(
+    String? uid,
+    String? name,
+    String? bd,
+    String? email,
+    String? phone,
+    String? password,
+    bool? status,
+  ) {
+    if (uid == null ||
+        name == null ||
+        bd == null ||
+        email == null ||
+        phone == null ||
+        password == null ||
+        status == null) {
+      return false;
+    } else {
+      final data = <String, dynamic>{
+        "FULLNAME": name,
+
+        "BIRTHDATE": bd, //change to DateTime
+        "EMAIL": email,
+        "PHONE": phone,
+
+        "PASSWORD": password,
+        "STATUS": status,
+      };
+      db.collection("Admin").doc(uid).set(data);
+    }
+    return true;
+  }
 
   bool insertClient(
       String? uid,
@@ -62,7 +97,7 @@ class Crud {
   }
 
   Future<String> getId() async {
-    User? user = FirebaseAuth.instance.currentUser;
+    User? user = await FirebaseAuth.instance.currentUser;
     String uid = user!.uid;
     return uid;
   }
@@ -133,7 +168,7 @@ class Crud {
     String id = await getId();
     try {
       FirebaseAuth.instance.currentUser!.updatePassword(password);
-    } on FirebaseAuthException {
+    } on FirebaseAuthException catch (auth) {
       return;
     }
     Map<String, dynamic> data = await getUserData(id);
@@ -144,7 +179,7 @@ class Crud {
     String id = await getId();
     try {
       FirebaseAuth.instance.currentUser!.updateEmail(email);
-    } on FirebaseAuthException {
+    } on FirebaseAuthException catch (auth) {
       return;
     }
     Map<String, dynamic> data = await getUserData(id);
@@ -190,10 +225,10 @@ class Crud {
     }
   }
 
-  bool insertTicket(String? id, String? startStation, String? Date,
+  bool insertTicket(String? id, String? start_station, String? Date,
       bool? Status, String? uid) {
     if (id == null ||
-        startStation == null ||
+        start_station == null ||
         Date == null ||
         Status == null ||
         uid == null) {
@@ -201,7 +236,7 @@ class Crud {
     }
     final data = <String, dynamic>{
       "Date": Date,
-      "Start_station": startStation,
+      "Start_station": start_station,
       "Status": Status,
       "UID": uid
     };
@@ -234,7 +269,7 @@ class Crud {
     String subID = idGenerator();
     subID = subID.substring(subID.length - 5, subID.length - 1);
 
-    return "${stationName}_${dateID}_$subID";
+    return "${stationName}_${dateID}_${subID}";
   }
 
   Future<Map<String, dynamic>> getTicketInfo(String tickID) async {
