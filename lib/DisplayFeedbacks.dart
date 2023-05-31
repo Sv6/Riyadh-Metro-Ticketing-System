@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'crud.dart';
 
@@ -34,40 +36,63 @@ class FeedbackListPage extends StatefulWidget {
 class _FeedbackListPageState extends State<FeedbackListPage> {
   Crud CRUD = Crud();
 
-  final List<String> feedbackList = [
-    'Feedback 1',
-    'Feedback 2',
-    'Feedback 3',
-    'Feedback 4',
-    'Feedback 5',
-  ];
+  List<dynamic> feedbackList = ["Press the refresh"];
+  List ids = [];
+  // Future<Map<String, String>> _method = {};
+
+  @override
+  void initState() {
+    List<dynamic> feedbackList;
+    List ids;
+    // _method = CRUD.getFeedbackNameId();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Feedbacks'),
-        backgroundColor: Color.fromARGB(255, 6, 179, 107),
-      ),
-      body: ListView.builder(
-        itemCount: feedbackList.length,
-        itemBuilder: (context, index) {
-          return FutureBuilder(
-            // future: ,
-            builder: (context, snapshot) {
-              return ListTile(
-                title: Text(feedbackList[index]),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/details',
-                    arguments: feedbackList[index],
-                  );
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Feedbacks'),
+          backgroundColor: Color.fromARGB(255, 6, 179, 107),
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  Map<String, String> data = await CRUD.getFeedbackNameId();
+                  print(data);
+
+                  setState(() {
+                    feedbackList = data.values.toList();
+                    ids = data.keys.toList();
+                  });
                 },
-              );
-            }
-          );
-        },
+                icon: Icon(Icons.refresh)),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: 200,
+            child: ListView.separated(
+              itemCount: feedbackList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(feedbackList[index]),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/details',
+                      arguments: feedbackList[index],
+                    );
+                  },
+                );
+              },
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.white,
+                height: 1,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

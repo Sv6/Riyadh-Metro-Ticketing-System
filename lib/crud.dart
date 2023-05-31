@@ -277,17 +277,48 @@ class Crud {
       return false;
     }
     DateTime now = DateTime.now();
+    String date = now.toString();
     final data = <String, dynamic>{
       "TITLE": title,
       "BODY": body,
       "ID": id,
-      "DATE": now
+      "DATE": date
     };
     db.collection("FEEDBACKS").doc().set(data);
     return true;
   }
 
-  
+  Future<List> retrieveFeedbackIds() async {
+    QuerySnapshot qS = await db.collection("FEEDBACKS").get();
+    final data = qS.docs.map((e) => e.id).toList();
+    return data;
+  }
+
+  Future<Map<String, String>> getFeedbackNameId() async {
+    List ids = await retrieveFeedbackIds();
+    Map<String, String> data = {'nj': 'nkj'};
+
+    ids.forEach((element) async {
+      Map<String, dynamic> feedback = await getFeedbackInfo(element.toString());
+      var name = feedback["TITLE"].toString();
+      data[element.toString()] = name.toString();
+    });
+    return data;
+  }
+
+  Future<Map<String, dynamic>> getFeedbackInfo(String key) async {
+    DocumentSnapshot stationSnapshot =
+        await db.collection("FEEDBACKS").doc(key).get();
+    if (stationSnapshot.exists) {
+      String mapString = jsonEncode(stationSnapshot.data());
+      var mapObject = jsonDecode(mapString);
+
+      Map<String, dynamic> data = mapObject;
+      return data;
+    } else {
+      return {};
+    }
+  }
 
   String createTicketID(String stationName) {
     if (stationName.substring(0, 2).toLowerCase() == "al") {

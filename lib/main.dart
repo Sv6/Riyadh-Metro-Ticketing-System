@@ -13,6 +13,7 @@ import 'Wallet.dart';
 import 'book.dart';
 import 'Admin.dart';
 import 'addAdmin.dart';
+import 'DisplayFeedbacks.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +64,7 @@ void main() async {
       "/mapPage/": (context) => (mapPage()),
       "/Admin/": ((context) => (Admin())),
       "/addAdmin/": (context) => (addAdmin()),
+      "/DisplayFeedbacks/":(context) => (DisplayFeedback())
     },
   ));
 }

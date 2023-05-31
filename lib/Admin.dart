@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'addAdmin.dart';
+import 'DisplayFeedbacks.dart';
 
 void main() {
   runApp(Admin());
@@ -48,6 +49,8 @@ class Admin extends StatelessWidget {
               leading: Icon(Icons.feedback),
               title: Text('Display Feedbacks'),
               onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => DisplayFeedback()));
                 // Handle Display Feedbacks functionality
               },
             ),
