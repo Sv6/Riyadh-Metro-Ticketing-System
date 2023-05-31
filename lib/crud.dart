@@ -205,6 +205,14 @@ class Crud {
     return data;
   }
 
+  Future<List> ListStations() async {
+    QuerySnapshot qS =
+        await db.collection("STATIONS").where("status", isEqualTo: true).get();
+    final data = qS.docs.map((e) => e.id).toList();
+    print(data);
+    return data;
+  }
+
   void setCounter(String name, String time) async {
     Map<String, dynamic> data = await getStationInfo(name);
     double count;
@@ -241,7 +249,7 @@ class Crud {
       Map<String, dynamic> data = mapObject;
       return data;
     } else {
-      return {};
+      return {"Test": "falied"};
     }
   }
 

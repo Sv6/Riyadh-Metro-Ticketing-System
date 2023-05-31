@@ -254,10 +254,7 @@ class _ClientPageState extends State<ClientPage> {
                         statusList.add(["Status"]);
                         dateList.add(["Date"]);
 
-                        return
-                            //---------------------------------------
-
-                            Container(
+                        return Container(
                           margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
                           height: 380,
                           width: 680,
@@ -291,8 +288,8 @@ class _ClientPageState extends State<ClientPage> {
                               ),
                               Expanded(
                                 child: ListView.separated(
-                                  itemCount: snapshot.data!
-                                      .size, // Replace 'tickets.length' with the actual number of tickets
+                                  itemCount: snapshot.data!.size,
+                                  // Replace 'tickets.length' with the actual number of tickets
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                       title: Text(
@@ -303,15 +300,23 @@ class _ClientPageState extends State<ClientPage> {
                                           "${snapshot.data!.docs[index]["Status"].toString()}")),
                                       textColor: Colors.white,
                                       onTap: () {
+                                        print(snapshot.data!.size);
+                                        print(index);
+                                        print(widget.availableTickets[index]);
+                                        print(widget.clientName);
+                                        print(widget.stations);
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => DisplayTicket(
                                               name: widget.clientName,
                                               id: widget
                                                   .availableTickets[index],
-                                              from: widget.stations[index],
-                                              time: widget.date[index],
-                                              status: widget.status[index]),
+                                              from:
+                                                  "${snapshot.data!.docs[index]["Start_station"]}",
+                                              time: snapshot.data!.docs[index]
+                                                  ["Date"],
+                                              status: snapshot.data!.docs[index]
+                                                  ["Status"]),
                                         ));
                                       },
                                     );

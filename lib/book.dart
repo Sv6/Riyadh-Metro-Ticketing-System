@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:riyadh_metro/Wallet.dart';
@@ -22,10 +23,14 @@ void main() {
   );
 }
 
+String? first;
+
 // ignore: non_constant_identifier_names
 Future<List<String>> initializeStationList(Crud CRUD) async {
-  List stations = await CRUD.retrieveStations();
+  List stations = await CRUD.ListStations();
   List<String> a = stations.map((e) => e.toString()).toList();
+  first = a[0];
+
   return a;
 }
 
@@ -92,7 +97,9 @@ class _BookPageState extends State<BookPage> {
   List<String> stations = [];
   List timeCongestion = [];
   List countCongestion = [];
-  late String selectedFrom = "Granada mall";
+  late String selectedFrom = first as String;
+  late String selectedDropDownValue;
+
   late String selectedTime = times[0];
 
   @override
@@ -137,7 +144,7 @@ class _BookPageState extends State<BookPage> {
               () async {
                 String uid = await CRUD.getId();
                 Map<String, dynamic> data = await CRUD.getUserData(uid);
-                ViewList vL = ViewList(selectedFrom, selectedTime);
+                // ViewList vL = ViewList(selectedFrom, selectedTime);
                 Navigator.of(context)
                     .push(
                       MaterialPageRoute(
@@ -167,9 +174,8 @@ class _BookPageState extends State<BookPage> {
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 stations = snapshot.data[0];
-              } else {
-                print("error");
-              }
+              } else {}
+
               return SingleChildScrollView(
                 child: Center(
                   child: Column(

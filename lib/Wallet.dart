@@ -12,8 +12,6 @@ void main() {
   ));
 }
 
-
-
 class walletPage extends StatefulWidget {
   final String clientName;
   final String walletID;
@@ -168,6 +166,7 @@ class _walletPageState extends State<walletPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(15),
                                 child: TextFormField(
+                                  keyboardType: TextInputType.phone,
                                   controller: _amt,
                                   validator: (value) {
                                     if (!validate.validateNonNegative(
@@ -238,23 +237,23 @@ class _walletPageState extends State<walletPage> {
                             });
                             CRUD.updateBalance(-10);
                             CRUD.updatePass(10);
-                          }else{
-                              showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: Text("insufficient balance"),
-                              content: Text(
-                                  "Charge your balance to buy this pass"),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("OK")),
-                              ],
-                            ),
-                          );
-                            }
+                          } else {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: Text("insufficient balance"),
+                                content: Text(
+                                    "Charge your balance to buy this pass"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("OK")),
+                                ],
+                              ),
+                            );
+                          }
                         },
                         child: Text("10",
                             style: TextStyle(
@@ -320,23 +319,23 @@ class _walletPageState extends State<walletPage> {
                             });
                             CRUD.updateBalance(-50);
                             CRUD.updatePass(50);
-                          }else{
-                              showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: Text("insufficient balance"),
-                              content: Text(
-                                  "Charge your balance to buy this pass"),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("OK")),
-                              ],
-                            ),
-                          );
-                            }
+                          } else {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: Text("insufficient balance"),
+                                content: Text(
+                                    "Charge your balance to buy this pass"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("OK")),
+                                ],
+                              ),
+                            );
+                          }
                         },
                         child: Text("50",
                             style: TextStyle(
