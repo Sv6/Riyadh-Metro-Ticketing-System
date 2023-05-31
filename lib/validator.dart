@@ -16,6 +16,12 @@ class Validator {
     return true;
   }
 
+  bool isAdmin(String? email) {
+    if (email == null) return false;
+    if (email.endsWith("@metro.com")) return true;
+    return false;
+  }
+
   bool validateEmail({required String? email}) {
     if (email == null) return false;
     RegExp emailRegExp =

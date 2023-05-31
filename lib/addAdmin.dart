@@ -272,6 +272,10 @@ class _addAdminState extends State<addAdmin> {
                               if (!validate.validateEmail(email: value)) {
                                 return "email is not valid";
                               }
+                              if (!validate.isAdmin(value)) {
+                                return "Admin must end with @metro.com";
+                              }
+
                               return null;
                             },
                             keyboardType: TextInputType.emailAddress,

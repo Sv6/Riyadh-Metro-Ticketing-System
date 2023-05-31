@@ -6,6 +6,8 @@ import 'package:riyadh_metro/client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'crud.dart';
+import 'validator.dart';
+import 'Admin.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
@@ -198,23 +200,32 @@ class _myAppState extends State<LoginPage> {
                         }
 
                         if (validate == true) {
+                          Validator valid = Validator();
                           String uid = await CRUD.getId();
                           Map<String, dynamic> data =
                               await CRUD.getUserData(uid);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ClientPage(
-                                clientName: data["FULLNAME"],
-                                balance: data["BALANCE"] * 1.0,
-                                availableTickets: data["TICKETS"],
-                                walletID: data["WALLETID"],
-                                pass: data["PASS"],
-                                stations: const [],
-                          date: const [],
-                          status: const [],
+
+                          print(_email.text);
+                          print(valid.isAdmin(_email.text));
+                          if (valid.isAdmin(_email.text)) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Admin()));
+                          } else {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ClientPage(
+                                  clientName: data["FULLNAME"],
+                                  balance: data["BALANCE"] * 1.0,
+                                  availableTickets: data["TICKETS"],
+                                  walletID: data["WALLETID"],
+                                  pass: data["PASS"],
+                                  stations: const [],
+                                  date: const [],
+                                  status: const [],
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         }
                       },
                       child: Text(
