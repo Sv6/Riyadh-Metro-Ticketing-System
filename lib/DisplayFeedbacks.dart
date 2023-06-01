@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'crud.dart';
+import 'Admin.dart';
 
 void main() {
   runApp(DisplayFeedback());
@@ -22,7 +23,14 @@ class _DisplayFeedbackState extends State<DisplayFeedback> {
       ),
       home: FeedbackListPage(),
       routes: {
-        '/details': (context) => FeedbackDetailsPage(),
+        '/details': (context) => FeedbackDetailsPage(
+              title: "",
+              body: "",
+              name: "",
+              time: "",
+              uid: "",
+              id: "",
+            ),
       },
     );
   }
@@ -36,79 +44,172 @@ class FeedbackListPage extends StatefulWidget {
 class _FeedbackListPageState extends State<FeedbackListPage> {
   Crud CRUD = Crud();
 
-  List<dynamic> feedbackList = ["Press the refresh"];
+  List<dynamic> feedbackList = ["loading..."];
   List ids = [];
-  // Future<Map<String, String>> _method = {};
 
   @override
   void initState() {
     List<dynamic> feedbackList;
     List ids;
-    // _method = CRUD.getFeedbackNameId();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Feedbacks'),
-          backgroundColor: Color.fromARGB(255, 6, 179, 107),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  Map<String, String> data = await CRUD.getFeedbackNameId();
-                  print(data);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Feedbacks'),
+        backgroundColor: Color.fromARGB(255, 6, 179, 107),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Admin()))
+                .then((_) => Navigator.pop(context));
+          },
+        ),
+      ),
+      body: FutureBuilder(
+        future: Future.wait([CRUD.getFeedbackNameId()]),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData && !snapshot.hasError) {
+            Map<String, String> data = snapshot.data[0] as Map<String, String>;
 
-                  setState(() {
-                    feedbackList = data.values.toList();
-                    ids = data.keys.toList();
-                  });
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              setState(() {
+                feedbackList = data.values.toList();
+                ids = data.keys.toList();
+              });
+            });
+          } else {
+            // print("error");
+          }
+          return ListView.separated(
+            itemCount: feedbackList.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(feedbackList[index]),
+                onTap: () async {
+                  Map<String, dynamic> feedback =
+                      await CRUD.getFeedbackInfo(ids[index]);
+                  Map<String, dynamic> user =
+                      await CRUD.getUserData(feedback["ID"]);
+
+                  if (context.mounted) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => FeedbackDetailsPage(
+                              title: feedbackList[index],
+                              body: feedback["BODY"],
+                              name: user["FULLNAME"].toString(),
+                              time: feedback["DATE"].toString(),
+                              uid: feedback["ID"],
+                              id: ids[index],
+                            )));
+                  }
                 },
-                icon: Icon(Icons.refresh)),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: 200,
-            child: ListView.separated(
-              itemCount: feedbackList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(feedbackList[index]),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/details',
-                      arguments: feedbackList[index],
-                    );
-                  },
-                );
-              },
-              separatorBuilder: (context, index) => Divider(
-                color: Colors.white,
-                height: 1,
-              ),
+              );
+            },
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.grey,
+              height: 1,
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
 }
 
-class FeedbackDetailsPage extends StatelessWidget {
+class FeedbackDetailsPage extends StatefulWidget {
+  final String title;
+  final String body;
+  final String name;
+  final String time;
+  final String uid;
+  final String id;
+
+  FeedbackDetailsPage(
+      {super.key,
+      required this.title,
+      required this.body,
+      required this.name,
+      required this.time,
+      required this.uid,
+      required this.id});
+
+  @override
+  State<FeedbackDetailsPage> createState() => _FeedbackDetailsPageState();
+}
+
+class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    // final String feedback = ModalRoute.of(context).settings.arguments as String;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feedback Details'),
+        title: Text(widget.title),
+        backgroundColor: Color.fromARGB(255, 6, 179, 107),
       ),
-      body: Center(
-        child: Text("gyvhj"),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    runAlignment: WrapAlignment.spaceBetween,
+                    spacing: 10.0, // gap between adjacent chips
+                    direction: Axis.horizontal,
+                    children: [
+                      Text("Name: ${widget.name}"),
+                      Text("Time: ${widget.time}"),
+                    ],
+                  ),
+                ),
+                Text(
+                  "ID: #${widget.uid}",
+                ),
+                Divider(
+                  color: Colors.grey,
+                  height: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(widget.body),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  // color: Color.fromARGB(255, 6, 179, 107),
+                  width: 150.0,
+                  height: 50.0,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    onPressed: () async {
+                      Crud CRUD = Crud();
+                      CRUD.removeFeedback(widget.id);
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
+                              builder: (context) => DisplayFeedback()))
+                          .then((_) => Navigator.pop(context));
+                    },
+                    child: Text(
+                      'DONE',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

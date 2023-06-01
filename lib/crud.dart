@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 // Copy pasta method, makes first letter of every word Captialized,
 //i put in crud as its imported in every class,as an extension, we have to import it every time -f
@@ -101,24 +102,15 @@ class Crud {
   }
 
   Future<Map<String, dynamic>> getUserData(String uid) async {
-    uid = await getId();
+    // uid = await getId();
 
-    // Create a reference to the data you want to retrieve.
     CollectionReference users = FirebaseFirestore.instance.collection('User');
     DocumentReference userDocument = users.doc(uid);
 
-    // Use the `get()` method to retrieve the data.
     DocumentSnapshot snapshot = await userDocument.get();
-    // QuerySnapshot<Map<String, dynamic>> snapshot = await users.doc(uid).get();
-
-    // Check the `exists` property to make sure the data exists.
     if (snapshot.exists) {
       String mapString = jsonEncode(snapshot.data());
       var mapObject = jsonDecode(mapString);
-
-      // The data exists.
-      // You can access it using the `data` property.
-      // Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
 
       Map<String, dynamic> data = mapObject;
 
@@ -276,8 +268,7 @@ class Crud {
     if (title == null || body == null || id == null) {
       return false;
     }
-    DateTime now = DateTime.now();
-    String date = now.toString();
+    final String date = DateFormat("yyyy-MM-dd HH:mm").format(DateTime.now());
     final data = <String, dynamic>{
       "TITLE": title,
       "BODY": body,
@@ -296,13 +287,13 @@ class Crud {
 
   Future<Map<String, String>> getFeedbackNameId() async {
     List ids = await retrieveFeedbackIds();
-    Map<String, String> data = {'nj': 'nkj'};
-
-    ids.forEach((element) async {
+    Map<String, String> data = {};
+    for (var element in ids) {
       Map<String, dynamic> feedback = await getFeedbackInfo(element.toString());
-      var name = feedback["TITLE"].toString();
+      String name = feedback["TITLE"].toString();
       data[element.toString()] = name.toString();
-    });
+    }
+    ;
     return data;
   }
 
@@ -318,6 +309,10 @@ class Crud {
     } else {
       return {};
     }
+  }
+
+  void removeFeedback(String id) async{
+    await db.collection("FEEDBACKS").doc(id).delete();
   }
 
   String createTicketID(String stationName) {

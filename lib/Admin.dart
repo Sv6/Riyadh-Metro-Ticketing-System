@@ -49,8 +49,8 @@ class Admin extends StatelessWidget {
               leading: Icon(Icons.feedback),
               title: Text('Display Feedbacks'),
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => DisplayFeedback()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => DisplayFeedback()));
                 // Handle Display Feedbacks functionality
               },
             ),
@@ -59,7 +59,14 @@ class Admin extends StatelessWidget {
               title: Text('Cancel Tickets'),
               onTap: () {
                 // Handle Cancel Tickets functionality
-              },
+              }, 
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Sign out'),
+              onTap: () {
+                // Sign out
+              }, 
             ),
           ],
         ),
