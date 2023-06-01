@@ -62,7 +62,7 @@ class _addAdminState extends State<addAdmin> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Signup Page',
+      title: 'add Admin Page',
       theme: ThemeData(
         primaryColor: Colors.white,
         inputDecorationTheme: InputDecorationTheme(

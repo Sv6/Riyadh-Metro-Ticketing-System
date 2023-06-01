@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:riyadh_metro/Wallet.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import 'Admin.dart';
 import 'crud.dart';
 import 'firebase_options.dart';
 import 'mapPage.dart';
@@ -64,7 +65,7 @@ class _freezeStationState extends State<freezeStation> {
   List<String> stations = [];
   List timeCongestion = [];
   List countCongestion = [];
-  late String selectedFrom = first as String;
+  late String? selectedFrom = first;
   late String selectedDropDownValue;
   String status = "test";
 
@@ -87,12 +88,11 @@ class _freezeStationState extends State<freezeStation> {
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () async {
-              () async {
-                String uid = await CRUD.getId();
-                Map<String, dynamic> data = await CRUD.getUserData(uid);
-                // ViewList vL = ViewList(selectedFrom, selectedTime);
-              };
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Admin()));
+
+              // ViewList vL = ViewList(selectedFrom, selectedTime);
             },
           ),
           title: Text("Freeze Station"),
@@ -140,8 +140,9 @@ class _freezeStationState extends State<freezeStation> {
                                             selectedFrom = value.toString();
                                             selectedFrom = value.toString();
                                           });
-                                          Map<String, dynamic> data = await CRUD
-                                              .getStationInfo(selectedFrom);
+                                          Map<String, dynamic> data =
+                                              await CRUD.getStationInfo(
+                                                  selectedFrom as String);
 
                                           setState(() {
                                             print(data['status']);
@@ -195,7 +196,7 @@ class _freezeStationState extends State<freezeStation> {
                                         ),
                                         onPressed: () async {
                                           changeStationStatus(
-                                              selectedFrom, true);
+                                              selectedFrom as String, true);
                                           setState(() {
                                             status = "false";
                                           });
@@ -222,7 +223,7 @@ class _freezeStationState extends State<freezeStation> {
                                         ),
                                         onPressed: () async {
                                           changeStationStatus(
-                                              selectedFrom, false);
+                                              selectedFrom as String, false);
                                           setState(() {
                                             status = "true";
                                           });
