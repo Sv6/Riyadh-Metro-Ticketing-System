@@ -28,6 +28,7 @@ class UpdateProfilePage extends StatefulWidget {
 }
 
 class _UpdateProfilePageState extends State<UpdateProfilePage> {
+  bool hidePass = true;
   final _formKey = GlobalKey<FormState>();
   final Validator validate = Validator();
   final Crud CRUD = Crud();
@@ -89,9 +90,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 SizedBox(height: 16.0),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: InputDecoration(
-                      labelText: 'Password', prefixIcon: Icon(Icons.lock)),
-                  obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return null;
@@ -101,6 +99,20 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     }
                     return null;
                   },
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    prefixIcon: Icon(Icons.lock),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          hidePass = !hidePass;
+                        });
+                      },
+                      child: Icon(
+                          hidePass ? Icons.visibility_off : Icons.visibility),
+                    ),
+                  ),
+                  obscureText: hidePass,
                 ),
                 SizedBox(height: 16.0),
                 TextFormField(
@@ -162,13 +174,13 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                               ],
                             ),
                           );
-                        }else {
+                        } else {
                           showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: Text("All fields are empty"),
-                              content: Text(
-                                  "Fill the fields you want to update"),
+                              content:
+                                  Text("Fill the fields you want to update"),
                               actions: [
                                 TextButton(
                                     onPressed: () {
