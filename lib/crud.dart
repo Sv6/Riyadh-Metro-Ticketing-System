@@ -125,6 +125,13 @@ class Crud {
     }
   }
 
+  dynamic decoder(Object ss) {
+    print(ss);
+    String mapString = jsonEncode(ss);
+    var mapObject = jsonDecode(mapString);
+    return mapObject;
+  }
+
 //not finished
   CollectionReference cR = FirebaseFirestore.instance.collection("Admin");
   Future<void> retrieveAdminEmail() async {

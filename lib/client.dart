@@ -14,7 +14,7 @@ void main() async {
   runApp(ClientPage(
     clientName: "Abdulrahman Zyad",
     balance: 400000.00,
-    availableTickets: const ["d"],
+    availableTickets: ["d"],
     walletID: "",
     pass: 0,
     date: const [],
@@ -248,8 +248,10 @@ class _ClientPageState extends State<ClientPage> {
                         List stationList = [];
                         List statusList = [];
                         List dateList = [];
+                        List idList = [];
 
                         snapshot.data;
+
                         stationList.add(["Start_station"]);
                         statusList.add(["Status"]);
                         dateList.add(["Date"]);
@@ -317,12 +319,25 @@ class _ClientPageState extends State<ClientPage> {
                                       ),
                                       textColor: Colors.white,
                                       onTap: () {
+                                        final userDocument = FirebaseFirestore
+                                            .instance
+                                            .collection("Tickets")
+                                            .get();
+
+                                        final List<DocumentSnapshot> dd =
+                                            snapshot.data!.docs;
+                                        List temp = [];
+                                        dd.forEach(
+                                          (element) {
+                                            temp.add(element.id);
+                                          },
+                                        );
+                                        print(temp);
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => DisplayTicket(
                                               name: widget.clientName,
-                                              id: widget
-                                                  .availableTickets[index],
+                                              id: "${temp[index]}",
                                               from:
                                                   "${snapshot.data!.docs[index]["Start_station"]}",
                                               time: snapshot.data!.docs[index]
