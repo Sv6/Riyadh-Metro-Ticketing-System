@@ -25,7 +25,6 @@ void main() {
 
 String? first;
 
-// ignore: non_constant_identifier_names
 Future<List<String>> initializeStationList(Crud CRUD) async {
   List stations = await CRUD.ListStations();
   List<String> a = stations.map((e) => e.toString()).toList();
@@ -97,23 +96,23 @@ class _BookPageState extends State<BookPage> {
   List<String> stations = [];
   List timeCongestion = [];
   List countCongestion = [];
-  late String selectedFrom = first as String;
+  late String? selectedFrom = first;
   late String selectedDropDownValue;
+
+  @override
+  initState() {
+    super.initState();
+  }
 
   late String selectedTime = times[0];
 
   @override
-  initState() {
-    String selectedFrom;
-    String selectedTime;
-    List timeCongestion;
-    List countCongestion;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // initializeStationList(Crud CRUD);
     // String selectedFrom = selectedFrom;
+    initializeStationList(CRUD);
+    print(first);
+
     return MaterialApp(
       title: 'Home Page',
       home: Scaffold(
@@ -314,8 +313,9 @@ class _BookPageState extends State<BookPage> {
                                             selectedFrom = value.toString();
                                           });
 
-                                          Map<String, dynamic> data = await CRUD
-                                              .getStationInfo(selectedFrom);
+                                          Map<String, dynamic> data =
+                                              await CRUD.getStationInfo(
+                                                  selectedFrom as String);
 
                                           setState(() {
                                             timeCongestion = data['time_count']
@@ -353,7 +353,6 @@ class _BookPageState extends State<BookPage> {
                                         onChanged: (String? value) {
                                           setState(() {
                                             selectedTime = value.toString();
-                                            print(selectedTime);
                                           });
                                         },
                                         items: times
@@ -395,8 +394,8 @@ class _BookPageState extends State<BookPage> {
                                         String uid = await CRUD.getId();
 
                                         if (widget.balance > 10) {
-                                          String tickID =
-                                              CRUD.createTicketID(selectedFrom);
+                                          String tickID = CRUD.createTicketID(
+                                              selectedFrom as String);
                                           CRUD.insertTicket(
                                               tickID,
                                               selectedFrom,
@@ -408,7 +407,8 @@ class _BookPageState extends State<BookPage> {
                                                 widget.balance - 10;
                                           });
                                           CRUD.setCounter(
-                                              selectedFrom, selectedTime);
+                                              selectedFrom as String,
+                                              selectedTime);
                                           CRUD.InsertTicket(tickID);
                                           CRUD.updateBalance(-10);
                                         } else {
@@ -435,12 +435,13 @@ class _BookPageState extends State<BookPage> {
                                         //look, i dont know HOW  DID IT WORK
                                         //BUT DONT YOU DARE TOUCH IT -f
 
-                                        Map<String, dynamic> test = await CRUD
-                                            .getStationInfo(selectedFrom);
-                                        print(test);
-                                        Map<String, dynamic> data = await CRUD
-                                            .getStationInfo(selectedFrom);
-                                        print(data);
+                                        Map<String, dynamic> test =
+                                            await CRUD.getStationInfo(
+                                                selectedFrom as String);
+
+                                        Map<String, dynamic> data =
+                                            await CRUD.getStationInfo(
+                                                selectedFrom as String);
 
                                         setState(() {
                                           timeCongestion =
@@ -469,8 +470,8 @@ class _BookPageState extends State<BookPage> {
                                       onPressed: () async {
                                         String uid = await CRUD.getId();
                                         if (widget.pass >= 1) {
-                                          String tickID =
-                                              CRUD.createTicketID(selectedFrom);
+                                          String tickID = CRUD.createTicketID(
+                                              selectedFrom as String);
                                           CRUD.insertTicket(
                                               tickID,
                                               selectedFrom,
@@ -480,7 +481,8 @@ class _BookPageState extends State<BookPage> {
                                           setState(() {
                                             widget.pass = widget.pass - 1;
                                             CRUD.setCounter(
-                                                selectedFrom, selectedTime);
+                                                selectedFrom as String,
+                                                selectedTime);
                                           });
                                           CRUD.InsertTicket(tickID);
                                           CRUD.updatePass(-1);
@@ -503,6 +505,22 @@ class _BookPageState extends State<BookPage> {
                                             ),
                                           );
                                         }
+
+                                        Map<String, dynamic> test =
+                                            await CRUD.getStationInfo(
+                                                selectedFrom as String);
+
+                                        Map<String, dynamic> data =
+                                            await CRUD.getStationInfo(
+                                                selectedFrom as String);
+
+                                        setState(() {
+                                          timeCongestion =
+                                              data['time_count'].keys.toList();
+                                          countCongestion = data['time_count']
+                                              .values
+                                              .toList();
+                                        });
                                       },
                                     ),
                                   ),
