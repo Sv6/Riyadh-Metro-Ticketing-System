@@ -95,7 +95,7 @@ class Crud {
     return true;
   }
 
-  void signOut() async{
+  void signOut() async {
     final SignOut = await FirebaseAuth.instance.signOut();
   }
 
@@ -296,7 +296,8 @@ class Crud {
       Map<String, dynamic> feedback = await getFeedbackInfo(element.toString());
       String name = feedback["TITLE"].toString();
       data[element.toString()] = name.toString();
-    };
+    }
+    ;
     return data;
   }
 
@@ -314,7 +315,7 @@ class Crud {
     }
   }
 
-  void removeFeedback(String id) async{
+  void removeFeedback(String id) async {
     await db.collection("FEEDBACKS").doc(id).delete();
   }
 
@@ -361,6 +362,58 @@ class Crud {
   void changeTicketStatus(String tickID) async {
     Map<String, dynamic> data = await getTicketInfo(tickID);
     db.collection("Tickets").doc(tickID).update({"Status": false});
+  }
+
+  Future<List<dynamic>> retrieveCanceledIds() async {
+    QuerySnapshot qS = await db.collection("CANCELED").get();
+    final data = qS.docs.map((e) => e.id).toList();
+    return data;
+  }
+
+  Future<Map<String, dynamic>> getCancelInfo(String id) async {
+    DocumentSnapshot cancelSnapshot =
+        await db.collection("CANCELED").doc(id).get();
+
+    if (cancelSnapshot.exists) {
+      String mapString = jsonEncode(cancelSnapshot.data());
+      var mapObject = jsonDecode(mapString);
+
+      Map<String, dynamic> data = mapObject;
+      return data;
+    } else {
+      return {};
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getCancelMap() async {
+    List ids = await retrieveCanceledIds();
+    List<Map<String, dynamic>> data = [];
+    for (var element in ids) {
+      Map<String, dynamic> info = {};
+      Map<String, dynamic> temp = await getCancelInfo(element);
+      if (temp["refunded"]) continue;
+      String tickID = element.toString().substring(1);
+      String uid = temp["uid"].toString();
+      temp = await getUserData(uid);
+      String name = temp["FULLNAME"].toString();
+      temp = await getTicketInfo(tickID);
+      String station = temp["Start_station"];
+
+      info["id"] = tickID;
+      info["uid"] = uid;
+      info["name"] = name;
+      info["station"] = station;
+      data.add(info);
+    }
+
+    return data;
+  }
+
+  void Refund(String id, String uid) async {
+    Map<String, dynamic> temp = await getUserData(uid);
+    double balance = temp["BALANCE"] + 10;
+    db.collection("User").doc(uid).update({"BALANCE": balance});
+    db.collection("CANCELED").doc("c${id}").update({"refunded": true});
   }
 }
 

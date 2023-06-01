@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/FeedbackPage.dart';
+import 'package:riyadh_metro/cancel.dart';
 import 'package:riyadh_metro/client.dart';
 import 'package:riyadh_metro/mapPage.dart';
 import 'package:riyadh_metro/settings.dart';
@@ -64,7 +65,8 @@ void main() async {
       "/mapPage/": (context) => (mapPage()),
       "/Admin/": ((context) => (Admin())),
       "/addAdmin/": (context) => (addAdmin()),
-      "/DisplayFeedbacks/":(context) => (DisplayFeedback())
+      "/DisplayFeedbacks/":(context) => (DisplayFeedback()),
+      "/cancel/":(context) => (CancelPage()),
     },
   ));
 }

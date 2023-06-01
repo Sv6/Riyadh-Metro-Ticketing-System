@@ -182,12 +182,12 @@ class _addAdminState extends State<addAdmin> {
                             onTap: () async {
                               DateTime? pickedDate = await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
+                                  initialDate: DateTime(2000),
                                   firstDate: DateTime(1950),
                                   //DateTime.now() - not to allow to choose before today.
 
                                   //VALIDATION NEEDDED////////////////////////////////////////////-f
-                                  lastDate: DateTime(2100));
+                                  lastDate: DateTime(2005));
 
                               if (pickedDate != null) {
                                 print(

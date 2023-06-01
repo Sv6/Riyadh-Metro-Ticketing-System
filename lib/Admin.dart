@@ -4,6 +4,7 @@ import 'DisplayFeedbacks.dart';
 import 'freezeStation.dart';
 import 'login.dart';
 import 'crud.dart';
+import 'cancel.dart';
 
 void main() {
   runApp(Admin());
@@ -61,7 +62,8 @@ class Admin extends StatelessWidget {
               leading: Icon(Icons.cancel),
               title: Text('Cancel Tickets'),
               onTap: () {
-                // Handle Cancel Tickets functionality
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => CancelPage()));
               },
             ),
             ListTile(

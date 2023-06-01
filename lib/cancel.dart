@@ -1,56 +1,39 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
 import 'crud.dart';
 import 'Admin.dart';
 
-void main() {
-  runApp(DisplayFeedback());
-}
+void main() => runApp(CancelPage());
 
-class DisplayFeedback extends StatefulWidget {
-  @override
-  State<DisplayFeedback> createState() => _DisplayFeedbackState();
-}
-
-class _DisplayFeedbackState extends State<DisplayFeedback> {
+class CancelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Feedbacks',
+      title: 'Canceled Tickets',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FeedbackListPage(),
-      routes: {
-        '/details': (context) => FeedbackDetailsPage(
-              title: "",
-              body: "",
-              name: "",
-              time: "",
-              uid: "",
-              id: "",
-            ),
-      },
+      home: myCancelPage(),
     );
   }
 }
 
-class FeedbackListPage extends StatefulWidget {
+class myCancelPage extends StatefulWidget {
   @override
-  State<FeedbackListPage> createState() => _FeedbackListPageState();
+  _myCancelPage createState() => _myCancelPage();
 }
 
-class _FeedbackListPageState extends State<FeedbackListPage> {
+class _myCancelPage extends State<myCancelPage> {
   Crud CRUD = Crud();
 
-  List<dynamic> feedbackList = [];
+  List<dynamic> names = [];
   List ids = [];
+  List stations = [];
 
   @override
   void initState() {
-    List<dynamic> feedbackList;
+    List<dynamic> names;
     List ids;
+    List stations;
     super.initState();
   }
 
@@ -58,7 +41,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feedbacks'),
+        title: Text('Canceled Tickets'),
         backgroundColor: Color.fromARGB(255, 6, 179, 107),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -70,40 +53,57 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
         ),
       ),
       body: FutureBuilder(
-        future: Future.wait([CRUD.getFeedbackNameId()]),
+        future: Future.wait([CRUD.getCancelMap()]),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData && !snapshot.hasError) {
-            Map<String, String> data = snapshot.data[0] as Map<String, String>;
+            List<Map<String, dynamic>> data =
+                snapshot.data[0] as List<Map<String, dynamic>>;
+            // print(data);
+
+            List nameTemp = [];
+            List idsTemp = [];
+            List stationTemp = [];
+
+            // data.forEach((key, value) {
+            //   if (key == "name") {
+            //     nameTemp.add(value);
+            //   } else if (key == "id") {
+            //     idsTemp.add(value);
+            //   } else if (key == "station") {
+            //     stationTemp.add(value);
+            //   }
+            // });
+            for (var element in data) {
+              nameTemp.add(element.values);
+            }
 
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               setState(() {
-                feedbackList = data.values.toList();
-                ids = data.keys.toList();
+                names = List.from(nameTemp);
               });
             });
           } else {
             return Center(child: CircularProgressIndicator());
+
+            // print("error");
           }
           return ListView.separated(
-            itemCount: feedbackList.length,
+            itemCount: names.length,
             itemBuilder: (context, index) {
+              List myData = names[index].toList();
               return ListTile(
-                title: Text(feedbackList[index]),
+                title: Text(myData[3].toString()),
+                subtitle: Text(myData[2].toString()),
+                trailing: Text(myData[0]),
+                // trailing: Text(ids[index]),
                 onTap: () async {
-                  Map<String, dynamic> feedback =
-                      await CRUD.getFeedbackInfo(ids[index]);
-                  Map<String, dynamic> user =
-                      await CRUD.getUserData(feedback["ID"]);
-
                   if (context.mounted) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => FeedbackDetailsPage(
-                              title: feedbackList[index],
-                              body: feedback["BODY"],
-                              name: user["FULLNAME"].toString(),
-                              time: feedback["DATE"].toString(),
-                              uid: feedback["ID"],
-                              id: ids[index],
+                        builder: (context) => CancelDetailsPage(
+                              id: myData[0], //
+                              uid: myData[1], //1
+                              name: myData[2],
+                              station: myData[3],
                             )));
                   }
                 },
@@ -120,33 +120,30 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
   }
 }
 
-class FeedbackDetailsPage extends StatefulWidget {
-  final String title;
-  final String body;
-  final String name;
-  final String time;
-  final String uid;
+class CancelDetailsPage extends StatefulWidget {
   final String id;
+  final String station;
+  final String name;
+  final String uid;
 
-  FeedbackDetailsPage(
-      {super.key,
-      required this.title,
-      required this.body,
-      required this.name,
-      required this.time,
-      required this.uid,
-      required this.id});
+  CancelDetailsPage({
+    super.key,
+    required this.id,
+    required this.station,
+    required this.name,
+    required this.uid,
+  });
 
   @override
-  State<FeedbackDetailsPage> createState() => _FeedbackDetailsPageState();
+  State<CancelDetailsPage> createState() => _FeedbackDetailsPageState();
 }
 
-class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
+class _FeedbackDetailsPageState extends State<CancelDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.id),
         backgroundColor: Color.fromARGB(255, 6, 179, 107),
       ),
       body: SingleChildScrollView(
@@ -156,27 +153,14 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(24.0),
-                  child: Wrap(
-                    alignment: WrapAlignment.spaceBetween,
-                    runAlignment: WrapAlignment.spaceBetween,
-                    spacing: 10.0, // gap between adjacent chips
-                    direction: Axis.horizontal,
-                    children: [
-                      Text("Name: ${widget.name}"),
-                      Text("Time: ${widget.time}"),
-                    ],
-                  ),
+                  child: Text("Name: ${widget.name}"),
                 ),
                 Text(
                   "ID: #${widget.uid}",
                 ),
-                Divider(
-                  color: Colors.grey,
-                  height: 1,
-                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.body),
+                  child: Text(widget.station),
                 ),
                 SizedBox(
                   height: 15,
@@ -194,14 +178,14 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
                     ),
                     onPressed: () async {
                       Crud CRUD = Crud();
-                      CRUD.removeFeedback(widget.id);
+                      CRUD.Refund(widget.id, widget.uid);
                       Navigator.of(context)
                           .push(MaterialPageRoute(
-                              builder: (context) => DisplayFeedback()))
+                              builder: (context) => CancelPage()))
                           .then((_) => Navigator.pop(context));
                     },
                     child: Text(
-                      'COMPLETE',
+                      'Cancel and Refund',
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ),
