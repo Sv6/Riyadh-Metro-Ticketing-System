@@ -201,7 +201,7 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
                           .then((_) => Navigator.pop(context));
                     },
                     child: Text(
-                      'DONE',
+                      'COMPLETE',
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ),
