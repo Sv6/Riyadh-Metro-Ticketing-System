@@ -168,10 +168,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             onTap: () async {
                               DateTime? pickedDate = await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
+                                  initialDate: DateTime(2000),
                                   firstDate: DateTime(1950),
                                   //DateTime.now() - not to allow to choose before today.
-                                  lastDate: DateTime(2100));
+                                  lastDate: DateTime(2008));
 
                               if (pickedDate != null) {
                                 print(
@@ -331,8 +331,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                             walletID: walledID,
                                             pass: 0,
                                             stations: const [],
-                          date: const [],
-                          status: const [],
+                                            date: const [],
+                                            status: const [],
                                           )));
                                 }
                               } on FirebaseAuthException {

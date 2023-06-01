@@ -536,7 +536,8 @@ class _BookPageState extends State<BookPage> {
                                 height: 450,
                                 width: 680,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 6, 179, 107),
+                                  color: Color(
+                                      0xFF06B36B), // Color.fromARGB(255, 6, 179, 107),
                                   borderRadius: BorderRadius.circular(10.0),
                                   boxShadow: [
                                     BoxShadow(
@@ -569,13 +570,30 @@ class _BookPageState extends State<BookPage> {
                                             .length, // Replace 'tickets.length' with the actual number of tickets
 
                                         itemBuilder: (context, index) {
+                                          double congestionValue =
+                                              countCongestion[index];
+
+                                          Color chipColor;
+                                          if (congestionValue >= 25) {
+                                            chipColor = Colors.red;
+                                          } else if (congestionValue >= 15) {
+                                            chipColor = Colors.orange;
+                                          } else if (congestionValue >= 5) {
+                                            chipColor = Colors.yellow;
+                                          } else {
+                                            chipColor =
+                                                Colors.grey.withOpacity(0.5);
+                                          }
                                           return ListTile(
                                             title: Text(timeCongestion[index]
                                                 .toString()),
-                                            subtitle: Text("congestion:"),
-                                            trailing: Text(
-                                                "${countCongestion[index]}"
-                                                    .toString()),
+                                            // subtitle: Text("congestion:"),
+                                            trailing: Chip(
+                                              label: Text(
+                                                  "${countCongestion[index]}"
+                                                      .toString()),
+                                              backgroundColor: chipColor,
+                                            ),
                                             textColor: Colors.white,
                                           );
                                         },

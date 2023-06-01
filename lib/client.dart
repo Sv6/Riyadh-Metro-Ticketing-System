@@ -290,21 +290,33 @@ class _ClientPageState extends State<ClientPage> {
                                 child: ListView.separated(
                                   itemCount: snapshot.data!.size,
                                   // Replace 'tickets.length' with the actual number of tickets
+
                                   itemBuilder: (context, index) {
+                                    Color chipColor;
+                                    Color textColor;
+                                    bool check =
+                                        snapshot.data!.docs[index]["Status"];
+                                    if (check) {
+                                      chipColor = Colors.white;
+                                      textColor = Colors.black;
+                                    } else {
+                                      chipColor = Colors.red;
+                                      textColor = Colors.white;
+                                    }
                                     return ListTile(
                                       title: Text(
                                           "${snapshot.data!.docs[index]["Start_station"]}"),
                                       subtitle: Text(
                                           "${snapshot.data!.docs[index]["Date"]}"),
-                                      trailing: Text(printStatus(
-                                          "${snapshot.data!.docs[index]["Status"].toString()}")),
+                                      trailing: Chip(
+                                        label: Text(
+                                            printStatus(
+                                                "${snapshot.data!.docs[index]["Status"].toString()}"),
+                                            style: TextStyle(color: textColor)),
+                                        backgroundColor: chipColor,
+                                      ),
                                       textColor: Colors.white,
                                       onTap: () {
-                                        print(snapshot.data!.size);
-                                        print(index);
-                                        print(widget.availableTickets[index]);
-                                        print(widget.clientName);
-                                        print(widget.stations);
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => DisplayTicket(
