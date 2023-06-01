@@ -44,8 +44,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         walletID: data["WALLETID"],
                         pass: data["PASS"],
                         stations: const [],
-                          date: const [],
-                          status: const [],
+                        date: const [],
+                        status: const [],
                       ),
                     ),
                   )
@@ -100,7 +100,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () async {
-                // Handle sign out option
                 final SignOut = await FirebaseAuth.instance.signOut();
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => (LoginPage())));

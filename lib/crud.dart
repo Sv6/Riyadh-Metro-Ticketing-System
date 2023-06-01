@@ -95,6 +95,10 @@ class Crud {
     return true;
   }
 
+  void signOut() async{
+    final SignOut = await FirebaseAuth.instance.signOut();
+  }
+
   Future<String> getId() async {
     User? user = FirebaseAuth.instance.currentUser;
     String uid = user!.uid;
@@ -292,8 +296,7 @@ class Crud {
       Map<String, dynamic> feedback = await getFeedbackInfo(element.toString());
       String name = feedback["TITLE"].toString();
       data[element.toString()] = name.toString();
-    }
-    ;
+    };
     return data;
   }
 

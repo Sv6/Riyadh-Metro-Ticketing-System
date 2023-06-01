@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'addAdmin.dart';
 import 'DisplayFeedbacks.dart';
+import 'freezeStation.dart';
+import 'login.dart';
+import 'crud.dart';
 
 void main() {
   runApp(Admin());
@@ -35,7 +38,8 @@ class Admin extends StatelessWidget {
               leading: Icon(Icons.stop),
               title: Text('Freeze Station'),
               onTap: () {
-                // Handle Freeze Station functionality
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => freezeStation()));
               },
             ),
             ListTile(
@@ -51,7 +55,6 @@ class Admin extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => DisplayFeedback()));
-                // Handle Display Feedbacks functionality
               },
             ),
             ListTile(
@@ -59,14 +62,16 @@ class Admin extends StatelessWidget {
               title: Text('Cancel Tickets'),
               onTap: () {
                 // Handle Cancel Tickets functionality
-              }, 
+              },
             ),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Sign out'),
-              onTap: () {
-                // Sign out
-              }, 
+              onTap: () async {
+                Crud().signOut();
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => (LoginPage())));
+              },
             ),
           ],
         ),
