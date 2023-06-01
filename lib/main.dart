@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/FeedbackPage.dart';
 import 'package:riyadh_metro/cancel.dart';
@@ -15,6 +16,7 @@ import 'book.dart';
 import 'Admin.dart';
 import 'addAdmin.dart';
 import 'DisplayFeedbacks.dart';
+import 'FreezeAccount.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,6 +69,7 @@ void main() async {
       "/addAdmin/": (context) => (addAdmin()),
       "/DisplayFeedbacks/":(context) => (DisplayFeedback()),
       "/cancel/":(context) => (CancelPage()),
+      "/FreezeAccount/": (context) => (FreezeAccount()),
     },
   ));
 }

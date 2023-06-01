@@ -204,14 +204,23 @@ class _myAppState extends State<LoginPage> {
                           String uid = await CRUD.getId();
                           Map<String, dynamic> data =
                               await CRUD.getUserData(uid);
-
                           print(_email.text);
                           print(valid.isAdmin(_email.text));
                           if (valid.isAdmin(_email.text)) {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Map<String, dynamic> data =
+                              await CRUD.getAdminData(uid);
+                              if(data["STATUS"]) {
+                                Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => Admin()));
+                              }else {
+                                 const snackBar = SnackBar(
+                              content: Text("Account is Frozen"));
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              }
+                            
                           } else {
-                            Navigator.of(context).push(
+                            if(data["STATUS"]) {
+                               Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => ClientPage(
                                   clientName: data["FULLNAME"],
@@ -225,6 +234,11 @@ class _myAppState extends State<LoginPage> {
                                 ),
                               ),
                             );
+                            }else {
+                                const snackBar = SnackBar(
+                              content: Text("Account is Frozen"));
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }          
                           }
                         }
                       },

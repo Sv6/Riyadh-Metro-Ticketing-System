@@ -5,6 +5,7 @@ import 'freezeStation.dart';
 import 'login.dart';
 import 'crud.dart';
 import 'cancel.dart';
+import 'FreezeAccount.dart';
 
 void main() {
   runApp(Admin());
@@ -47,7 +48,8 @@ class Admin extends StatelessWidget {
               leading: Icon(Icons.block),
               title: Text('Freeze Account'),
               onTap: () {
-                // Handle Freeze Account functionality
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => FreezeAccount()));
               },
             ),
             ListTile(
