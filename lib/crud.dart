@@ -125,6 +125,32 @@ class Crud {
     }
   }
 
+  Future<Map<String, dynamic>> getAdminData(String uid) async {
+    // uid = await getId();
+
+    CollectionReference users = FirebaseFirestore.instance.collection('Admin');
+    DocumentReference userDocument = users.doc(uid);
+
+    DocumentSnapshot snapshot = await userDocument.get();
+    if (snapshot.exists) {
+      String mapString = jsonEncode(snapshot.data());
+      var mapObject = jsonDecode(mapString);
+
+      Map<String, dynamic> data = mapObject;
+
+      return data;
+    } else {
+      // The data does not exist.
+      return {};
+    }
+  }
+
+  Future<bool> userExist(String? uid) async {
+    if (uid == null) return false;
+    if (getUserData(uid) == {}) return false;
+    return true;
+  }
+
 //not finished
   CollectionReference cR = FirebaseFirestore.instance.collection("Admin");
   Future<void> retrieveAdminEmail() async {
@@ -228,6 +254,10 @@ class Crud {
     try {
       count = data["time_count"][time];
       count = count - 1;
+      if (count <= 0) {
+        print("delete count");
+        data["time_count"].removeWhere((key, value) => key == time);
+      }
     } catch (e) {
       count = 1;
     }
@@ -414,6 +444,19 @@ class Crud {
     double balance = temp["BALANCE"] + 10;
     db.collection("User").doc(uid).update({"BALANCE": balance});
     db.collection("CANCELED").doc("c${id}").update({"refunded": true});
+  }
+
+  Future<bool> switchFreezeAccount(String? id) async {
+    if (id != null) {
+      Map<String, dynamic> data = await getUserData(id);
+      try {
+        db.collection("User").doc(id).update({"STATUS": !data["STATUS"]});
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
   }
 }
 
