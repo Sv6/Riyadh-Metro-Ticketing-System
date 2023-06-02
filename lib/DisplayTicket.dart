@@ -176,28 +176,51 @@ class _DisplayTicketState extends State<DisplayTicket> {
                           onPressed: widget.status
                               ? null
                               : () async {
-                                  CRUD.deleteTicketPermanantly(widget.id);
-                                  String uid = await CRUD.getId();
-                                  Map<String, dynamic> data =
-                                      await CRUD.getUserData(uid);
-                                  Navigator.of(context)
-                                      .push(
-                                        MaterialPageRoute(
-                                          builder: (context) => ClientPage(
-                                            clientName: data["FULLNAME"],
-                                            balance: data["BALANCE"] * 1.0,
-                                            availableTickets: data["TICKETS"],
-                                            walletID: data["WALLETID"],
-                                            pass: data["PASS"],
-                                            stations: const [],
-                                            date: const [],
-                                            status: const [],
+                                  if (await CRUD.isCanceled(widget.id)) {
+                                    if(context.mounted) {
+                                       showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Alert'),
+                                          content: Text(
+                                              'Unable to delete the ticket. Please wait until the refund is processed.'),
+                                          actions: <Widget>[
+                                            ElevatedButton(
+                                              child: Text('OK'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    }
+                                  } else {
+                                    CRUD.deleteTicketPermanantly(widget.id);
+                                    String uid = await CRUD.getId();
+                                    Map<String, dynamic> data =
+                                        await CRUD.getUserData(uid);
+                                    Navigator.of(context)
+                                        .push(
+                                          MaterialPageRoute(
+                                            builder: (context) => ClientPage(
+                                              clientName: data["FULLNAME"],
+                                              balance: data["BALANCE"] * 1.0,
+                                              availableTickets: data["TICKETS"],
+                                              walletID: data["WALLETID"],
+                                              pass: data["PASS"],
+                                              stations: const [],
+                                              date: const [],
+                                              status: const [],
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                      .then(
-                                        (_) => Navigator.pop(context),
-                                      );
+                                        )
+                                        .then(
+                                          (_) => Navigator.pop(context),
+                                        );
+                                  }
                                 },
                           child: Text(
                             'DELETE',

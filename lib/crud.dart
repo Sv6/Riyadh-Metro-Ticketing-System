@@ -526,6 +526,17 @@ class Crud {
     List availableTickets = temp["Tickets"];
     availableTickets.remove(id);
     db.collection("User").doc(uid).update({"TICKETS": availableTickets});
+    await db.collection("Tickets").doc(id).delete();
+  }
+
+  Future<bool> isCanceled(String id) async {
+    DocumentSnapshot snapshot =
+        await db.collection("CANCELED").doc("c${id}").get();
+    if (snapshot.exists) {
+      Map<String, dynamic> data = await getCancelInfo("c${id}");
+      if (!data["refunded"]) return true;
+    }
+    return false;
   }
 
   Future<bool> switchFreezeAccount(String? id) async {

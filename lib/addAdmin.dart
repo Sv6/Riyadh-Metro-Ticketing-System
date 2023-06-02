@@ -96,7 +96,7 @@ class _addAdminState extends State<addAdmin> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 90,
+                    height: 15,
                   ),
                   //========================= ADMIN TEXT =========================
                   Row(
