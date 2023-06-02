@@ -5,6 +5,8 @@ import 'Admin.dart';
 void main() => runApp(CancelPage());
 
 class CancelPage extends StatelessWidget {
+  const CancelPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +20,8 @@ class CancelPage extends StatelessWidget {
 }
 
 class myCancelPage extends StatefulWidget {
+  const myCancelPage({super.key});
+
   @override
   _myCancelPage createState() => _myCancelPage();
 }
@@ -32,8 +36,6 @@ class _myCancelPage extends State<myCancelPage> {
   @override
   void initState() {
     List<dynamic> names;
-    List ids;
-    List stations;
     super.initState();
   }
 
@@ -58,21 +60,9 @@ class _myCancelPage extends State<myCancelPage> {
           if (snapshot.hasData && !snapshot.hasError) {
             List<Map<String, dynamic>> data =
                 snapshot.data[0] as List<Map<String, dynamic>>;
-            // print(data);
 
             List nameTemp = [];
-            List idsTemp = [];
-            List stationTemp = [];
 
-            // data.forEach((key, value) {
-            //   if (key == "name") {
-            //     nameTemp.add(value);
-            //   } else if (key == "id") {
-            //     idsTemp.add(value);
-            //   } else if (key == "station") {
-            //     stationTemp.add(value);
-            //   }
-            // });
             for (var element in data) {
               nameTemp.add(element.values);
             }
@@ -82,10 +72,9 @@ class _myCancelPage extends State<myCancelPage> {
                 names = List.from(nameTemp);
               });
             });
+            
           } else {
             return Center(child: CircularProgressIndicator());
-
-            // print("error");
           }
           return ListView.separated(
             itemCount: names.length,
@@ -126,7 +115,7 @@ class CancelDetailsPage extends StatefulWidget {
   final String name;
   final String uid;
 
-  CancelDetailsPage({
+  const CancelDetailsPage({
     super.key,
     required this.id,
     required this.station,

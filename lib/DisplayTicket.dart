@@ -40,6 +40,7 @@ String printStatus(bool s) {
 }
 
 class _DisplayTicketState extends State<DisplayTicket> {
+  @override
   void initState() {
     bool status;
     super.initState();
@@ -141,7 +142,7 @@ class _DisplayTicketState extends State<DisplayTicket> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(15),
-                          child: Container(
+                          child: SizedBox(
                             height: 200,
                             width: 200,
                             child: QrImageView(
@@ -166,14 +167,40 @@ class _DisplayTicketState extends State<DisplayTicket> {
                         height: 50.0,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 6, 179, 107),
+                            backgroundColor: Colors.red,
+                            disabledBackgroundColor: Colors.grey,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: widget.status
+                              ? null
+                              : () async {
+                                  CRUD.deleteTicketPermanantly(widget.id);
+                                  String uid = await CRUD.getId();
+                                  Map<String, dynamic> data =
+                                      await CRUD.getUserData(uid);
+                                  Navigator.of(context)
+                                      .push(
+                                        MaterialPageRoute(
+                                          builder: (context) => ClientPage(
+                                            clientName: data["FULLNAME"],
+                                            balance: data["BALANCE"] * 1.0,
+                                            availableTickets: data["TICKETS"],
+                                            walletID: data["WALLETID"],
+                                            pass: data["PASS"],
+                                            stations: const [],
+                                            date: const [],
+                                            status: const [],
+                                          ),
+                                        ),
+                                      )
+                                      .then(
+                                        (_) => Navigator.pop(context),
+                                      );
+                                },
                           child: Text(
-                            'Export',
+                            'DELETE',
                             style: TextStyle(fontSize: 18.0),
                           ),
                         ),
@@ -189,14 +216,17 @@ class _DisplayTicketState extends State<DisplayTicket> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          onPressed: () {
-                            CRUD.insertCanceledTicket(widget.id);
-                            CRUD.changeTicketStatus(widget.id);
-                            CRUD.setCancelCounter(widget.from, widget.time);
-                            setState(() {
-                              widget.status = false;
-                            });
-                          },
+                          onPressed: !widget.status
+                              ? null
+                              : () {
+                                  CRUD.insertCanceledTicket(widget.id);
+                                  CRUD.changeTicketStatus(widget.id);
+                                  CRUD.setCancelCounter(
+                                      widget.from, widget.time);
+                                  setState(() {
+                                    widget.status = false;
+                                  });
+                                },
                           child: Text(
                             'Cancel',
                             style: TextStyle(fontSize: 18.0),

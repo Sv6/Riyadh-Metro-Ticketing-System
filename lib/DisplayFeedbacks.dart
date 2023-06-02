@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'crud.dart';
@@ -9,6 +8,8 @@ void main() {
 }
 
 class DisplayFeedback extends StatefulWidget {
+  const DisplayFeedback({super.key});
+
   @override
   State<DisplayFeedback> createState() => _DisplayFeedbackState();
 }
@@ -37,6 +38,8 @@ class _DisplayFeedbackState extends State<DisplayFeedback> {
 }
 
 class FeedbackListPage extends StatefulWidget {
+  const FeedbackListPage({super.key});
+
   @override
   State<FeedbackListPage> createState() => _FeedbackListPageState();
 }
@@ -128,7 +131,7 @@ class FeedbackDetailsPage extends StatefulWidget {
   final String uid;
   final String id;
 
-  FeedbackDetailsPage(
+  const FeedbackDetailsPage(
       {super.key,
       required this.title,
       required this.body,

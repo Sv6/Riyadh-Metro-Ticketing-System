@@ -263,72 +263,86 @@ class Crud {
     }
   }
 
+  void deletePastTimes() async {
+    var formatter = DateFormat('HH:mm');
+    String currentTime = formatter.format(DateTime.now());
 
-void deletePastTimes() async {
-  var formatter = DateFormat('HH:mm');
-  String currentTime = formatter.format(DateTime.now());
+    CollectionReference stationsCollection =
+        FirebaseFirestore.instance.collection('STATIONS');
 
-  CollectionReference stationsCollection =
-      FirebaseFirestore.instance.collection('STATIONS');
+    QuerySnapshot querySnapshot = await stationsCollection.get();
 
-  QuerySnapshot querySnapshot = await stationsCollection.get();
+    for (var documentSnapshot in querySnapshot.docs) {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
 
-  querySnapshot.docs.forEach((documentSnapshot) {
-    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('time_count')) {
+        Map<String, dynamic> timeCount = data['time_count'];
 
-    if (data.containsKey('time_count')) {
-      Map<String, dynamic> timeCount = data['time_count'];
+        List<String> keysToRemove = timeCount.keys
+            .where((time) => isPastTime(time, currentTime))
+            .toList();
 
-      List<String> keysToRemove = timeCount.keys
-          .where((time) => isPastTime(time, currentTime))
-          .toList();
+        for (var key in keysToRemove) {
+          timeCount.remove(key);
+        }
 
-      keysToRemove.forEach((key) => timeCount.remove(key));
-
-      documentSnapshot.reference.update({'time_count': timeCount});
-    }
-  });
-}
-
-void ticketsPastTime() async{
-  var formatter = DateFormat('HH:mm');
-String currentTime = formatter.format(DateTime.now());
-CollectionReference ticketsCollection = FirebaseFirestore.instance.collection('Tickets');
-QuerySnapshot querySnapshot = await ticketsCollection.get();
-
-querySnapshot.docs.forEach((documentSnapshot) {
-  Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-
-  if (data.containsKey('Date')) {
-    String ticketTime = data['Date'];
-
-    if (isPastTime(ticketTime, currentTime)) {
-      documentSnapshot.reference.update({'Status': false});
+        documentSnapshot.reference.update({'time_count': timeCount});
+      }
     }
   }
-});
 
-}
+  void ticketsPastTime() async {
+    var formatter = DateFormat('HH:mm');
+    String currentTime = formatter.format(DateTime.now());
+    CollectionReference ticketsCollection =
+        FirebaseFirestore.instance.collection('Tickets');
+    QuerySnapshot querySnapshot = await ticketsCollection.get();
 
-bool isPastTime(String time, String currentTime) {
-  List<String> timeComponents = time.split(':');
-  List<String> currentComponents = currentTime.split(':');
+    for (var documentSnapshot in querySnapshot.docs) {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
 
-  int timeHour = int.parse(timeComponents[0]);
-  int timeMinute = int.parse(timeComponents[1]);
+      if (data.containsKey('Date')) {
+        String ticketTime = data['Date'];
 
-  int currentHour = int.parse(currentComponents[0]);
-  int currentMinute = int.parse(currentComponents[1]);
-
-  if (currentHour < timeHour) {
-    return false; // Current hour is less than time hour, not in the past
-  } else if (currentHour == timeHour && currentMinute < timeMinute) {
-    return false; // Current hour is the same, but current minute is less than time minute, not in the past
-  } else {
-    return true; // All other cases, considered in the past
+        if (isPastTime(ticketTime, currentTime)) {
+          documentSnapshot.reference.update({'Status': false});
+        }
+      }
+    }
   }
-}
 
+  bool isPastTime(String time, String currentTime) {
+    List<String> timeComponents = time.split(':');
+    List<String> currentComponents = currentTime.split(':');
+
+    int timeHour = int.parse(timeComponents[0]);
+    int timeMinute = int.parse(timeComponents[1]);
+
+    int currentHour = int.parse(currentComponents[0]);
+    int currentMinute = int.parse(currentComponents[1]);
+
+    if (currentHour < timeHour) {
+      return false; // Current hour is less than time hour, not in the past
+    } else if (currentHour == timeHour && currentMinute < timeMinute) {
+      return false; // Current hour is the same, but current minute is less than time minute, not in the past
+    } else {
+      return true; // All other cases, considered in the past
+    }
+  }
+
+//==========================================================================================
+  void deleteTicketPermanantly(String id) async {
+    //delete from tickets
+    await db.collection("Tickets").doc(id).delete();
+    //delete from user
+    String uid = await getId();
+    Map<String, dynamic> data = await getUserData(uid);
+    List availableTickets = data["TICKETS"];
+    availableTickets.remove(id);
+    db.collection("User").doc(uid).update({"TICKETS": availableTickets});
+  }
 
   Future<Map<String, dynamic>> getStationInfo(String key) async {
     DocumentSnapshot stationSnapshot =
@@ -392,7 +406,6 @@ bool isPastTime(String time, String currentTime) {
       String name = feedback["TITLE"].toString();
       data[element.toString()] = name.toString();
     }
-    ;
     return data;
   }
 
@@ -443,7 +456,7 @@ bool isPastTime(String time, String currentTime) {
   }
 
   void insertCanceledTicket(String tickID) async {
-    String id = "c${tickID}";
+    String id = "c$tickID";
     String uid = await getId();
 
     final data = <String, dynamic>{
@@ -508,7 +521,11 @@ bool isPastTime(String time, String currentTime) {
     Map<String, dynamic> temp = await getUserData(uid);
     double balance = temp["BALANCE"] + 10;
     db.collection("User").doc(uid).update({"BALANCE": balance});
-    db.collection("CANCELED").doc("c${id}").update({"refunded": true});
+    db.collection("CANCELED").doc("c$id").update({"refunded": true});
+    // remove from user available tickets
+    List availableTickets = temp["Tickets"];
+    availableTickets.remove(id);
+    db.collection("User").doc(uid).update({"TICKETS": availableTickets});
   }
 
   Future<bool> switchFreezeAccount(String? id) async {

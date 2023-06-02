@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:riyadh_metro/FeedbackPage.dart';
 import 'package:riyadh_metro/cancel.dart';
 import 'package:riyadh_metro/client.dart';
-import 'package:riyadh_metro/crud.dart';
 import 'package:riyadh_metro/mapPage.dart';
 import 'package:riyadh_metro/settings.dart';
 import 'package:riyadh_metro/updateProfile.dart';

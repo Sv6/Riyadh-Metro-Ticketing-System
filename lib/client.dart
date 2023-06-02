@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:riyadh_metro/Wallet.dart';
@@ -14,7 +13,7 @@ void main() async {
   runApp(ClientPage(
     clientName: "Abdulrahman Zyad",
     balance: 400000.00,
-    availableTickets: ["d"],
+    availableTickets: const ["d"],
     walletID: "",
     pass: 0,
     date: const [],
@@ -315,7 +314,7 @@ class _ClientPageState extends State<ClientPage> {
                                       trailing: Chip(
                                         label: Text(
                                             printStatus(
-                                                "${snapshot.data!.docs[index]["Status"].toString()}"),
+                                                snapshot.data!.docs[index]["Status"].toString()),
                                             style: TextStyle(color: textColor)),
                                         backgroundColor: chipColor,
                                       ),
@@ -329,11 +328,9 @@ class _ClientPageState extends State<ClientPage> {
                                         final List<DocumentSnapshot> dd =
                                             snapshot.data!.docs;
                                         List temp = [];
-                                        dd.forEach(
-                                          (element) {
+                                        for (var element in dd) {
                                             temp.add(element.id);
-                                          },
-                                        );
+                                          }
                                         print(temp);
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(

@@ -2,16 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'package:riyadh_metro/Wallet.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'Admin.dart';
 import 'crud.dart';
 import 'firebase_options.dart';
-import 'mapPage.dart';
-import 'settings.dart';
-import 'client.dart';
-import 'ViewList.dart';
 
 final Crud CRUD = Crud();
 Future<void> main() async {
@@ -55,6 +49,8 @@ Future<List<String>> initializeStationList(Crud CRUD) async {
 }
 
 class freezeStation extends StatefulWidget {
+  const freezeStation({super.key});
+
   @override
   State<freezeStation> createState() => _freezeStationState();
 }
@@ -111,7 +107,7 @@ class _freezeStationState extends State<freezeStation> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
-                        children: [],
+                        children: const [],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:riyadh_metro/crud.dart';
 import 'Admin.dart';
-import 'crud.dart';
 
 void main() {
   runApp(FreezeAccount());
 }
 
 class FreezeAccount extends StatelessWidget {
+  const FreezeAccount({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,12 +22,14 @@ class FreezeAccount extends StatelessWidget {
 }
 
 class FreezeAccountPage extends StatefulWidget {
+  const FreezeAccountPage({super.key});
+
   @override
   _FreezeAccountPageState createState() => _FreezeAccountPageState();
 }
 
 class _FreezeAccountPageState extends State<FreezeAccountPage> {
-  TextEditingController _userIdController = TextEditingController();
+  final TextEditingController _userIdController = TextEditingController();
   Crud CRUD = Crud();
 
   @override

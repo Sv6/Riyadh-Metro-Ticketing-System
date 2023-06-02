@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:riyadh_metro/Wallet.dart';
@@ -8,7 +7,6 @@ import 'crud.dart';
 import 'mapPage.dart';
 import 'settings.dart';
 import 'client.dart';
-import 'ViewList.dart';
 
 void main() {
   runApp(
