@@ -28,7 +28,7 @@ void main() async {
 //test-z
 
   runApp(MaterialApp(
-    title: "test",
+    title: "main",
     theme: ThemeData.dark(),
     home: LoginPage(),
     routes: {
@@ -36,8 +36,8 @@ void main() async {
       "/signUP/": (context) => SignUpPage(),
       "/Client/": (context) => ClientPage(
             clientName: '',
-            balance: 100,
-            availableTickets: const ["d"],
+            balance: 0,
+            availableTickets: const [""],
             walletID: "",
             pass: 0,
             stations: const [],
@@ -45,16 +45,16 @@ void main() async {
             status: const [],
           ),
       "/Walllet/": (context) => walletPage(
-            balance: 100,
-            clientName: "clientName",
-            walletID: "2",
+            balance: 0,
+            clientName: "",
+            walletID: "",
             pass: 0,
           ),
       "/settings/": (context) => SettingsPage(),
       // "/Walllet/": (context) => walletPage(balance: 100, clientName: "clientName", walletID: "2"),
       "/book/": (context) => BookPage(
-            clientName: "client",
-            balance: 1,
+            clientName: "",
+            balance: 0,
             walletID: "",
             pass: 0,
             countCongestion: const [],

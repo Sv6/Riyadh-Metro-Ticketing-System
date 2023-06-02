@@ -70,15 +70,15 @@ class _SignUpPageState extends State<SignUpPage> {
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               color: Color.fromARGB(255, 6, 179, 107),
-            ), // set the border color to green
+            ), 
           ),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               color: Color.fromARGB(255, 6, 179, 107),
-            ), // set the border color to green
+            ), 
           ),
           prefixStyle: TextStyle(
-            color: Colors.white, // set the prefix icon color to white
+            color: Colors.white, 
           ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -170,19 +170,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                   context: context,
                                   initialDate: DateTime(2000),
                                   firstDate: DateTime(1950),
-                                  //DateTime.now() - not to allow to choose before today.
                                   lastDate: DateTime(2008));
 
                               if (pickedDate != null) {
-                                print(
-                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                                 String formattedDate =
                                     DateFormat('yyyy-MM-dd').format(pickedDate);
-                                print(
-                                    formattedDate); //formatted date output using intl package =>  2021-03-16
                                 setState(() {
                                   _birthDate.text =
-                                      formattedDate; //set output date to TextField value.
+                                      formattedDate; 
                                 });
                               } else {}
                             },

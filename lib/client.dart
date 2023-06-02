@@ -86,7 +86,6 @@ class _ClientPageState extends State<ClientPage> {
               SizedBox(height: 20.0),
               Center(
                 child: SafeArea(
-                  //Card
                   child: Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
                     height: 200,
@@ -189,54 +188,6 @@ class _ClientPageState extends State<ClientPage> {
                 ),
               ),
 
-              // --------------------Available tickets-----------------------
-              // SizedBox(height: 20.0),
-              // Container(
-              //   height: 50,
-              //   width: 200,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.all(Radius.circular(20)),
-              //     color: Color.fromARGB(255, 6, 179, 107),
-              //   ),
-              //   child: TextButton(
-              //     onPressed: () async {
-              //       List tIds = [];
-              //       List stationList = [];
-              //       List statusList = [];
-              //       List dateList = [];
-              //       String id = await CRUD.getId();
-              //       Map<String, dynamic> userData = await CRUD.getUserData(id);
-              //       tIds = userData["TICKETS"];
-              //       for (var item in widget.availableTickets) {
-              //         Map<String, dynamic> info =
-              //             await CRUD.getTicketInfo(item);
-              //         // print(info["Start_station"]);
-              //         stationList.add(info["Start_station"]);
-              //         statusList.add(info["Status"]);
-              //         dateList.add(info["Date"]);
-              //         //--------------------------------------------------------------------------------------------------
-              //         // print(widget.availableTickets);
-              //       }
-              //       setState(() {
-              //         widget.availableTickets = tIds;
-              //         widget.stations = stationList;
-              //         widget.status = statusList;
-              //         widget.date = dateList;
-              //         // print(tickIds.length);
-              //       });
-              //     },
-              //     child: Text(
-              //       "Get Info",
-              //       style: TextStyle(
-              //         fontSize: 20,
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.white,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-
-//START
               Center(
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     stream: FirebaseFirestore.instance
@@ -292,7 +243,6 @@ class _ClientPageState extends State<ClientPage> {
                               Expanded(
                                 child: ListView.separated(
                                   itemCount: snapshot.data!.size,
-                                  // Replace 'tickets.length' with the actual number of tickets
 
                                   itemBuilder: (context, index) {
                                     Color chipColor;
@@ -331,7 +281,7 @@ class _ClientPageState extends State<ClientPage> {
                                         for (var element in dd) {
                                             temp.add(element.id);
                                           }
-                                        print(temp);
+                                        
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => DisplayTicket(
@@ -348,7 +298,6 @@ class _ClientPageState extends State<ClientPage> {
                                     );
                                   },
 
-                                  // DisplayTicket(name: widget.clientName, id: widget.availableTickets[index], from: widget.stations[index], time: widget.date[index], status: widget.status[index])
                                   separatorBuilder: (context, index) => Divider(
                                     color: Colors.white,
                                     height: 1,
@@ -359,110 +308,42 @@ class _ClientPageState extends State<ClientPage> {
                           ),
                         );
 
-                        //---------------------------------------
                       } else {
                         return CircularProgressIndicator();
                       }
                     }),
               ),
-              // Center(
-              //   child: Container(
-              //     margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
-              //     height: 380,
-              //     width: 680,
-              //     decoration: BoxDecoration(
-              //       color: Color.fromARGB(255, 6, 179, 107),
-              //       borderRadius: BorderRadius.circular(10.0),
-              //       boxShadow: [
-              //         BoxShadow(
-              //           color: Colors.grey.withOpacity(0.5),
-              //           spreadRadius: 3,
-              //           blurRadius: 7,
-              //           offset: Offset(0, 3),
-              //         ),
-              //       ],
-              //     ),
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         Padding(
-              //           padding: EdgeInsets.all(16.0),
-              //           child: Center(
-              //             child: Text(
-              //               "Available Tickets",
-              //               style: TextStyle(
-              //                 fontSize: 20,
-              //                 fontWeight: FontWeight.bold,
-              //                 color: Colors.white,
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //         Expanded(
-              //           child: ListView.separated(
-              //             itemCount: widget.stations
-              //                 .length, // Replace 'tickets.length' with the actual number of tickets
-              //             itemBuilder: (context, index) {
-              //               return ListTile(
-              //                 title: Text("${widget.stations[index]}"),
-              //                 subtitle: Text(widget.date[index]),
-              //                 trailing: Text(printStatus(widget.status[index])),
-              //                 textColor: Colors.white,
-              //                 onTap: () {
-              //                   Navigator.of(context).push(MaterialPageRoute(
-              //                     builder: (context) => DisplayTicket(
-              //                         name: widget.clientName,
-              //                         id: widget.availableTickets[index],
-              //                         from: widget.stations[index],
-              //                         time: widget.date[index],
-              //                         status: widget.status[index]),
-              //                   ));
-              //                 },
-              //               );
-              //             },
-
-              //             // DisplayTicket(name: widget.clientName, id: widget.availableTickets[index], from: widget.stations[index], time: widget.date[index], status: widget.status[index])
-              //             separatorBuilder: (context, index) => Divider(
-              //               color: Colors.white,
-              //               height: 1,
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              //FINISH
+              
             ],
           ),
         ),
         bottomNavigationBar: GNav(
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
           rippleColor: Color.fromARGB(
-              255, 6, 179, 107), // tab button ripple color when pressed
-          haptic: true, // haptic feedback
+              255, 6, 179, 107), 
+          haptic: true, 
           tabBorderRadius: 15,
           tabActiveBorder: Border.all(
               color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), // tab button border
+              width: 1), 
           tabBorder: Border.all(
               color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), // tab button border
+              width: 1), 
           tabShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
                 blurRadius: 8)
-          ], // tab button shadow
-          curve: Curves.easeOutExpo, // tab animation curves
-          duration: Duration(milliseconds: 900), // tab animation duration
-          gap: 8, // the tab button gap between icon and text
-          color: Colors.grey[800], // unselected icon color
-          activeColor: Colors.white, // selected icon and text color
-          iconSize: 24, // tab button icon size
+          ], 
+          curve: Curves.easeOutExpo, 
+          duration: Duration(milliseconds: 900), 
+          gap: 8, 
+          color: Colors.grey[800], 
+          activeColor: Colors.white, 
+          iconSize: 24, 
           tabBackgroundColor:
-              Colors.white.withOpacity(0.1), // selected tab background color
+              Colors.white.withOpacity(0.1), 
           padding: EdgeInsets.symmetric(
-              horizontal: 20, vertical: 20), // navigation bar padding
+              horizontal: 20, vertical: 20), 
           tabs: [
             GButton(
               icon: Icons.home,
@@ -506,5 +387,3 @@ class _ClientPageState extends State<ClientPage> {
     );
   }
 }
-
-//huihuinjhinibyhjvh

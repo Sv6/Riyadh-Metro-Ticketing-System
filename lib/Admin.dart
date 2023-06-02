@@ -6,6 +6,7 @@ import 'login.dart';
 import 'crud.dart';
 import 'cancel.dart';
 import 'FreezeAccount.dart';
+import 'updateAdminProfile.dart';
 
 void main() {
   runApp(Admin());
@@ -19,14 +20,21 @@ class Admin extends StatelessWidget {
     CRUD.deletePastTimes();
     CRUD.ticketsPastTime();
     return MaterialApp(
-      title: 'Admin',
+      
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 6, 179, 107),
       ),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
-          title: Center(child: Text('Admin')),
+          title: Text('Admin'),
+          leading: IconButton(
+            icon: Icon(Icons.person),
+            onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => UpdateAdminProfile()));
+            },
+            ),
         ),
         body: ListView(
           children: [

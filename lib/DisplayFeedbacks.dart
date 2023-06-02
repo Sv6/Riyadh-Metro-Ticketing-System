@@ -162,7 +162,7 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
                   child: Wrap(
                     alignment: WrapAlignment.spaceBetween,
                     runAlignment: WrapAlignment.spaceBetween,
-                    spacing: 10.0, // gap between adjacent chips
+                    spacing: 10.0, 
                     direction: Axis.horizontal,
                     children: [
                       Text("Name: ${widget.name}"),
@@ -185,7 +185,7 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
                   height: 15,
                 ),
                 SizedBox(
-                  // color: Color.fromARGB(255, 6, 179, 107),
+                 
                   width: 150.0,
                   height: 50.0,
                   child: ElevatedButton(

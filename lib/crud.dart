@@ -4,13 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
-// Copy pasta method, makes first letter of every word Captialized,
-//i put in crud as its imported in every class,as an extension, we have to import it every time -f
+
 extension StringCasingExtension on String {
-  //use this if you want only the FIRST letter captilized, example:hello=>Hello
+ 
   String toCapitalized() =>
       length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
-  //use this if you want EVERY first letter on every word captilized, example:feras alaskar=>Feras Alaskar
   String toTitleCase() => replaceAll(RegExp(' +'), ' ')
       .split(' ')
       .map((str) => str.toCapitalized())
@@ -41,7 +39,7 @@ class Crud {
       final data = <String, dynamic>{
         "FULLNAME": name,
 
-        "BIRTHDATE": bd, //change to DateTime
+        "BIRTHDATE": bd, 
         "EMAIL": email,
         "PHONE": phone,
 
@@ -81,7 +79,7 @@ class Crud {
       final data = <String, dynamic>{
         "FULLNAME": name,
         "BALANCE": balance,
-        "BIRTHDATE": bd, //change to DateTime
+        "BIRTHDATE": bd, 
         "EMAIL": email,
         "PHONE": phone,
         "WALLETID": walletID,
@@ -105,8 +103,14 @@ class Crud {
     return uid;
   }
 
+  Future<String> getAdminId() async {
+    final admin = FirebaseAuth.instance.currentUser;
+    String uid = admin!.uid;
+    return uid;
+  }
+
   Future<Map<String, dynamic>> getUserData(String uid) async {
-    // uid = await getId();
+   
 
     CollectionReference users = FirebaseFirestore.instance.collection('User');
     DocumentReference userDocument = users.doc(uid);
@@ -120,13 +124,12 @@ class Crud {
 
       return data;
     } else {
-      // The data does not exist.
       return {};
     }
   }
 
   Future<Map<String, dynamic>> getAdminData(String uid) async {
-    // uid = await getId();
+ 
 
     CollectionReference users = FirebaseFirestore.instance.collection('Admin');
     DocumentReference userDocument = users.doc(uid);
@@ -140,7 +143,7 @@ class Crud {
 
       return data;
     } else {
-      // The data does not exist.
+     
       return {};
     }
   }
@@ -151,13 +154,11 @@ class Crud {
     return true;
   }
 
-//not finished
   CollectionReference cR = FirebaseFirestore.instance.collection("Admin");
   Future<void> retrieveAdminEmail() async {
     QuerySnapshot qS = await cR.get();
 
     final allData = qS.docs.map((doc) => doc.data()).toList();
-    print(allData);
   }
 
   void InsertTicket(String tickID) async {
@@ -193,15 +194,34 @@ class Crud {
     db.collection("User").doc(id).update({"FULLNAME": name});
   }
 
+  void updateAdminName(String name) async {
+    String id = await getAdminId();
+    Map<String, dynamic> data = await getAdminData(id);
+    db.collection("Admin").doc(id).update({"FULLNAME": name});
+  }
+
   void updatePassword(String password) async {
     String id = await getId();
     try {
       FirebaseAuth.instance.currentUser!.updatePassword(password);
     } on FirebaseAuthException {
       return;
+    } catch (e) {
+      return;
     }
     Map<String, dynamic> data = await getUserData(id);
     db.collection("User").doc(id).update({"PASSWORD": password});
+  }
+
+  void updateAdminPassword(String password) async {
+    String id = await getAdminId();
+    try {
+      FirebaseAuth.instance.currentUser!.updatePassword(password);
+    } on FirebaseAuthException {
+      return;
+    }
+    Map<String, dynamic> data = await getAdminData(id);
+    db.collection("Admin").doc(id).update({"PASSWORD": password});
   }
 
   void updateEmail(String email) async {
@@ -215,10 +235,27 @@ class Crud {
     db.collection("User").doc(id).update({"EMAIL": email});
   }
 
+  void updateAdminEmail(String email) async {
+    String id = await getAdminId();
+    try {
+      FirebaseAuth.instance.currentUser!.updateEmail(email);
+    } on FirebaseAuthException {
+      return;
+    }
+    Map<String, dynamic> data = await getAdminData(id);
+    db.collection("Admin").doc(id).update({"EMAIL": email});
+  }
+
   void updatePhone(String phone) async {
     String id = await getId();
     Map<String, dynamic> data = await getUserData(id);
     db.collection("User").doc(id).update({"PHONE": phone});
+  }
+
+  void updateAdminPhone(String phone) async {
+    String id = await getAdminId();
+    Map<String, dynamic> data = await getAdminData(id);
+    db.collection("Admin").doc(id).update({"PHONE": phone});
   }
 
   Future<List> retrieveStations() async {
@@ -231,7 +268,6 @@ class Crud {
     QuerySnapshot qS =
         await db.collection("STATIONS").where("status", isEqualTo: true).get();
     final data = qS.docs.map((e) => e.id).toList();
-    print(data);
     return data;
   }
 
@@ -332,7 +368,6 @@ class Crud {
     }
   }
 
-//==========================================================================================
   void deleteTicketPermanantly(String id) async {
     //delete from tickets
     await db.collection("Tickets").doc(id).delete();
@@ -522,7 +557,6 @@ class Crud {
     double balance = temp["BALANCE"] + 10;
     db.collection("User").doc(uid).update({"BALANCE": balance});
     db.collection("CANCELED").doc("c$id").update({"refunded": true});
-    // remove from user available tickets
     List availableTickets = temp["Tickets"];
     availableTickets.remove(id);
     db.collection("User").doc(uid).update({"TICKETS": availableTickets});

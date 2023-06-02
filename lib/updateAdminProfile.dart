@@ -1,40 +1,38 @@
 import 'package:flutter/material.dart';
 
-import 'settings.dart';
+import 'Admin.dart';
 import 'validator.dart';
 import 'crud.dart';
 
 void main() {
-  runApp(UpdateProfile());
+  runApp(UpdateAdminProfile());
 }
 
-class UpdateProfile extends StatelessWidget {
-  const UpdateProfile({super.key});
+class UpdateAdminProfile extends StatelessWidget {
+  const UpdateAdminProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
-      home: UpdateProfilePage(),
+      title: 'update admin',
+      home: UpdateAdminProfilePage(),
     );
   }
 }
 
-class UpdateProfilePage extends StatefulWidget {
-  const UpdateProfilePage({super.key});
+class UpdateAdminProfilePage extends StatefulWidget {
+  const UpdateAdminProfilePage({super.key});
 
   @override
-  _UpdateProfilePageState createState() => _UpdateProfilePageState();
+  _UpdateAdminProfilePageState createState() => _UpdateAdminProfilePageState();
 }
 
-class _UpdateProfilePageState extends State<UpdateProfilePage> {
+class _UpdateAdminProfilePageState extends State<UpdateAdminProfilePage> {
   bool hidePass = true;
   final _formKey = GlobalKey<FormState>();
   final Validator validate = Validator();
   final Crud CRUD = Crud();
   final _fullNameController = TextEditingController();
-  final _birthdateController = TextEditingController();
-  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
@@ -42,8 +40,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   @override
   void dispose() {
     _fullNameController.dispose();
-    _birthdateController.dispose();
-    _usernameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
     _phoneNumberController.dispose();
@@ -60,8 +56,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => (SettingsPage())));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => (Admin())));
             },
           ),
         ),
@@ -126,6 +122,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     } else if (!validate.validateEmail(
                         email: _emailController.text)) {
                       return "enter a valid email";
+                    } else if (!validate.isAdmin(_emailController.text)) {
+                      return "email must end with @metro.com";
                     }
                     return null;
                   },
@@ -193,21 +191,22 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                         }
 
                         if (_fullNameController.text.isNotEmpty) {
-                          CRUD.updateName(_fullNameController.text);
+                          CRUD.updateAdminName(_fullNameController.text);
                           _fullNameController.clear();
                         }
                         if (_passwordController.text.isNotEmpty) {
-                          CRUD.updatePassword(_passwordController.text);
+                          CRUD.updateAdminPassword(_passwordController.text);
                           _passwordController.clear();
                         }
                         if (_emailController.text.isNotEmpty) {
-                          CRUD.updateEmail(_emailController.text);
+                          CRUD.updateAdminEmail(_emailController.text);
                           _emailController.clear();
                         }
                         if (_phoneNumberController.text.isNotEmpty) {
-                          CRUD.updatePhone(_phoneNumberController.text);
+                          CRUD.updateAdminPhone(_phoneNumberController.text);
                           _phoneNumberController.clear();
                         }
+                        
                       }
                     },
                     style: ElevatedButton.styleFrom(

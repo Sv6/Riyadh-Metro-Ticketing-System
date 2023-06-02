@@ -25,7 +25,6 @@ class _myAppState extends State<LoginPage> {
   bool hidePass = true;
   Crud CRUD = Crud();
 
-//controller for login
   late final TextEditingController _email;
   late final TextEditingController _password;
 
@@ -45,7 +44,6 @@ class _myAppState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //THIS preloads the map for MapPage so it loads faster -f
     precacheImage(AssetImage('assets/images/map.jpg'), context);
     return MaterialApp(
       title: 'Login Page',
@@ -55,15 +53,15 @@ class _myAppState extends State<LoginPage> {
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
                 color: Color.fromARGB(
-                    255, 6, 179, 107)), // set the border color to white
+                    255, 6, 179, 107)), 
           ),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
                 color: Color.fromARGB(
-                    255, 6, 179, 107)), // set the border color to white
+                    255, 6, 179, 107)), 
           ),
           prefixStyle: TextStyle(
-            color: Colors.white, // set the prefix icon color to white
+            color: Colors.white, 
           ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -76,8 +74,7 @@ class _myAppState extends State<LoginPage> {
           builder: (context, snapshot) {
             return SingleChildScrollView(
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
+
                 children: [
                   SizedBox(height: 50.0),
                   // ========================= LOGO =========================
@@ -171,7 +168,6 @@ class _myAppState extends State<LoginPage> {
 
                   // ========================= LOGIN BUTTON =========================
                   SizedBox(
-                    // color: Color.fromARGB(255, 6, 179, 107),
                     width: 300.0,
                     height: 50.0,
                     child: ElevatedButton(
@@ -204,41 +200,40 @@ class _myAppState extends State<LoginPage> {
                           String uid = await CRUD.getId();
                           Map<String, dynamic> data =
                               await CRUD.getUserData(uid);
-                          print(_email.text);
-                          print(valid.isAdmin(_email.text));
                           if (valid.isAdmin(_email.text)) {
                             Map<String, dynamic> data =
-                              await CRUD.getAdminData(uid);
-                              if(data["STATUS"]) {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Admin()));
-                              }else {
-                                 const snackBar = SnackBar(
-                              content: Text("Account is Frozen"));
-                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }
-                            
+                                await CRUD.getAdminData(uid);
+                            if (data["STATUS"]) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Admin()));
+                            } else {
+                              const snackBar =
+                                  SnackBar(content: Text("Account is Frozen"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
                           } else {
-                            if(data["STATUS"]) {
-                               Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ClientPage(
-                                  clientName: data["FULLNAME"],
-                                  balance: data["BALANCE"] * 1.0,
-                                  availableTickets: data["TICKETS"],
-                                  walletID: data["WALLETID"],
-                                  pass: data["PASS"],
-                                  stations: const [],
-                                  date: const [],
-                                  status: const [],
+                            if (data["STATUS"]) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ClientPage(
+                                    clientName: data["FULLNAME"],
+                                    balance: data["BALANCE"] * 1.0,
+                                    availableTickets: data["TICKETS"],
+                                    walletID: data["WALLETID"],
+                                    pass: data["PASS"],
+                                    stations: const [],
+                                    date: const [],
+                                    status: const [],
+                                  ),
                                 ),
-                              ),
-                            );
-                            }else {
-                                const snackBar = SnackBar(
-                              content: Text("Account is Frozen"));
-                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                            }          
+                              );
+                            } else {
+                              const snackBar =
+                                  SnackBar(content: Text("Account is Frozen"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
                           }
                         }
                       },

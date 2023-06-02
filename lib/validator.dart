@@ -4,15 +4,15 @@ class Validator {
     RegExp nameExp = RegExp(r"^[a-zA-Z ]{4,}[a-zA-Z]+$");
     if (!nameExp.hasMatch(name)) {
       return false;
-    } //"Enter a correct name"
+    } 
 
     if (name.split(" ").length != 2) {
       return false;
-    } // "You must right your first name and last name"
+    } 
 
     if (name.isEmpty) {
       return false;
-    } // 'Name can\'t be empty'
+    } 
     return true;
   }
 
@@ -28,9 +28,9 @@ class Validator {
         RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
 
     if (email.isEmpty) {
-      return false; //'Email can\'t be empty'
+      return false; 
     } else if (!emailRegExp.hasMatch(email)) {
-      return false; //'Enter a correct email'
+      return false; 
     }
 
     return true;

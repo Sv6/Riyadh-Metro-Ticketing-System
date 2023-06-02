@@ -41,13 +41,6 @@ List<String> initializeTimeList() {
   for (int i = hournow; i < 24 + hournow; i++) {
     String s = "";
     int k = i % 24;
-
-    // if (i < 24) {
-    //   s = "today ";
-    // } else {
-    //   s = "tomorrow ";
-    // }
-
     if (i < 10) {
       s = "$s 0$k:";
     } else {
@@ -106,10 +99,7 @@ class _BookPageState extends State<BookPage> {
 
   @override
   Widget build(BuildContext context) {
-    // initializeStationList(Crud CRUD);
-    // String selectedFrom = selectedFrom;
     initializeStationList(CRUD);
-    print(first);
 
     return MaterialApp(
       title: 'Home Page',
@@ -293,8 +283,6 @@ class _BookPageState extends State<BookPage> {
                               children: [
                                 Expanded(
                                   child: Column(
-                                    // crossAxisAlignment:
-                                    //     CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "From:",
@@ -305,7 +293,7 @@ class _BookPageState extends State<BookPage> {
                                         menuMaxHeight: 250,
                                         value: selectedFrom,
                                         onChanged: (String? value) async {
-                                          // this is important to choose the right Station.
+                          
                                           setState(() {
                                             selectedFrom = value.toString();
                                             selectedFrom = value.toString();
@@ -337,8 +325,7 @@ class _BookPageState extends State<BookPage> {
                                 ),
                                 Expanded(
                                   child: Column(
-                                    // crossAxisAlignment:
-                                    //     CrossAxisAlignment.start,
+                      
                                     children: [
                                       Text(
                                         "Time:",
@@ -410,7 +397,8 @@ class _BookPageState extends State<BookPage> {
                                           CRUD.InsertTicket(tickID);
                                           CRUD.updateBalance(-10);
                                         } else {
-                                          showDialog<String>(
+                                          if(context.mounted) {
+                                            showDialog<String>(
                                             context: context,
                                             builder: (BuildContext context) =>
                                                 AlertDialog(
@@ -428,6 +416,8 @@ class _BookPageState extends State<BookPage> {
                                               ],
                                             ),
                                           );
+                                          }
+                                          
                                         }
 
                                         //look, i dont know HOW  DID IT WORK
@@ -485,7 +475,8 @@ class _BookPageState extends State<BookPage> {
                                           CRUD.InsertTicket(tickID);
                                           CRUD.updatePass(-1);
                                         } else {
-                                          showDialog<String>(
+                                          if(context.mounted) {
+                                             showDialog<String>(
                                             context: context,
                                             builder: (BuildContext context) =>
                                                 AlertDialog(
@@ -502,6 +493,8 @@ class _BookPageState extends State<BookPage> {
                                               ],
                                             ),
                                           );
+                                          }
+                                         
                                         }
 
                                         Map<String, dynamic> test =
@@ -535,7 +528,7 @@ class _BookPageState extends State<BookPage> {
                                 width: 680,
                                 decoration: BoxDecoration(
                                   color: Color(
-                                      0xFF06B36B), // Color.fromARGB(255, 6, 179, 107),
+                                      0xFF06B36B),
                                   borderRadius: BorderRadius.circular(10.0),
                                   boxShadow: [
                                     BoxShadow(
@@ -565,7 +558,7 @@ class _BookPageState extends State<BookPage> {
                                     Expanded(
                                       child: ListView.separated(
                                         itemCount: timeCongestion
-                                            .length, // Replace 'tickets.length' with the actual number of tickets
+                                            .length, 
 
                                         itemBuilder: (context, index) {
                                           double congestionValue =
@@ -585,7 +578,7 @@ class _BookPageState extends State<BookPage> {
                                           return ListTile(
                                             title: Text(timeCongestion[index]
                                                 .toString()),
-                                            // subtitle: Text("congestion:"),
+                                            
                                             trailing: Chip(
                                               label: Text(
                                                   "${countCongestion[index]}"
@@ -618,30 +611,30 @@ class _BookPageState extends State<BookPage> {
         bottomNavigationBar: GNav(
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
           rippleColor: Color.fromARGB(
-              255, 6, 179, 107), // tab button ripple color when pressed
-          haptic: true, // haptic feedback
+              255, 6, 179, 107), 
+          haptic: true, 
           tabBorderRadius: 15,
           tabActiveBorder: Border.all(
               color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), // tab button border
+              width: 1), 
           tabBorder: Border.all(
               color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), // tab button border
+              width: 1), 
           tabShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
                 blurRadius: 8)
-          ], // tab button shadow
-          curve: Curves.easeOutExpo, // tab animation curves
-          duration: Duration(milliseconds: 900), // tab animation duration
-          gap: 8, // the tab button gap between icon and text
-          color: Colors.grey[800], // unselected icon color
-          activeColor: Colors.white, // selected icon and text color
-          iconSize: 24, // tab button icon size
+          ], 
+          curve: Curves.easeOutExpo, 
+          duration: Duration(milliseconds: 900),
+          gap: 8, 
+          color: Colors.grey[800], 
+          activeColor: Colors.white, 
+          iconSize: 24, 
           tabBackgroundColor:
-              Colors.white.withOpacity(0.1), // selected tab background color
+              Colors.white.withOpacity(0.1), 
           padding: EdgeInsets.symmetric(
-              horizontal: 20, vertical: 20), // navigation bar padding
+              horizontal: 20, vertical: 20), 
 
           tabs: [
             GButton(
@@ -690,7 +683,7 @@ class _BookPageState extends State<BookPage> {
               },
             )
           ],
-          // maybe needed later for indexing -f
+          
           selectedIndex: _selectedIndex,
           onTabChange: (index) {
             setState(() {

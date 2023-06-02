@@ -89,7 +89,7 @@ class _DisplayTicketState extends State<DisplayTicket> {
                 SizedBox(
                   height: 30,
                 ),
-                //Containter for the texted details
+               
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Container(
@@ -104,7 +104,7 @@ class _DisplayTicketState extends State<DisplayTicket> {
                           child: Wrap(
                             alignment: WrapAlignment.spaceBetween,
                             runAlignment: WrapAlignment.spaceBetween,
-                            spacing: 10.0, // gap between adjacent chips
+                            spacing: 10.0, 
                             direction: Axis.horizontal,
                             children: [
                               Text("Name: ${widget.name}"),
@@ -117,7 +117,7 @@ class _DisplayTicketState extends State<DisplayTicket> {
                           child: Wrap(
                             alignment: WrapAlignment.spaceBetween,
                             runAlignment: WrapAlignment.spaceBetween,
-                            spacing: 10.0, // gap between adjacent chips
+                            spacing: 10.0, 
                             direction: Axis.horizontal,
                             children: [
                               Text("From: ${widget.from}"),
@@ -162,7 +162,6 @@ class _DisplayTicketState extends State<DisplayTicket> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       SizedBox(
-                        // color: Color.fromARGB(255, 6, 179, 107),
                         width: 150.0,
                         height: 50.0,
                         child: ElevatedButton(
@@ -229,7 +228,6 @@ class _DisplayTicketState extends State<DisplayTicket> {
                         ),
                       ),
                       SizedBox(
-                        // color: Color.fromARGB(255, 6, 179, 107),
                         width: 150.0,
                         height: 50.0,
                         child: ElevatedButton(

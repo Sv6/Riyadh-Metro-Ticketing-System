@@ -70,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => (UpdateProfile())));
-                // Handle update profile option
+                
               },
             ),
             ListTile(
@@ -86,7 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => (FeedbackPage())));
-                // Handle send feedback option
+                
               },
             ),
             ListTile(

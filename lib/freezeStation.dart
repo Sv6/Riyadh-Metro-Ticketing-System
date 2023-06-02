@@ -63,7 +63,7 @@ class _freezeStationState extends State<freezeStation> {
   List countCongestion = [];
   late String? selectedFrom = first;
   late String selectedDropDownValue;
-  String status = "test";
+  String status = "true";
 
   @override
   initState() {
@@ -77,7 +77,6 @@ class _freezeStationState extends State<freezeStation> {
 
   @override
   Widget build(BuildContext context) {
-    // String selectedFrom = selectedFrom;
     return MaterialApp(
       title: 'Home Page',
       home: Scaffold(
@@ -88,7 +87,6 @@ class _freezeStationState extends State<freezeStation> {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => Admin()));
 
-              // ViewList vL = ViewList(selectedFrom, selectedTime);
             },
           ),
           title: Text("Freeze Station"),
@@ -119,8 +117,7 @@ class _freezeStationState extends State<freezeStation> {
                               children: [
                                 Expanded(
                                   child: Column(
-                                    // crossAxisAlignment:
-                                    //     CrossAxisAlignment.start,
+                                  
                                     children: [
                                       Text(
                                         "From:",
@@ -131,7 +128,6 @@ class _freezeStationState extends State<freezeStation> {
                                         menuMaxHeight: 250,
                                         value: selectedFrom,
                                         onChanged: (String? value) async {
-                                          // this is important to choose the right Station.
                                           setState(() {
                                             selectedFrom = value.toString();
                                             selectedFrom = value.toString();
@@ -141,9 +137,7 @@ class _freezeStationState extends State<freezeStation> {
                                                   selectedFrom as String);
 
                                           setState(() {
-                                            print(data['status']);
                                             status = data['status'].toString();
-                                            print(status);
                                           });
                                         },
                                         items: stations
@@ -173,8 +167,7 @@ class _freezeStationState extends State<freezeStation> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Center(
-                                  // mainAxisAlignment:
-                                  //     MainAxisAlignment.spaceBetween,
+                                 
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius:
@@ -200,8 +193,7 @@ class _freezeStationState extends State<freezeStation> {
                                   ),
                                 ),
                                 Center(
-                                  // mainAxisAlignment:
-                                  //     MainAxisAlignment.spaceBetween,
+                                 
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius:

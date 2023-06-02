@@ -73,30 +73,30 @@ class _myAppState extends State<mapPage> {
         bottomNavigationBar: GNav(
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
           rippleColor: Color.fromARGB(
-              255, 6, 179, 107), // tab button ripple color when pressed
-          haptic: true, // haptic feedback
+              255, 6, 179, 107),
+          haptic: true, 
           tabBorderRadius: 15,
           tabActiveBorder: Border.all(
               color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), // tab button border
+              width: 1), 
           tabBorder: Border.all(
               color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), // tab button border
+              width: 1), 
           tabShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
                 blurRadius: 8)
-          ], // tab button shadow
-          curve: Curves.easeOutExpo, // tab animation curves
-          duration: Duration(milliseconds: 900), // tab animation duration
-          gap: 8, // the tab button gap between icon and text
-          color: Colors.grey[800], // unselected icon color
-          activeColor: Colors.white, // selected icon and text color
-          iconSize: 24, // tab button icon size
+          ], 
+          curve: Curves.easeOutExpo, 
+          duration: Duration(milliseconds: 900), 
+          gap: 8, 
+          color: Colors.grey[800],
+          activeColor: Colors.white, 
+          iconSize: 24, 
           tabBackgroundColor:
-              Colors.white.withOpacity(0.1), // selected tab background color
+              Colors.white.withOpacity(0.1), 
           padding: EdgeInsets.symmetric(
-              horizontal: 20, vertical: 20), // navigation bar padding
+              horizontal: 20, vertical: 20), 
 
           tabs: [
             GButton(
@@ -157,7 +157,7 @@ class _myAppState extends State<mapPage> {
               },
             )
           ],
-          // maybe needed later for indexing -f
+          
           selectedIndex: _selectedIndex,
           onTabChange: (index) {
             setState(() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'crud.dart';
 import 'Admin.dart';
 
@@ -89,8 +90,8 @@ class _myCancelPage extends State<myCancelPage> {
                   if (context.mounted) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => CancelDetailsPage(
-                              id: myData[0], //
-                              uid: myData[1], //1
+                              id: myData[0], 
+                              uid: myData[1], 
                               name: myData[2],
                               station: myData[3],
                             )));
@@ -138,48 +139,72 @@ class _FeedbackDetailsPageState extends State<CancelDetailsPage> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Text("Name: ${widget.name}"),
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black, width: 1)
                 ),
-                Text(
-                  "ID: #${widget.uid}",
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.station),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
-                  // color: Color.fromARGB(255, 6, 179, 107),
-                  width: 150.0,
-                  height: 50.0,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Text("Name: ${widget.name}"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      child: Text(
+                        "ID: #${widget.uid}",
                       ),
                     ),
-                    onPressed: () async {
-                      Crud CRUD = Crud();
-                      CRUD.Refund(widget.id, widget.uid);
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(
-                              builder: (context) => CancelPage()))
-                          .then((_) => Navigator.pop(context));
-                    },
-                    child: Text(
-                      'Cancel and Refund',
-                      style: TextStyle(fontSize: 18.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Station: ${widget.station}"),
                     ),
-                  ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                     DottedLine(
+                          direction: Axis.horizontal,
+                          lineLength: double.infinity,
+                          lineThickness: 1.0,
+                          dashLength: 10,
+                          dashColor: Colors.grey,
+                          dashRadius: 0.0,
+                          dashGapLength: 4.0,
+                          dashGapColor: Colors.transparent,
+                          dashGapRadius: 0.0,
+                        ),
+                    SizedBox(height: 15,),
+                    SizedBox(
+                      
+                      width: 220.0,
+                      height: 50.0,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        onPressed: () async {
+                          Crud CRUD = Crud();
+                          CRUD.Refund(widget.id, widget.uid);
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                                  builder: (context) => CancelPage()))
+                              .then((_) => Navigator.pop(context));
+                        },
+                        child: Text(
+                          'Confirm and Refund',
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15,)
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

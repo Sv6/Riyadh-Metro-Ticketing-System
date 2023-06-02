@@ -69,15 +69,15 @@ class _addAdminState extends State<addAdmin> {
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               color: Color.fromARGB(255, 6, 179, 107),
-            ), // set the border color to green
+            ), 
           ),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               color: Color.fromARGB(255, 6, 179, 107),
-            ), // set the border color to green
+            ), 
           ),
           prefixStyle: TextStyle(
-            color: Colors.white, // set the prefix icon color to white
+            color: Colors.white,
           ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -137,8 +137,7 @@ class _addAdminState extends State<addAdmin> {
                           ),
                         ),
                       ),
-                      //fake button, to make admin centered...
-                      //lazy solution.
+                    
                       IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.arrow_back),
@@ -184,21 +183,17 @@ class _addAdminState extends State<addAdmin> {
                                   context: context,
                                   initialDate: DateTime(2000),
                                   firstDate: DateTime(1950),
-                                  //DateTime.now() - not to allow to choose before today.
-
-                                  //VALIDATION NEEDDED////////////////////////////////////////////-f
+                                 
                                   lastDate: DateTime(2005));
 
                               if (pickedDate != null) {
-                                print(
-                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                
                                 String formattedDate =
                                     DateFormat('yyyy-MM-dd').format(pickedDate);
-                                print(
-                                    formattedDate); //formatted date output using intl package =>  2021-03-16
+                               
                                 setState(() {
                                   _birthDate.text =
-                                      formattedDate; //set output date to TextField value.
+                                      formattedDate; 
                                 });
                               } else {}
                             },
@@ -341,8 +336,8 @@ class _addAdminState extends State<addAdmin> {
                                     throw Exception("error occured");
                                   }
 
-                                  // ignore: use_build_context_synchronously
-                                  showDialog<String>(
+                                  if (context.mounted) {
+                                    showDialog<String>(
                                     context: context,
                                     builder: (BuildContext context) =>
                                         AlertDialog(
@@ -358,6 +353,8 @@ class _addAdminState extends State<addAdmin> {
                                       ],
                                     ),
                                   );
+                                  }
+                                  
                                 }
                               } on FirebaseAuthException {
                                 const snackBar = SnackBar(
