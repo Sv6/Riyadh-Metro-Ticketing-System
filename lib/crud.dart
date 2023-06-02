@@ -250,20 +250,85 @@ class Crud {
 
   void setCancelCounter(String name, String time) async {
     Map<String, dynamic> data = await getStationInfo(name);
-    double count;
-    try {
-      count = data["time_count"][time];
-      count = count - 1;
+
+    final timeCount = data["time_count"] as Map<String, dynamic>;
+    if (timeCount.containsKey(time)) {
+      double count = timeCount[time] - 1;
       if (count <= 0) {
-        print("delete count");
-        data["time_count"].removeWhere((key, value) => key == time);
+        timeCount.remove(time);
+      } else {
+        timeCount[time] = count;
       }
-    } catch (e) {
-      count = 1;
+      db.collection("STATIONS").doc(name).update({"time_count": timeCount});
     }
-    data['time_count'][time] = count;
-    db.collection("STATIONS").doc(name).set(data);
   }
+
+
+void deletePastTimes() async {
+  var formatter = DateFormat('HH:mm');
+  String currentTime = formatter.format(DateTime.now());
+
+  CollectionReference stationsCollection =
+      FirebaseFirestore.instance.collection('STATIONS');
+
+  QuerySnapshot querySnapshot = await stationsCollection.get();
+
+  querySnapshot.docs.forEach((documentSnapshot) {
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+    if (data.containsKey('time_count')) {
+      Map<String, dynamic> timeCount = data['time_count'];
+
+      List<String> keysToRemove = timeCount.keys
+          .where((time) => isPastTime(time, currentTime))
+          .toList();
+
+      keysToRemove.forEach((key) => timeCount.remove(key));
+
+      documentSnapshot.reference.update({'time_count': timeCount});
+    }
+  });
+}
+
+void ticketsPastTime() async{
+  var formatter = DateFormat('HH:mm');
+String currentTime = formatter.format(DateTime.now());
+CollectionReference ticketsCollection = FirebaseFirestore.instance.collection('Tickets');
+QuerySnapshot querySnapshot = await ticketsCollection.get();
+
+querySnapshot.docs.forEach((documentSnapshot) {
+  Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+  if (data.containsKey('Date')) {
+    String ticketTime = data['Date'];
+
+    if (isPastTime(ticketTime, currentTime)) {
+      documentSnapshot.reference.update({'Status': false});
+    }
+  }
+});
+
+}
+
+bool isPastTime(String time, String currentTime) {
+  List<String> timeComponents = time.split(':');
+  List<String> currentComponents = currentTime.split(':');
+
+  int timeHour = int.parse(timeComponents[0]);
+  int timeMinute = int.parse(timeComponents[1]);
+
+  int currentHour = int.parse(currentComponents[0]);
+  int currentMinute = int.parse(currentComponents[1]);
+
+  if (currentHour < timeHour) {
+    return false; // Current hour is less than time hour, not in the past
+  } else if (currentHour == timeHour && currentMinute < timeMinute) {
+    return false; // Current hour is the same, but current minute is less than time minute, not in the past
+  } else {
+    return true; // All other cases, considered in the past
+  }
+}
+
 
   Future<Map<String, dynamic>> getStationInfo(String key) async {
     DocumentSnapshot stationSnapshot =

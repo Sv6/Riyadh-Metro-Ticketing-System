@@ -71,6 +71,8 @@ class _ClientPageState extends State<ClientPage> {
   @override
   Widget build(BuildContext context) {
     Crud CRUD = Crud();
+    CRUD.deletePastTimes();
+    CRUD.ticketsPastTime();
     return MaterialApp(
       title: 'Home Page',
       home: Scaffold(

@@ -16,6 +16,8 @@ class Admin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CRUD.deletePastTimes();
+    CRUD.ticketsPastTime();
     return MaterialApp(
       title: 'Admin',
       theme: ThemeData(
