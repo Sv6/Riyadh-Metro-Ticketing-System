@@ -37,10 +37,17 @@ List<String> initializeTimeList() {
   DateTime timenow = DateTime.now();
   int hournow = timenow.hour;
   bool firstHour = true;
-
+  // i updated here
   for (int i = hournow; i < 24 + hournow; i++) {
     String s = "";
     int k = i % 24;
+
+    if (i < 24) {
+      s = "Today";
+    } else {
+      s = "Tomorrow";
+    }
+
     if (i < 10) {
       s = "$s 0$k:";
     } else {
@@ -293,7 +300,6 @@ class _BookPageState extends State<BookPage> {
                                         menuMaxHeight: 250,
                                         value: selectedFrom,
                                         onChanged: (String? value) async {
-                          
                                           setState(() {
                                             selectedFrom = value.toString();
                                             selectedFrom = value.toString();
@@ -325,7 +331,6 @@ class _BookPageState extends State<BookPage> {
                                 ),
                                 Expanded(
                                   child: Column(
-                      
                                     children: [
                                       Text(
                                         "Time:",
@@ -397,27 +402,26 @@ class _BookPageState extends State<BookPage> {
                                           CRUD.InsertTicket(tickID);
                                           CRUD.updateBalance(-10);
                                         } else {
-                                          if(context.mounted) {
+                                          if (context.mounted) {
                                             showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              title:
-                                                  Text("insufficient  balance"),
-                                              content: Text(
-                                                  "Charge your balance to buy this ticket"),
-                                              actions: [
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: Text("OK")),
-                                              ],
-                                            ),
-                                          );
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: Text(
+                                                    "insufficient  balance"),
+                                                content: Text(
+                                                    "Charge your balance to buy this ticket"),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("OK")),
+                                                ],
+                                              ),
+                                            );
                                           }
-                                          
                                         }
 
                                         //look, i dont know HOW  DID IT WORK
@@ -475,26 +479,26 @@ class _BookPageState extends State<BookPage> {
                                           CRUD.InsertTicket(tickID);
                                           CRUD.updatePass(-1);
                                         } else {
-                                          if(context.mounted) {
-                                             showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              title: Text("insufficient Pass"),
-                                              content: Text(
-                                                  "Charge your pass to buy this ticket"),
-                                              actions: [
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: Text("OK")),
-                                              ],
-                                            ),
-                                          );
+                                          if (context.mounted) {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title:
+                                                    Text("insufficient Pass"),
+                                                content: Text(
+                                                    "Charge your pass to buy this ticket"),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("OK")),
+                                                ],
+                                              ),
+                                            );
                                           }
-                                         
                                         }
 
                                         Map<String, dynamic> test =
@@ -527,8 +531,7 @@ class _BookPageState extends State<BookPage> {
                                 height: 450,
                                 width: 680,
                                 decoration: BoxDecoration(
-                                  color: Color(
-                                      0xFF06B36B),
+                                  color: Color(0xFF06B36B),
                                   borderRadius: BorderRadius.circular(10.0),
                                   boxShadow: [
                                     BoxShadow(
@@ -557,9 +560,7 @@ class _BookPageState extends State<BookPage> {
                                     ),
                                     Expanded(
                                       child: ListView.separated(
-                                        itemCount: timeCongestion
-                                            .length, 
-
+                                        itemCount: timeCongestion.length,
                                         itemBuilder: (context, index) {
                                           double congestionValue =
                                               countCongestion[index];
@@ -578,7 +579,6 @@ class _BookPageState extends State<BookPage> {
                                           return ListTile(
                                             title: Text(timeCongestion[index]
                                                 .toString()),
-                                            
                                             trailing: Chip(
                                               label: Text(
                                                   "${countCongestion[index]}"
@@ -588,7 +588,6 @@ class _BookPageState extends State<BookPage> {
                                             textColor: Colors.white,
                                           );
                                         },
-
                                         separatorBuilder: (context, index) =>
                                             Divider(
                                           color: Colors.white,
@@ -610,32 +609,26 @@ class _BookPageState extends State<BookPage> {
             }),
         bottomNavigationBar: GNav(
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
-          rippleColor: Color.fromARGB(
-              255, 6, 179, 107), 
-          haptic: true, 
+          rippleColor: Color.fromARGB(255, 6, 179, 107),
+          haptic: true,
           tabBorderRadius: 15,
-          tabActiveBorder: Border.all(
-              color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), 
-          tabBorder: Border.all(
-              color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), 
+          tabActiveBorder:
+              Border.all(color: Color.fromARGB(255, 6, 179, 107), width: 1),
+          tabBorder:
+              Border.all(color: Color.fromARGB(255, 6, 179, 107), width: 1),
           tabShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
                 blurRadius: 8)
-          ], 
-          curve: Curves.easeOutExpo, 
+          ],
+          curve: Curves.easeOutExpo,
           duration: Duration(milliseconds: 900),
-          gap: 8, 
-          color: Colors.grey[800], 
-          activeColor: Colors.white, 
-          iconSize: 24, 
-          tabBackgroundColor:
-              Colors.white.withOpacity(0.1), 
-          padding: EdgeInsets.symmetric(
-              horizontal: 20, vertical: 20), 
-
+          gap: 8,
+          color: Colors.grey[800],
+          activeColor: Colors.white,
+          iconSize: 24,
+          tabBackgroundColor: Colors.white.withOpacity(0.1),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           tabs: [
             GButton(
               icon: Icons.home,
@@ -683,7 +676,6 @@ class _BookPageState extends State<BookPage> {
               },
             )
           ],
-          
           selectedIndex: _selectedIndex,
           onTabChange: (index) {
             setState(() {

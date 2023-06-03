@@ -23,8 +23,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  
-
 //test-z
 
   runApp(MaterialApp(

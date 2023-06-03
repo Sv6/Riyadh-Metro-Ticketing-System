@@ -72,6 +72,7 @@ class _ClientPageState extends State<ClientPage> {
     Crud CRUD = Crud();
     CRUD.deletePastTimes();
     CRUD.ticketsPastTime();
+    CRUD.updateTimeNames();
     return MaterialApp(
       title: 'Home Page',
       home: Scaffold(
@@ -187,7 +188,6 @@ class _ClientPageState extends State<ClientPage> {
                   ),
                 ),
               ),
-
               Center(
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     stream: FirebaseFirestore.instance
@@ -243,7 +243,6 @@ class _ClientPageState extends State<ClientPage> {
                               Expanded(
                                 child: ListView.separated(
                                   itemCount: snapshot.data!.size,
-
                                   itemBuilder: (context, index) {
                                     Color chipColor;
                                     Color textColor;
@@ -263,8 +262,9 @@ class _ClientPageState extends State<ClientPage> {
                                           "${snapshot.data!.docs[index]["Date"]}"),
                                       trailing: Chip(
                                         label: Text(
-                                            printStatus(
-                                                snapshot.data!.docs[index]["Status"].toString()),
+                                            printStatus(snapshot
+                                                .data!.docs[index]["Status"]
+                                                .toString()),
                                             style: TextStyle(color: textColor)),
                                         backgroundColor: chipColor,
                                       ),
@@ -279,9 +279,9 @@ class _ClientPageState extends State<ClientPage> {
                                             snapshot.data!.docs;
                                         List temp = [];
                                         for (var element in dd) {
-                                            temp.add(element.id);
-                                          }
-                                        
+                                          temp.add(element.id);
+                                        }
+
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => DisplayTicket(
@@ -297,7 +297,6 @@ class _ClientPageState extends State<ClientPage> {
                                       },
                                     );
                                   },
-
                                   separatorBuilder: (context, index) => Divider(
                                     color: Colors.white,
                                     height: 1,
@@ -307,43 +306,36 @@ class _ClientPageState extends State<ClientPage> {
                             ],
                           ),
                         );
-
                       } else {
                         return CircularProgressIndicator();
                       }
                     }),
               ),
-              
             ],
           ),
         ),
         bottomNavigationBar: GNav(
           backgroundColor: Color.fromARGB(255, 6, 179, 107),
-          rippleColor: Color.fromARGB(
-              255, 6, 179, 107), 
-          haptic: true, 
+          rippleColor: Color.fromARGB(255, 6, 179, 107),
+          haptic: true,
           tabBorderRadius: 15,
-          tabActiveBorder: Border.all(
-              color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), 
-          tabBorder: Border.all(
-              color: Color.fromARGB(255, 6, 179, 107),
-              width: 1), 
+          tabActiveBorder:
+              Border.all(color: Color.fromARGB(255, 6, 179, 107), width: 1),
+          tabBorder:
+              Border.all(color: Color.fromARGB(255, 6, 179, 107), width: 1),
           tabShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 6, 179, 107).withOpacity(0.5),
                 blurRadius: 8)
-          ], 
-          curve: Curves.easeOutExpo, 
-          duration: Duration(milliseconds: 900), 
-          gap: 8, 
-          color: Colors.grey[800], 
-          activeColor: Colors.white, 
-          iconSize: 24, 
-          tabBackgroundColor:
-              Colors.white.withOpacity(0.1), 
-          padding: EdgeInsets.symmetric(
-              horizontal: 20, vertical: 20), 
+          ],
+          curve: Curves.easeOutExpo,
+          duration: Duration(milliseconds: 900),
+          gap: 8,
+          color: Colors.grey[800],
+          activeColor: Colors.white,
+          iconSize: 24,
+          tabBackgroundColor: Colors.white.withOpacity(0.1),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           tabs: [
             GButton(
               icon: Icons.home,

@@ -19,8 +19,8 @@ class Admin extends StatelessWidget {
   Widget build(BuildContext context) {
     CRUD.deletePastTimes();
     CRUD.ticketsPastTime();
+    CRUD.updateTimeNames();
     return MaterialApp(
-      
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 6, 179, 107),
       ),
@@ -31,10 +31,10 @@ class Admin extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.person),
             onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => UpdateAdminProfile()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => UpdateAdminProfile()));
             },
-            ),
+          ),
         ),
         body: ListView(
           children: [

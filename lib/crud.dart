@@ -4,9 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
-
 extension StringCasingExtension on String {
- 
   String toCapitalized() =>
       length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
   String toTitleCase() => replaceAll(RegExp(' +'), ' ')
@@ -38,11 +36,9 @@ class Crud {
     } else {
       final data = <String, dynamic>{
         "FULLNAME": name,
-
-        "BIRTHDATE": bd, 
+        "BIRTHDATE": bd,
         "EMAIL": email,
         "PHONE": phone,
-
         "PASSWORD": password,
         "STATUS": status,
       };
@@ -79,7 +75,7 @@ class Crud {
       final data = <String, dynamic>{
         "FULLNAME": name,
         "BALANCE": balance,
-        "BIRTHDATE": bd, 
+        "BIRTHDATE": bd,
         "EMAIL": email,
         "PHONE": phone,
         "WALLETID": walletID,
@@ -110,8 +106,6 @@ class Crud {
   }
 
   Future<Map<String, dynamic>> getUserData(String uid) async {
-   
-
     CollectionReference users = FirebaseFirestore.instance.collection('User');
     DocumentReference userDocument = users.doc(uid);
 
@@ -129,8 +123,6 @@ class Crud {
   }
 
   Future<Map<String, dynamic>> getAdminData(String uid) async {
- 
-
     CollectionReference users = FirebaseFirestore.instance.collection('Admin');
     DocumentReference userDocument = users.doc(uid);
 
@@ -143,7 +135,6 @@ class Crud {
 
       return data;
     } else {
-     
       return {};
     }
   }
@@ -315,12 +306,17 @@ class Crud {
       if (data.containsKey('time_count')) {
         Map<String, dynamic> timeCount = data['time_count'];
 
-        List<String> keysToRemove = timeCount.keys
-            .where((time) => isPastTime(time, currentTime))
-            .toList();
+        List<String> keysToRemove = timeCount.keys.where((time) {
+          List<String> parts = time.split(" ");
+          String firstElement = parts[1];
+          return isPastTime(firstElement, currentTime);
+        }).toList();
 
         for (var key in keysToRemove) {
-          timeCount.remove(key);
+          String keyDay = key;
+          List keyDayList = keyDay.split(" ");
+          keyDay = keyDayList[0];
+          if (keyDay == "Today") timeCount.remove(key);
         }
 
         documentSnapshot.reference.update({'time_count': timeCount});
@@ -340,10 +336,13 @@ class Crud {
           documentSnapshot.data() as Map<String, dynamic>;
 
       if (data.containsKey('Date')) {
-        String ticketTime = data['Date'];
-
+        String temp = data['Date'];
+        List timeList = temp.split(" ");
+        String ticketTime = timeList[1];
         if (isPastTime(ticketTime, currentTime)) {
-          documentSnapshot.reference.update({'Status': false});
+          if (timeList[0] == "Today") {
+            documentSnapshot.reference.update({'Status': false});
+          }
         }
       }
     }
@@ -352,7 +351,6 @@ class Crud {
   bool isPastTime(String time, String currentTime) {
     List<String> timeComponents = time.split(':');
     List<String> currentComponents = currentTime.split(':');
-
     int timeHour = int.parse(timeComponents[0]);
     int timeMinute = int.parse(timeComponents[1]);
 
@@ -365,6 +363,65 @@ class Crud {
       return false; // Current hour is the same, but current minute is less than time minute, not in the past
     } else {
       return true; // All other cases, considered in the past
+    }
+  }
+
+  void updateTimeNames() async {
+    DateTime now = DateTime.now();
+    int currentHour = now.hour;
+
+    bool isPastMidnight = currentHour >= 0 && currentHour < 1;
+
+    if (isPastMidnight) {
+      CollectionReference stationsCollection =
+          FirebaseFirestore.instance.collection('STATIONS');
+
+      QuerySnapshot snapshot = await stationsCollection.get();
+
+      for (QueryDocumentSnapshot docSnapshot in snapshot.docs) {
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+
+        if (data.containsKey('time_count')) {
+          Map<String, dynamic> timeCount = data['time_count'];
+
+          List<String> keys = timeCount.keys.toList();
+          for (String key in keys) {
+            if (key.startsWith('Today')) {
+              String time = key.split(' ')[1];
+              var count = timeCount.remove(key);
+              String newKey = 'Tomorrow $time';
+
+              timeCount[newKey] = count;
+            }
+          }
+          await docSnapshot.reference.update({'time_count': timeCount});
+          await updateTicketsDateField();
+        }
+      }
+    }
+  }
+
+  Future<void> updateTicketsDateField() async {
+    CollectionReference ticketsCollection =
+        FirebaseFirestore.instance.collection('Tickets');
+
+    QuerySnapshot ticketsSnapshot = await ticketsCollection.get();
+
+    for (QueryDocumentSnapshot ticketDocSnapshot in ticketsSnapshot.docs) {
+      Map<String, dynamic> ticketData =
+          ticketDocSnapshot.data() as Map<String, dynamic>;
+
+      if (ticketData.containsKey('Date')) {
+        String date = ticketData['Date'];
+
+        if (date.startsWith('Tomorrow')) {
+          List timeList = date.split(' ');
+          String time = timeList[1];
+          String newDate = 'Today $time';
+
+          await ticketDocSnapshot.reference.update({'Date': newDate});
+        }
+      }
     }
   }
 
