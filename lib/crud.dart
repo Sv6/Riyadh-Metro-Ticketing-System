@@ -630,8 +630,8 @@ class Crud {
 
   Future<bool> switchFreezeAccount(String? id) async {
     if (id != null) {
-      Map<String, dynamic> data = await getUserData(id);
       try {
+        Map<String, dynamic> data = await getUserData(id);
         db.collection("User").doc(id).update({"STATUS": !data["STATUS"]});
         return true;
       } catch (e) {

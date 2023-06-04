@@ -81,10 +81,15 @@ class _FreezeAccountPageState extends State<FreezeAccountPage> {
                         
                           if(await CRUD.switchFreezeAccount(_userIdController.text)) {
                             const snackBar = SnackBar(content: Text("Done"));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            if(context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                          
                           }else {
                             const snackBar = SnackBar(content: Text("Not Found"));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            if(context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }    
                           }
                           
                         
