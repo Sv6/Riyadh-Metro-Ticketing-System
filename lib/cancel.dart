@@ -50,7 +50,7 @@ class _myCancelPage extends State<myCancelPage> {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Admin()))
+                .push(MaterialPageRoute(builder: (context) => Admin(), fullscreenDialog: true))
                 .then((_) => Navigator.pop(context));
           },
         ),

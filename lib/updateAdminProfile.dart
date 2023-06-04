@@ -57,7 +57,7 @@ class _UpdateAdminProfilePageState extends State<UpdateAdminProfilePage> {
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => (Admin())));
+                  .push(MaterialPageRoute(builder: (context) => (Admin()), fullscreenDialog: true));
             },
           ),
         ),

@@ -130,6 +130,7 @@ class _BookPageState extends State<BookPage> {
                         date: const [],
                         status: const [],
                       ),
+                      fullscreenDialog: true
                     ),
                   )
                   .then(
@@ -649,6 +650,7 @@ class _BookPageState extends State<BookPage> {
                           date: const [],
                           status: const [],
                         ),
+                        fullscreenDialog: true
                       ),
                     )
                     .then(

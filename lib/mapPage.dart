@@ -47,6 +47,7 @@ class _myAppState extends State<mapPage> {
                         date: const [],
                         status: const [],
                       ),
+                      fullscreenDialog: true
                     ),
                   )
                   .then(
@@ -118,6 +119,7 @@ class _myAppState extends State<mapPage> {
                           date: const [],
                           status: const [],
                         ),
+                        fullscreenDialog: true
                       ),
                     )
                     .then(

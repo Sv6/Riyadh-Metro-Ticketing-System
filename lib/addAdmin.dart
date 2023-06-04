@@ -96,7 +96,7 @@ class _addAdminState extends State<addAdmin> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 15,
+                    height: 40,
                   ),
                   //========================= ADMIN TEXT =========================
                   Row(
@@ -104,7 +104,7 @@ class _addAdminState extends State<addAdmin> {
                       IconButton(
                         onPressed: () {
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Admin()));
+                              MaterialPageRoute(builder: (context) => Admin(), fullscreenDialog: true));
                         },
                         icon: Icon(Icons.arrow_back),
                         color: Color.fromARGB(255, 6, 179, 107),

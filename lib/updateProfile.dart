@@ -61,7 +61,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => (SettingsPage())));
+                  MaterialPageRoute(builder: (context) => (SettingsPage()), fullscreenDialog: true));
             },
           ),
         ),

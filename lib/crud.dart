@@ -361,6 +361,8 @@ class Crud {
       return false; // Current hour is less than time hour, not in the past
     } else if (currentHour == timeHour && currentMinute < timeMinute) {
       return false; // Current hour is the same, but current minute is less than time minute, not in the past
+    } else if (currentHour == 23 && timeHour < 24 && currentMinute >= 30) {
+      return true;
     } else {
       return true; // All other cases, considered in the past
     }
@@ -611,13 +613,9 @@ class Crud {
 
   void Refund(String id, String uid) async {
     Map<String, dynamic> temp = await getUserData(uid);
-    double balance = temp["BALANCE"] + 10;
-    db.collection("User").doc(uid).update({"BALANCE": balance});
+    double pass = temp["PASS"] + 1;
+    db.collection("User").doc(uid).update({"PASS": pass});
     db.collection("CANCELED").doc("c$id").update({"refunded": true});
-    List availableTickets = temp["Tickets"];
-    availableTickets.remove(id);
-    db.collection("User").doc(uid).update({"TICKETS": availableTickets});
-    await db.collection("Tickets").doc(id).delete();
   }
 
   Future<bool> isCanceled(String id) async {

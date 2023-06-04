@@ -73,6 +73,7 @@ class _DisplayTicketState extends State<DisplayTicket> {
                         date: const [],
                         status: const [],
                       ),
+                      fullscreenDialog: true
                     ),
                   )
                   .then(
@@ -214,6 +215,7 @@ class _DisplayTicketState extends State<DisplayTicket> {
                                               date: const [],
                                               status: const [],
                                             ),
+                                            fullscreenDialog: true
                                           ),
                                         )
                                         .then(

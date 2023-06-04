@@ -84,7 +84,9 @@ class Admin extends StatelessWidget {
               onTap: () async {
                 Crud().signOut();
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => (LoginPage())));
+                    MaterialPageRoute(builder: (context) => (LoginPage()), fullscreenDialog: true)) .then(
+                      (_) => Navigator.pop(context),
+                    );;
               },
             ),
           ],

@@ -266,6 +266,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           width: 300.0,
                           child: TextFormField(
+                            keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                             validator: (value) {
                               if (!validate.validatePhone(phone: value)) {
                                 return "phone number not valid (05xxxxxxxx)";
@@ -328,7 +329,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                             stations: const [],
                                             date: const [],
                                             status: const [],
-                                          )));
+                                          ),
+                                          fullscreenDialog: true));
                                 }
                               } on FirebaseAuthException {
                                 const snackBar = SnackBar(

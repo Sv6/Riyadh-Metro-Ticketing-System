@@ -205,7 +205,7 @@ class _myAppState extends State<LoginPage> {
                                 await CRUD.getAdminData(uid);
                             if (data["STATUS"]) {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Admin()));
+                                  builder: (context) => Admin(), fullscreenDialog: true));
                             } else {
                               const snackBar =
                                   SnackBar(content: Text("Account is Frozen"));
@@ -226,6 +226,8 @@ class _myAppState extends State<LoginPage> {
                                     date: const [],
                                     status: const [],
                                   ),
+
+                                  fullscreenDialog: true
                                 ),
                               );
                             } else {
@@ -248,7 +250,7 @@ class _myAppState extends State<LoginPage> {
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SignUpPage()));
+                          builder: (context) => SignUpPage(), fullscreenDialog: true));
                     },
                     child: Text(
                       'Don\'t have an account? Register.',

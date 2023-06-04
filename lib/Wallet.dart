@@ -68,6 +68,7 @@ class _walletPageState extends State<walletPage> {
                         date: const [],
                         status: const [],
                       ),
+                      fullscreenDialog: true
                     ),
                   )
                   .then(
@@ -166,7 +167,7 @@ class _walletPageState extends State<walletPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(15),
                                 child: TextFormField(
-                                  keyboardType: TextInputType.phone,
+                                  keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                                   controller: _amt,
                                   validator: (value) {
                                     if (!validate.validateNonNegative(

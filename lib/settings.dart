@@ -37,17 +37,17 @@ class _SettingsPageState extends State<SettingsPage> {
               Navigator.of(context)
                   .push(
                     MaterialPageRoute(
-                      builder: (context) => ClientPage(
-                        clientName: data["FULLNAME"],
-                        balance: data["BALANCE"] * 1.0,
-                        availableTickets: data["TICKETS"],
-                        walletID: data["WALLETID"],
-                        pass: data["PASS"],
-                        stations: const [],
-                        date: const [],
-                        status: const [],
-                      ),
-                    ),
+                        builder: (context) => ClientPage(
+                              clientName: data["FULLNAME"],
+                              balance: data["BALANCE"] * 1.0,
+                              availableTickets: data["TICKETS"],
+                              walletID: data["WALLETID"],
+                              pass: data["PASS"],
+                              stations: const [],
+                              date: const [],
+                              status: const [],
+                            ),
+                        fullscreenDialog: true),
                   )
                   .then(
                     (_) => Navigator.pop(context),
@@ -70,7 +70,6 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => (UpdateProfile())));
-                
               },
             ),
             ListTile(
@@ -86,7 +85,6 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => (FeedbackPage())));
-                
               },
             ),
             ListTile(
@@ -101,8 +99,14 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               onTap: () async {
                 final SignOut = await FirebaseAuth.instance.signOut();
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => (LoginPage())));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(
+                        builder: (context) => (LoginPage()),
+                        fullscreenDialog: true))
+                    .then(
+                      (_) => Navigator.pop(context),
+                    );
+                ;
               },
             ),
           ],
