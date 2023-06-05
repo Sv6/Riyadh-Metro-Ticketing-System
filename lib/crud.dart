@@ -388,10 +388,10 @@ class Crud {
 
           List<String> keys = timeCount.keys.toList();
           for (String key in keys) {
-            if (key.startsWith('Today')) {
+            if (key.startsWith('Tomorrow')) {
               String time = key.split(' ')[1];
               var count = timeCount.remove(key);
-              String newKey = 'Tomorrow $time';
+              String newKey = 'Today $time';
 
               timeCount[newKey] = count;
             }

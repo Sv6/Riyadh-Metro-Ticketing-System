@@ -402,6 +402,26 @@ class _BookPageState extends State<BookPage> {
                                               selectedTime);
                                           CRUD.InsertTicket(tickID);
                                           CRUD.updateBalance(-10);
+                                          if (context.mounted) {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: Text(
+                                                    "Complete"),
+                                                content: Text(
+                                                    "You have purchased the ticket"),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("OK")),
+                                                ],
+                                              ),
+                                            );
+                                          }
                                         } else {
                                           if (context.mounted) {
                                             showDialog<String>(
@@ -479,6 +499,26 @@ class _BookPageState extends State<BookPage> {
                                           });
                                           CRUD.InsertTicket(tickID);
                                           CRUD.updatePass(-1);
+                                          if (context.mounted) {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: Text(
+                                                    "Complete"),
+                                                content: Text(
+                                                    "You have purchased the ticket"),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("OK")),
+                                                ],
+                                              ),
+                                            );
+                                          }
                                         } else {
                                           if (context.mounted) {
                                             showDialog<String>(
