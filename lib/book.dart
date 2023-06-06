@@ -384,7 +384,7 @@ class _BookPageState extends State<BookPage> {
                                       onPressed: () async {
                                         String uid = await CRUD.getId();
 
-                                        if (widget.balance > 10) {
+                                        if (widget.balance >= 10) {
                                           String tickID = CRUD.createTicketID(
                                               selectedFrom as String);
                                           CRUD.insertTicket(
