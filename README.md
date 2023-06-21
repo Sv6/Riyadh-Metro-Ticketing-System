@@ -1,16 +1,5 @@
 # riyadh_metro
 
-A new Flutter project.
+Ticketing System Mobile App for Riyadh Metro, instead of buying tickets traditionally, we provide a new modern solution which is a mobile application that integrates the ticketing systems of the Riyadh metro to the customer’s mobile to avoid the inconsistent waiting time that may occur before riding the train, the customer could a buy ticket before arriving to the station, Our project focused on UI/UX design and aimed to improve the user experience of the Riyadh Metro Ticketing System. The app allows users to view real-time station congestion, manage their accounts and stations, and provide feedback in real-time. The app is user-friendly and easy to use.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
